@@ -74,3 +74,6 @@ crashlytics-build.properties
 # Timers
 Assets/ML-Agents/Timers.meta
 Assets/ML-Agents/Timers/*
+
+# Training Results (move them to `graphs` directory)
+results/*
