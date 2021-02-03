@@ -2,50 +2,58 @@ using System;
 using UnityEngine;
 using Unity.MLAgents;
 
-using Unity.MLAgents.Sensors;
 using Random = UnityEngine.Random;
+using Unity.MLAgents.Actuators;
 
 public class FoodCollectorAgent : Agent
 {
-    public GameObject area;
-    //FoodCollectorArea MyArea;
     Rigidbody RigidBody;
+    FoodCollectorSettings Settings;
+
+    public FoodCollectorArea Arena;
     
     // Speed of agent rotation.
-    public float TurnSpeed = 300;
+    public float TurnSpeed = 300f;
 
     // Speed of agent movement.
-    public float MoveSpeed = 2;
-    public Material NormalMaterial;
-    public Material BadMaterial;
-    public Material GoodMaterial;
-    public Material FrozenMaterial;
+    public float MoveSpeed = 2f;
+
+    // Reward from food
+    public float FoodReward = 1f;
+
+    // Move Penalty (energy required to move)
+    public float MovementPenalty = -0.001f;
+
+    public float StepPenalty = -0.005f;
 
     EnvironmentParameters ResetParams;
 
     public override void Initialize()
     {
         RigidBody = GetComponent<Rigidbody>();
-        //MyArea = area.GetComponent<FoodCollectorArea>();
         ResetParams = Academy.Instance.EnvironmentParameters;
-        SetResetParameters();
+        Settings = FindObjectOfType<FoodCollectorSettings>();
     }
 
-    public override void CollectObservations(VectorSensor sensor)
+    public override void OnEpisodeBegin()
     {
-
+        RigidBody.velocity = Vector3.zero;
+        transform.rotation = Quaternion.Euler(new Vector3(0f, Random.Range(0, 360)));
+        Arena.Reset();
     }
 
-    
-
-    public void MoveAgent(float[] act)
+    public void MoveAgent(ActionSegment<int> act)
     {
         var dirToGo = Vector3.zero;
         var rotateDir = Vector3.zero;
 
-        var forwardAxis = (int)act[0];
-        var rightAxis = (int)act[1];
-        var rotateAxis = (int)act[2];
+        var forwardAxis = act[0];
+        var rightAxis = act[1];
+        var rotateAxis = act[2];
+
+        var penalty = ResetParams.GetWithDefault("move_penalty", MovementPenalty);
+        penalty *= Convert.ToInt32(forwardAxis > 0) + Convert.ToInt32(rightAxis > 0) + Convert.ToInt32(rotateAxis > 0);
+        AddReward(penalty);
 
         switch (forwardAxis)
         {
@@ -87,62 +95,49 @@ public class FoodCollectorAgent : Agent
         }
     }
 
-    public override void OnActionReceived(float[] actions)
+
+    public override void OnActionReceived(ActionBuffers actions)
     {
-        MoveAgent(actions);
+        //print($"Received actions: {string.Join(",", actions.DiscreteActions)}");
+        MoveAgent(actions.DiscreteActions);
+        AddReward(StepPenalty);
+        //print($"reward: {GetCumulativeReward()}");
     }
 
-    public override void Heuristic(float[] actionsOut)
+    public override void Heuristic(in ActionBuffers actionsOut)
     {
-        actionsOut[0] = 0;
-        actionsOut[1] = 0;
-        actionsOut[2] = 0;
+        var discrete = actionsOut.DiscreteActions;
+        discrete[0] = 0;
+        discrete[1] = 0;
+        discrete[2] = 0;
         if (Input.GetKey(KeyCode.D))
         {
-            actionsOut[2] = 2;
+            discrete[2] = 2;
         }
         if (Input.GetKey(KeyCode.W))
         {
-            actionsOut[0] = 1;
+            discrete[0] = 1;
         }
         if (Input.GetKey(KeyCode.A))
         {
-            actionsOut[2] = 1;
+            discrete[2] = 1;
         }
         if (Input.GetKey(KeyCode.S))
         {
-            actionsOut[0] = 2;
+            discrete[0] = 2;
         }
-    }
-
-    public override void OnEpisodeBegin()
-    {
-        RigidBody.velocity = Vector3.zero;
-        //transform.position = new Vector3(Random.Range(-MyArea.range, MyArea.range),
-        //    2f, Random.Range(-MyArea.range, MyArea.range))
-        //    + area.transform.position;
-        transform.rotation = Quaternion.Euler(new Vector3(0f, Random.Range(0, 360)));
-
-        SetResetParameters();
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("food"))
         {
-            AddReward(ResetParams.GetWithDefault("food_reward", 1f));
-            Destroy(other.gameObject);
+            var reward = ResetParams.GetWithDefault("food_reward", FoodReward);
+            AddReward(reward);
+            Settings.TotalScore += reward;
+            Arena.RemoveFood(other.gameObject);
         }
     }
 
-    public void SetAgentScale()
-    {
-        float agentScale = ResetParams.GetWithDefault("agent_scale", 1.0f);
-        gameObject.transform.localScale = new Vector3(agentScale, agentScale, agentScale);
-    }
-
-    public void SetResetParameters()
-    {
-        SetAgentScale();
-    }
+    
 }

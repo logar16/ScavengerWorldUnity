@@ -5,54 +5,51 @@ using Unity.MLAgents;
 public class FoodCollectorSettings : MonoBehaviour
 {
     [HideInInspector]
-    public GameObject[] agents;
+    public GameObject[] Agents;
     [HideInInspector]
-    public FoodCollectorArea[] listArea;
+    public FoodCollectorArea[] AreaList;
+    [HideInInspector]
+    public float TotalScore;
 
-    public int totalScore;
-    public Text scoreText;
+    public Text ScoreText;
 
-    StatsRecorder m_Recorder;
+    StatsRecorder Recorder;
 
     public void Awake()
     {
         Academy.Instance.OnEnvironmentReset += EnvironmentReset;
-        m_Recorder = Academy.Instance.StatsRecorder;
+        Recorder = Academy.Instance.StatsRecorder;
+    }
+
+    private void Start()
+    {
+        AreaList = FindObjectsOfType<FoodCollectorArea>(); 
     }
 
     void EnvironmentReset()
     {
         //ClearObjects(GameObject.FindGameObjectsWithTag("food"));
+        //Agents = GameObject.FindGameObjectsWithTag("agent");
 
-        agents = GameObject.FindGameObjectsWithTag("agent");
-        listArea = FindObjectsOfType<FoodCollectorArea>();
-        foreach (var fa in listArea)
+        foreach (var area in AreaList)
         {
-            fa.ResetFoodArea(agents);
+            area.Reset();
         }
 
-        totalScore = 0;
-    }
-
-    void ClearObjects(GameObject[] objects)
-    {
-        foreach (var food in objects)
-        {
-            Destroy(food);
-        }
+        TotalScore = 0;
     }
 
     public void Update()
     {
-        if (scoreText)
-            scoreText.text = $"Score: {totalScore}";
+        if (Time.frameCount % 30 == 0 && ScoreText)
+            ScoreText.text = $"Score: {TotalScore}";
 
         // Send stats via SideChannel so that they'll appear in TensorBoard.
         // These values get averaged every summary_frequency steps, so we don't
         // need to send every Update() call.
-        if ((Time.frameCount % 100) == 0)
+        if (Time.frameCount % 100 == 0)
         {
-            m_Recorder.Add("TotalScore", totalScore);
+            Recorder.Add("TotalScore", TotalScore);
         }
     }
 }

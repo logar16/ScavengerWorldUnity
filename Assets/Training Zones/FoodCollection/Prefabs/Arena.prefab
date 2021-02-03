@@ -1,5 +1,32 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &3434134509147165619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3326049749290298420}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bb6b867a41448888c1cd4f99643ad71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SensorName: RayPerceptionSensor
+  m_DetectableTags:
+  - food
+  m_RaysPerDirection: 3
+  m_MaxRayDegrees: 70
+  m_SphereCastRadius: 0.5
+  m_RayLength: 20
+  m_RayLayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967291
+  m_ObservationStacks: 1
+  rayHitColor: {r: 1, g: 0, b: 0, a: 1}
+  rayMissColor: {r: 1, g: 1, b: 1, a: 1}
+  m_StartVerticalOffset: 0
+  m_EndVerticalOffset: 0
 --- !u!1 &4396296942281619974
 GameObject:
   m_ObjectHideFlags: 0
@@ -79,7 +106,7 @@ PrefabInstance:
     - target: {fileID: 3001762797302808907, guid: 4f08a8214b5e64a4583a3d0b9f806fcc,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.03
+      value: 0.11
       objectReference: {fileID: 0}
     - target: {fileID: 3001762797302808907, guid: 4f08a8214b5e64a4583a3d0b9f806fcc,
         type: 3}
@@ -130,6 +157,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Food
+      objectReference: {fileID: 0}
+    - target: {fileID: 3732557555778480758, guid: 4f08a8214b5e64a4583a3d0b9f806fcc,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4f08a8214b5e64a4583a3d0b9f806fcc, type: 3}
@@ -258,25 +290,101 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4418595719692845376}
     m_Modifications:
+    - target: {fileID: 2111804957962697623, guid: ffa633624ac2ca24a8a9538b34f5747c,
+        type: 3}
+      propertyPath: Arena
+      value: 
+      objectReference: {fileID: 4093792946585758929}
+    - target: {fileID: 2111804957962697623, guid: ffa633624ac2ca24a8a9538b34f5747c,
+        type: 3}
+      propertyPath: MaxStep
+      value: 2000
+      objectReference: {fileID: 0}
+    - target: {fileID: 2111804957962697623, guid: ffa633624ac2ca24a8a9538b34f5747c,
+        type: 3}
+      propertyPath: MovementPenalty
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2111804957962697623, guid: ffa633624ac2ca24a8a9538b34f5747c,
+        type: 3}
+      propertyPath: StepPenalty
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2111804957962697623, guid: ffa633624ac2ca24a8a9538b34f5747c,
+        type: 3}
+      propertyPath: FoodReward
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4048741234536359261, guid: ffa633624ac2ca24a8a9538b34f5747c,
+        type: 3}
+      propertyPath: m_BehaviorType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4048741234536359261, guid: ffa633624ac2ca24a8a9538b34f5747c,
+        type: 3}
+      propertyPath: m_Model
+      value: 
+      objectReference: {fileID: 5022602860645237092, guid: 2355f4a6a92ba2041a06d4b8edf7a685,
+        type: 3}
+    - target: {fileID: 4048741234536359261, guid: ffa633624ac2ca24a8a9538b34f5747c,
+        type: 3}
+      propertyPath: m_BrainParameters.VectorObservationSize
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4048741234536359261, guid: ffa633624ac2ca24a8a9538b34f5747c,
+        type: 3}
+      propertyPath: m_BrainParameters.m_ActionSpec.BranchSizes.Array.data[0]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4048741234536359261, guid: ffa633624ac2ca24a8a9538b34f5747c,
+        type: 3}
+      propertyPath: m_BrainParameters.VectorActionSize.Array.data[0]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4048741234536359261, guid: ffa633624ac2ca24a8a9538b34f5747c,
+        type: 3}
+      propertyPath: m_BrainParameters.m_ActionSpec.BranchSizes.Array.data[1]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4048741234536359261, guid: ffa633624ac2ca24a8a9538b34f5747c,
+        type: 3}
+      propertyPath: m_BrainParameters.VectorActionSize.Array.data[1]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4048741234536359261, guid: ffa633624ac2ca24a8a9538b34f5747c,
+        type: 3}
+      propertyPath: m_BrainParameters.m_ActionSpec.BranchSizes.Array.data[2]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4048741234536359261, guid: ffa633624ac2ca24a8a9538b34f5747c,
+        type: 3}
+      propertyPath: m_BrainParameters.VectorActionSize.Array.data[2]
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 8324570671479764442, guid: ffa633624ac2ca24a8a9538b34f5747c,
         type: 3}
       propertyPath: m_Name
       value: Agent
       objectReference: {fileID: 0}
+    - target: {fileID: 8324570671479764442, guid: ffa633624ac2ca24a8a9538b34f5747c,
+        type: 3}
+      propertyPath: m_TagString
+      value: agent
+      objectReference: {fileID: 0}
     - target: {fileID: 9158365262082801775, guid: ffa633624ac2ca24a8a9538b34f5747c,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -8.392347
+      value: -8.69
       objectReference: {fileID: 0}
     - target: {fileID: 9158365262082801775, guid: ffa633624ac2ca24a8a9538b34f5747c,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.74
+      value: 0.32
       objectReference: {fileID: 0}
     - target: {fileID: 9158365262082801775, guid: ffa633624ac2ca24a8a9538b34f5747c,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.2909665
+      value: -1.18
       objectReference: {fileID: 0}
     - target: {fileID: 9158365262082801775, guid: ffa633624ac2ca24a8a9538b34f5747c,
         type: 3}
@@ -320,6 +428,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ffa633624ac2ca24a8a9538b34f5747c, type: 3}
+--- !u!1 &3326049749290298420 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8324570671479764442, guid: ffa633624ac2ca24a8a9538b34f5747c,
+    type: 3}
+  m_PrefabInstance: {fileID: 6750421352342493678}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2501570212339325313 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9158365262082801775, guid: ffa633624ac2ca24a8a9538b34f5747c,
