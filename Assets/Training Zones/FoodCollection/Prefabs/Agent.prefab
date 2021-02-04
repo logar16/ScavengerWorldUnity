@@ -55,9 +55,9 @@ MonoBehaviour:
   Arena: {fileID: 0}
   TurnSpeed: 300
   MoveSpeed: 2.38
-  FoodReward: 1
+  FoodReward: 0.1
   MovementPenalty: -0.001
-  StepPenalty: -0.005
+  StepPenalty: -0.001
 --- !u!114 &4048741234536359261
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -82,7 +82,7 @@ MonoBehaviour:
     hasUpgradedBrainParametersWithActionSpec: 1
   m_Model: {fileID: 0}
   m_InferenceDevice: 0
-  m_BehaviorType: 1
+  m_BehaviorType: 0
   m_BehaviorName: Collector
   TeamId: 0
   m_UseChildSensors: 0

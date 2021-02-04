@@ -133,6 +133,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Arena (12)
       objectReference: {fileID: 0}
+    - target: {fileID: 4396296942281619974, guid: b86dc8166297ddc4690b10581ad68b2b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4418595719692845376, guid: b86dc8166297ddc4690b10581ad68b2b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -201,6 +206,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Arena (10)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4396296942281619974, guid: b86dc8166297ddc4690b10581ad68b2b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4418595719692845376, guid: b86dc8166297ddc4690b10581ad68b2b,
         type: 3}
@@ -271,6 +281,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Arena (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 4396296942281619974, guid: b86dc8166297ddc4690b10581ad68b2b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4418595719692845376, guid: b86dc8166297ddc4690b10581ad68b2b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -339,6 +354,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Arena (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4396296942281619974, guid: b86dc8166297ddc4690b10581ad68b2b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4418595719692845376, guid: b86dc8166297ddc4690b10581ad68b2b,
         type: 3}
@@ -409,6 +429,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Arena (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 4396296942281619974, guid: b86dc8166297ddc4690b10581ad68b2b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4418595719692845376, guid: b86dc8166297ddc4690b10581ad68b2b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -477,6 +502,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Arena (14)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4396296942281619974, guid: b86dc8166297ddc4690b10581ad68b2b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4418595719692845376, guid: b86dc8166297ddc4690b10581ad68b2b,
         type: 3}
@@ -602,6 +632,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7322383261157702835, guid: b86dc8166297ddc4690b10581ad68b2b,
+        type: 3}
+      propertyPath: m_BehaviorType
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b86dc8166297ddc4690b10581ad68b2b, type: 3}
 --- !u!1 &705507993
@@ -707,6 +742,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Arena (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4396296942281619974, guid: b86dc8166297ddc4690b10581ad68b2b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4418595719692845376, guid: b86dc8166297ddc4690b10581ad68b2b,
         type: 3}
@@ -843,7 +883,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: 0.56177473, y: -0, z: -0, w: 0.8272902}
-  m_LocalPosition: {x: -9.5, y: 30, z: -8.8}
+  m_LocalPosition: {x: -9.11, y: 25, z: -10.87}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1040,6 +1080,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Arena (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 4396296942281619974, guid: b86dc8166297ddc4690b10581ad68b2b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4418595719692845376, guid: b86dc8166297ddc4690b10581ad68b2b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1108,6 +1153,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Arena (13)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4396296942281619974, guid: b86dc8166297ddc4690b10581ad68b2b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4418595719692845376, guid: b86dc8166297ddc4690b10581ad68b2b,
         type: 3}
@@ -1178,6 +1228,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Arena (9)
       objectReference: {fileID: 0}
+    - target: {fileID: 4396296942281619974, guid: b86dc8166297ddc4690b10581ad68b2b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4418595719692845376, guid: b86dc8166297ddc4690b10581ad68b2b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1247,6 +1302,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Arena (11)
       objectReference: {fileID: 0}
+    - target: {fileID: 4396296942281619974, guid: b86dc8166297ddc4690b10581ad68b2b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4418595719692845376, guid: b86dc8166297ddc4690b10581ad68b2b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1315,6 +1375,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Arena (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4396296942281619974, guid: b86dc8166297ddc4690b10581ad68b2b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4418595719692845376, guid: b86dc8166297ddc4690b10581ad68b2b,
         type: 3}
@@ -1443,7 +1508,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1941026575
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1460,9 +1525,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 80, y: -485}
-  m_SizeDelta: {x: 160, y: 30}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 300, y: 30}
+  m_Pivot: {x: 0, y: 1}
 --- !u!114 &1941026576
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1515,6 +1580,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Arena (15)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4396296942281619974, guid: b86dc8166297ddc4690b10581ad68b2b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4418595719692845376, guid: b86dc8166297ddc4690b10581ad68b2b,
         type: 3}
@@ -1585,6 +1655,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Arena (8)
       objectReference: {fileID: 0}
+    - target: {fileID: 4396296942281619974, guid: b86dc8166297ddc4690b10581ad68b2b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4418595719692845376, guid: b86dc8166297ddc4690b10581ad68b2b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1653,6 +1728,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Arena (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4396296942281619974, guid: b86dc8166297ddc4690b10581ad68b2b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4418595719692845376, guid: b86dc8166297ddc4690b10581ad68b2b,
         type: 3}

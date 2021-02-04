@@ -4,6 +4,7 @@ using Unity.MLAgents;
 
 using Random = UnityEngine.Random;
 using Unity.MLAgents.Actuators;
+using Unity.MLAgents.Sensors;
 
 public class FoodCollectorAgent : Agent
 {
@@ -26,6 +27,8 @@ public class FoodCollectorAgent : Agent
 
     public float StepPenalty = -0.005f;
 
+    private float FocusRange = 2;
+
     EnvironmentParameters ResetParams;
 
     public override void Initialize()
@@ -42,6 +45,22 @@ public class FoodCollectorAgent : Agent
         Arena.Reset();
     }
 
+    public override void CollectObservations(VectorSensor sensor)
+    {
+        // + transform.forward * 0.5f
+        var ray = new Ray(transform.position, transform.forward);
+        if (Physics.Raycast(ray, out RaycastHit hit, FocusRange))
+        {
+            //print($" The object {hit.collider.gameObject.name} is in front of the agent");
+            //hit.collider.gameObject.tag
+        }
+    }
+
+    //private void Update()
+    //{
+    //    Debug.DrawRay(transform.position, transform.forward * 2, Color.green);
+    //}
+
     public void MoveAgent(ActionSegment<int> act)
     {
         var dirToGo = Vector3.zero;
@@ -51,9 +70,12 @@ public class FoodCollectorAgent : Agent
         var rightAxis = act[1];
         var rotateAxis = act[2];
 
+        print($"(forward, right, rotate): ({forwardAxis}, {rightAxis}, {rotateAxis})");
+
         var penalty = ResetParams.GetWithDefault("move_penalty", MovementPenalty);
         penalty *= Convert.ToInt32(forwardAxis > 0) + Convert.ToInt32(rightAxis > 0) + Convert.ToInt32(rotateAxis > 0);
         AddReward(penalty);
+        Settings.TotalScore += penalty;
 
         switch (forwardAxis)
         {
@@ -101,6 +123,7 @@ public class FoodCollectorAgent : Agent
         //print($"Received actions: {string.Join(",", actions.DiscreteActions)}");
         MoveAgent(actions.DiscreteActions);
         AddReward(StepPenalty);
+        Settings.TotalScore += StepPenalty;
         //print($"reward: {GetCumulativeReward()}");
     }
 
@@ -125,6 +148,14 @@ public class FoodCollectorAgent : Agent
         if (Input.GetKey(KeyCode.S))
         {
             discrete[0] = 2;
+        }
+        if (Input.GetKey(KeyCode.RightArrow))
+        {
+            discrete[1] = 1;
+        }
+        if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            discrete[1] = 2;
         }
     }
 

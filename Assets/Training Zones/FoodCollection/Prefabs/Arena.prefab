@@ -74,10 +74,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Food: {fileID: 2606074238597525109}
-  NumFood: 400
+  NumFood: 100
   RespawnFood: 1
-  XRange: 70
-  ZRange: 48
+  XRange: 35
+  ZRange: 35
 --- !u!65 &8367097471211740409
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -242,7 +242,12 @@ PrefabInstance:
     - target: {fileID: 839922442615925678, guid: d6fc96a99a9754f07b48abf1e0d55a5c,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 1.5
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 839922442615925678, guid: d6fc96a99a9754f07b48abf1e0d55a5c,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.75
       objectReference: {fileID: 0}
     - target: {fileID: 845566399918322646, guid: d6fc96a99a9754f07b48abf1e0d55a5c,
         type: 3}
@@ -300,26 +305,6 @@ PrefabInstance:
       propertyPath: MaxStep
       value: 2000
       objectReference: {fileID: 0}
-    - target: {fileID: 2111804957962697623, guid: ffa633624ac2ca24a8a9538b34f5747c,
-        type: 3}
-      propertyPath: MovementPenalty
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2111804957962697623, guid: ffa633624ac2ca24a8a9538b34f5747c,
-        type: 3}
-      propertyPath: StepPenalty
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2111804957962697623, guid: ffa633624ac2ca24a8a9538b34f5747c,
-        type: 3}
-      propertyPath: FoodReward
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4048741234536359261, guid: ffa633624ac2ca24a8a9538b34f5747c,
-        type: 3}
-      propertyPath: m_BehaviorType
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4048741234536359261, guid: ffa633624ac2ca24a8a9538b34f5747c,
         type: 3}
       propertyPath: m_Model
@@ -361,6 +346,11 @@ PrefabInstance:
       propertyPath: m_BrainParameters.VectorActionSize.Array.data[2]
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 4048741234536359261, guid: ffa633624ac2ca24a8a9538b34f5747c,
+        type: 3}
+      propertyPath: m_BehaviorType
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8324570671479764442, guid: ffa633624ac2ca24a8a9538b34f5747c,
         type: 3}
       propertyPath: m_Name
@@ -374,7 +364,7 @@ PrefabInstance:
     - target: {fileID: 9158365262082801775, guid: ffa633624ac2ca24a8a9538b34f5747c,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -8.69
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9158365262082801775, guid: ffa633624ac2ca24a8a9538b34f5747c,
         type: 3}
@@ -384,7 +374,7 @@ PrefabInstance:
     - target: {fileID: 9158365262082801775, guid: ffa633624ac2ca24a8a9538b34f5747c,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.18
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 9158365262082801775, guid: ffa633624ac2ca24a8a9538b34f5747c,
         type: 3}
