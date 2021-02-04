@@ -4,8 +4,9 @@ Unity project for my Scavenger World RL environment.  It uses ML-Agents to suppo
 See more details in the Docs directory
 
 ## Game Mechanics
-* There can be 2+ teams of 1+ organisms.  
-* Food will be randomly scattered throughout the world.  
+* There can be 2+ teams of 1+ organisms (referred to as "units").  
+* Food will be randomly scattered throughout the world.
+  * It could also be arranged in clumps  
 * Each team has a home base that they store food within.  
 * Time is given for the organisms to search for and gather food back to the base.  
 * A signal will be given when winter is approaching and then soon thereafter, winter will arrive.  
