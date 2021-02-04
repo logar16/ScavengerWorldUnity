@@ -5,6 +5,7 @@ using Unity.MLAgents;
 using Random = UnityEngine.Random;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
+using Assets.SharedAssets.Scripts.ScavengerEntity.Actors.Units;
 
 public class FoodCollectorAgent : Agent
 {
@@ -27,13 +28,14 @@ public class FoodCollectorAgent : Agent
 
     public float StepPenalty = -0.005f;
 
-    private float FocusRange = 2;
-
     EnvironmentParameters ResetParams;
+
+    private Unit Unit;
 
     public override void Initialize()
     {
         RigidBody = GetComponent<Rigidbody>();
+        Unit = GetComponent<Unit>();
         ResetParams = Academy.Instance.EnvironmentParameters;
         Settings = FindObjectOfType<FoodCollectorSettings>();
     }
@@ -47,12 +49,9 @@ public class FoodCollectorAgent : Agent
 
     public override void CollectObservations(VectorSensor sensor)
     {
-        // + transform.forward * 0.5f
-        var ray = new Ray(transform.position, transform.forward);
-        if (Physics.Raycast(ray, out RaycastHit hit, FocusRange))
+        if (Unit.CheckForTarget())
         {
-            //print($" The object {hit.collider.gameObject.name} is in front of the agent");
-            //hit.collider.gameObject.tag
+            //sensor.AddOneHotObservation()
         }
     }
 

@@ -295,6 +295,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4418595719692845376}
     m_Modifications:
+    - target: {fileID: 80278246850494505, guid: ffa633624ac2ca24a8a9538b34f5747c,
+        type: 3}
+      propertyPath: DetectableTags.Array.data[0]
+      value: food
+      objectReference: {fileID: 0}
     - target: {fileID: 2111804957962697623, guid: ffa633624ac2ca24a8a9538b34f5747c,
         type: 3}
       propertyPath: Arena

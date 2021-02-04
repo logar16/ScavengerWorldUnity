@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 9158365262082801775}
   - component: {fileID: 2111804957962697623}
   - component: {fileID: 4048741234536359261}
+  - component: {fileID: 80278246850494505}
   - component: {fileID: 8605306914917164915}
   - component: {fileID: 7806072236947503908}
   - component: {fileID: 4164173493089938949}
@@ -51,7 +52,7 @@ MonoBehaviour:
   agentParameters:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
-  MaxStep: 5000
+  MaxStep: 2000
   Arena: {fileID: 0}
   TurnSpeed: 300
   MoveSpeed: 2.38
@@ -88,6 +89,27 @@ MonoBehaviour:
   m_UseChildSensors: 0
   m_UseChildActuators: 1
   m_ObservableAttributeHandling: 0
+--- !u!114 &80278246850494505
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8324570671479764442}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ec515aaa66ab8c4cb23069f81ee7bc1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Health: 10
+  FocusRange: 2
+  DetectableTags:
+  - entity
+  AttackRate: 1
+  AttackDamage: 1
+  GatherLimit: 0
+  Items: []
+  GatherRate: 0
 --- !u!114 &8605306914917164915
 MonoBehaviour:
   m_ObjectHideFlags: 0
