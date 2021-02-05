@@ -31,7 +31,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8324570671479764442}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -8.392347, y: 0.74, z: -0.2909665}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1604522407145679248}
@@ -51,7 +51,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BrainParameters:
-    VectorObservationSize: 1
+    VectorObservationSize: 2
     NumStackedVectorObservations: 1
     m_ActionSpec:
       m_NumContinuousActions: 0
@@ -89,8 +89,8 @@ MonoBehaviour:
   MoveSpeed: 2.38
   FoodGatheredReward: 0.05
   FoodStoredReward: 1
-  MovementPenalty: -0.0005
-  StepPenalty: -0.0001
+  MovementPenalty: -0.005
+  StepPenalty: -0.001
 --- !u!114 &80278246850494505
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -176,7 +176,7 @@ MonoBehaviour:
   - agent
   - wall
   m_RaysPerDirection: 4
-  m_MaxRayDegrees: 70
+  m_MaxRayDegrees: 90
   m_SphereCastRadius: 0.5
   m_RayLength: 30
   m_RayLayerMask:

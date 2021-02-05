@@ -51,11 +51,13 @@ public class FoodCollectorAgent : Agent
         Arena.Reset();
     }
 
+    //TODO: Add observation for current load
     public override void CollectObservations(VectorSensor sensor)
     {
         var hasTarget = Unit.CheckForTarget();
         //print($"hasTarget: {hasTarget}");
         sensor.AddObservation(hasTarget);
+        sensor.AddObservation(Unit.FoodCount);
     }
 
 

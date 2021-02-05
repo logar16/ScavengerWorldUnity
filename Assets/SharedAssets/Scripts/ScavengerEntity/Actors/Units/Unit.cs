@@ -16,6 +16,8 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
         [HideInInspector]
         public List<Food> FoodSupply = new List<Food>();
 
+        public int FoodCount { get => FoodSupply.Count; }
+
         [Tooltip("The number of food pieces that can be gathered per second")]
         public float GatherRate = 1;
 
