@@ -1,21 +1,30 @@
 using System.Collections.Generic;
-using Unity.MLAgents;
+using System.Linq;
 using UnityEngine;
+using Assets.SharedAssets.Scripts.ScavengerEntity;
 
 public class FoodCollectorArea : MonoBehaviour
 {
     public GameObject Food;
+    [Range(1, 400)]
     public int NumFood;
-    public bool RespawnFood;
+    //TODO: Respawn food as it is taken away
+    //public bool RespawnFood;
+    //TODO: Dynamically decide where food should go
     public float XRange;
     public float ZRange;
+
     private HashSet<GameObject> FoodPieces;
     private GameObject Agent;
+    private StorageDepot StorageDepot;
+    private Entity[] Entities;
 
     private void Start()
     {
         Agent = transform.Find("Agent").gameObject;
+        StorageDepot = GetComponentInChildren<StorageDepot>();
         FoodPieces = new HashSet<GameObject>();
+        Entities = GetComponentsInChildren<Entity>();
     }
 
     void CreateFood(int num, GameObject type)
@@ -23,13 +32,10 @@ public class FoodCollectorArea : MonoBehaviour
         // Only add pieces as needed
         num -= FoodPieces.Count;
 
-        if (num > 10)
+        // We need to shuffle around the pieces already down since more than 10 are missing
+        foreach (var f in FoodPieces)
         {
-            // We need to shuffle around the pieces already down since more than 10 are missing
-            foreach (var f in FoodPieces)
-            {
-                f.transform.position = GenerateChildPosition();
-            }
+            f.transform.position = GenerateChildPosition();
         }
 
         for (int i = 0; i < num; i++)
@@ -38,6 +44,12 @@ public class FoodCollectorArea : MonoBehaviour
             f.SetActive(true);
 
             FoodPieces.Add(f);
+        }
+
+        if (Entities.Length < num)
+        {
+            var e = FoodPieces.Select(p => p.GetComponent<Food>());
+            Entities = e.Concat(Entities).ToArray();
         }
     }
 
@@ -51,29 +63,18 @@ public class FoodCollectorArea : MonoBehaviour
 
     public void Reset()
     {
-        Agent.transform.position = GenerateChildPosition();
+        foreach (var entity in Entities)
+        {
+            entity.Reset();
+        }
 
+        Agent.transform.position = GenerateChildPosition();
+        StorageDepot.transform.position = GenerateChildPosition();
         CreateFood(NumFood, Food);
     }
-
-
-    public void RemoveFood(GameObject food)
+    
+    public bool AllGatheredIn()
     {
-        FoodPieces.Remove(food);
-        Destroy(food);
-        if (FoodPieces.Count == 0)
-        {
-            Agent.GetComponent<Agent>().EndEpisode();
-        }
-    }
-
-
-    private void RemoveAllFood()
-    {
-        foreach (var food in FoodPieces)
-        {
-            Destroy(food);
-        }
-        FoodPieces.Clear();
+        return StorageDepot.Count == NumFood;
     }
 }

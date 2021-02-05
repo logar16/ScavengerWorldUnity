@@ -1,4 +1,6 @@
 ﻿
+using UnityEngine;
+
 namespace Assets.SharedAssets.Scripts.ScavengerEntity
 {
     public abstract class Item : Entity
@@ -6,6 +8,12 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
         public IHolder Owner { get; private set; }
 
         public bool Taken { get => Owner != null; }
+
+        override public void Reset()
+        {
+            Owner = null;
+            base.Reset();
+        }
 
         /// <summary>
         /// Indicate that the item is being picked up if it is not already owned
@@ -18,10 +26,14 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
                 return false;
 
             if (newOwner == null)
-                return true;
+                return false;
 
             Owner = newOwner;
-            transform.SetParent(Owner.transform);
+            
+            //Zero out movement if any
+            var rigid = gameObject.GetComponent<Rigidbody>();
+            if (rigid)
+                rigid.velocity = Vector3.zero;
             return true;
         }
 
@@ -30,23 +42,7 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
         /// </summary>
         public void Drop()
         {
-            if (Taken)
-            {
-                Owner.Drop(this);
-                transform.position = Owner.transform.position;
-            }
-
             Owner = null;
-        }
-
-        /// <summary>
-        /// Transfer from one owner to another (such as food being transferred to a storage depot)
-        /// </summary>
-        /// <param name="newOwner">If null, the transfer will turn into a drop</param>
-        public void Transfer(IHolder newOwner)
-        {
-            Drop();
-            newOwner?.Take(this);
         }
     }
 }

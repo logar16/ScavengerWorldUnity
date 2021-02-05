@@ -66,6 +66,8 @@ The Leader inspires nearby units to be more effective, especially in their other
 ## Monsters
 I think there should be a neutral party that is just there to make things harder, cue Monsters.  They are rewarded every time they eat a unit.  They will have high health so they can battle several units 1:1 and win.  It will take coordination to eliminate them.  There could even be a game mode where the only task is to kill the most monsters or to coordinate with other teams to take out the monsters.
 
+Maybe units should give off indicators of how much food they have and this can be used to attract attention from monsters.
+
 ## Markers
 These temporary objects can be placed by and identified by units.  Their sphere of influence will decay over time until they are eventually rendered ineffective and removed.  Agents will require a cool down between placing these so they can't spam the action.  Markers will first need to be created and then they can be dropped.
 

@@ -2,71 +2,127 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Assets.SharedAssets.Scripts.ScavengerEntity.Actors.Units
+namespace Assets.SharedAssets.Scripts.ScavengerEntity
 {
     public class Unit : Actor, IHolder
     {
-        [Tooltip("How many pieces of food or other items the unit can carry at one time")]
-        public int GatherLimit = 10;
+        [Tooltip("How many pieces of food the unit can carry at one time")]
+        public int FoodLimit = 10;
+        [Tooltip("How many items the unit can carry at one time")]
+        public int ItemLimit = 1;
 
         [HideInInspector]
         public List<Item> Items = new List<Item>();
+        [HideInInspector]
+        public List<Food> FoodSupply = new List<Food>();
 
         [Tooltip("The number of food pieces that can be gathered per second")]
         public float GatherRate = 1;
 
-        public void Gather()
+        override public void Reset()
         {
-            if (HasTarget && Target is Item item)
+            Items.Clear();
+
+            foreach (var food in FoodSupply)
             {
-                Take(item);
+                RemoveFood(food);
             }
+            FoodSupply.Clear();
+            base.Reset();
+        }
+
+        public bool Gather()
+        {
+            if (HasTarget && Target is Item item && Take(item))
+            {
+                Target = null;  //Since it was gathered and is now owned
+                return true;
+            }
+
+            return false;
         }
 
         public bool Take(Item item)
         {
-            if (Items.Count >= GatherLimit)
+            if (item is null)
                 return false;
 
-            if (item.PickUpWith(this))
+            if (item is Food food)
+            {
+                if (Items.Count >= FoodLimit)
+                    return false;
+
+                if (food.PickUpWith(this))
+                {
+                    AddFood(food);
+                    return true;
+                    //TODO: Add food to the agent's pack
+                    //transform.SetParent(Owner.transform);
+                    //transform.localPosition = -Vector3.forward + Vector3.up;
+                }
+            }
+            else if (item.PickUpWith(this))
             {
                 Items.Add(item);
                 return true;
+                //TODO: Add item to the agent visually
             }
             return false;
         }
 
-        public void Drop(Item item)
+        private void AddFood(Food food)
         {
-            //TODO: Check if there is anything special that should happen when the item leaves
-            //TODO: Does the agent know which item to drop, or it just drops them in a particular order?
-            //  Options could be stack or queue, with a stack making sense if moving an item (take and drop)
-            Items.Remove(item);
+            FoodSupply.Add(food);
+            food.gameObject.SetActive(false);
         }
 
-        public Item DropNext()
+        private void RemoveFood(Food food)
         {
-            var index = Items.Count - 1;
-            if (index >= 0)
+            if (!food)
+                return;
+
+            food.gameObject.SetActive(true);
+            food.transform.position = transform.position - transform.forward;   //TODO: Add some randomness
+        }
+
+        public T Drop<T>() where T : Item
+        {
+            if (typeof(T) == typeof(Food))
             {
-                var item = Items[index];
-                Items.RemoveAt(index);
-                return item;
+                var food = Pop(FoodSupply);
+                RemoveFood(food);
+                return Drop<T>(food);
             }
 
-            return null;
+            var index = Items.FindLastIndex(e => e is T);
+            if (index < 0)
+                return null;
+
+            return Drop<T>(Pop(Items, index));
         }
 
-        public void Transfer(Item item)
+        /// <summary>
+        /// Calls Item.Drop() and casts the item as a convenience for the public Drop method.
+        /// </summary>
+        private T Drop<T>(Item item) where T : Item
+        {
+            if (item)
+                item.Drop();
+            return item as T;
+        }
+
+        public bool Transfer<T>() where T : Item
         {
             if (HasTarget)
-                Transfer(item, Target as IHolder);
+                return Transfer<T>(Target as IHolder);
+            else
+                return false;
         }
 
-        public void Transfer(Item item, IHolder other)
+        public bool Transfer<T>(IHolder other) where T : Item
         {
-            item.Transfer(other);
+            var complete = other?.Take(Drop<T>());
+            return complete.HasValue ? complete.Value : false;
         }
-
     }
 }

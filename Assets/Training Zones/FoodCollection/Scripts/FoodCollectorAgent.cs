@@ -5,7 +5,7 @@ using Unity.MLAgents;
 using Random = UnityEngine.Random;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
-using Assets.SharedAssets.Scripts.ScavengerEntity.Actors.Units;
+using Assets.SharedAssets.Scripts.ScavengerEntity;
 
 public class FoodCollectorAgent : Agent
 {
@@ -14,18 +14,22 @@ public class FoodCollectorAgent : Agent
 
     public FoodCollectorArea Arena;
     
-    // Speed of agent rotation.
+    [Tooltip("Speed of agent rotation.")]
     public float TurnSpeed = 300f;
 
-    // Speed of agent movement.
+    [Tooltip("Speed of agent movement.")]
     public float MoveSpeed = 2f;
 
-    // Reward from food
-    public float FoodReward = 1f;
+    [Tooltip("Reward for picking up food.")]
+    public float FoodGatheredReward = 1f;
+    
+    [Tooltip("Reward for storing food in the depot.")]
+    public float FoodStoredReward = 1f;
 
-    // Move Penalty (energy required to move)
+    [Tooltip("Move Penalty (energy required to move).")]
     public float MovementPenalty = -0.001f;
 
+    [Tooltip("Penalty incurred for each step taken, used to incentivize speed")]
     public float StepPenalty = -0.005f;
 
     EnvironmentParameters ResetParams;
@@ -49,27 +53,18 @@ public class FoodCollectorAgent : Agent
 
     public override void CollectObservations(VectorSensor sensor)
     {
-        if (Unit.CheckForTarget())
-        {
-            //sensor.AddOneHotObservation()
-        }
+        var hasTarget = Unit.CheckForTarget();
+        //print($"hasTarget: {hasTarget}");
+        sensor.AddObservation(hasTarget);
     }
 
-    //private void Update()
-    //{
-    //    Debug.DrawRay(transform.position, transform.forward * 2, Color.green);
-    //}
 
-    public void MoveAgent(ActionSegment<int> act)
+    public void MoveAgent(int forwardAxis, int rightAxis, int rotateAxis)
     {
         var dirToGo = Vector3.zero;
         var rotateDir = Vector3.zero;
 
-        var forwardAxis = act[0];
-        var rightAxis = act[1];
-        var rotateAxis = act[2];
-
-        print($"(forward, right, rotate): ({forwardAxis}, {rightAxis}, {rotateAxis})");
+        //print($"(forward, right, rotate): ({forwardAxis}, {rightAxis}, {rotateAxis})");
 
         var penalty = ResetParams.GetWithDefault("move_penalty", MovementPenalty);
         penalty *= Convert.ToInt32(forwardAxis > 0) + Convert.ToInt32(rightAxis > 0) + Convert.ToInt32(rotateAxis > 0);
@@ -89,10 +84,10 @@ public class FoodCollectorAgent : Agent
         switch (rightAxis)
         {
             case 1:
-                dirToGo = transform.right;
+                dirToGo += transform.right;
                 break;
             case 2:
-                dirToGo = -transform.right;
+                dirToGo -= transform.right;
                 break;
         }
 
@@ -108,7 +103,6 @@ public class FoodCollectorAgent : Agent
            
         RigidBody.AddForce(dirToGo * MoveSpeed, ForceMode.VelocityChange);
         transform.Rotate(rotateDir, Time.fixedDeltaTime * TurnSpeed);
-        
 
         if (RigidBody.velocity.sqrMagnitude > 25f) // slow it down
         {
@@ -119,19 +113,82 @@ public class FoodCollectorAgent : Agent
 
     public override void OnActionReceived(ActionBuffers actions)
     {
+        //Discrete Actions:
+        //  1. Move Forward Axis
+        //  2. Move Side Axis
+        //  3. Rotate 
+        //  4. Targeting Actions (Gather, Transfer Food, Attack)
+        //  5. Drop next item (Food, Other)
+
         //print($"Received actions: {string.Join(",", actions.DiscreteActions)}");
-        MoveAgent(actions.DiscreteActions);
+        ActionSegment<int> discrete = actions.DiscreteActions;
+        MoveAgent(discrete[0], discrete[1], discrete[2]);
+        ExecuteOnTarget(discrete[3]);
+        Drop(discrete[4]);
+
+        if (Arena.AllGatheredIn())
+        {
+            AddReward("completed", 10);
+            EndEpisode();
+        }
+        
         AddReward(StepPenalty);
         Settings.TotalScore += StepPenalty;
         //print($"reward: {GetCumulativeReward()}");
     }
 
+    private void Drop(int action)
+    {
+        switch (action)
+        {
+            case 1:
+                Unit.Drop<Food>();
+                //print($"dropping food {}");
+                break;
+            case 2:
+                Unit.Drop<Item>();
+                //print($"dropping item {}");
+                break;
+        }
+    }
+
+    private void ExecuteOnTarget(int action)
+    {
+        //print($"got execute action: {action}");
+        switch (action)
+        {
+            case 1:
+                if (Unit.Gather())
+                {
+                    AddReward("food_gathered", FoodGatheredReward);
+                    //print("Gathered the food");
+                }
+                break;
+            case 2:
+                if (Unit.Transfer<Food>())
+                {
+                    AddReward("food_stored", FoodStoredReward);
+                    //print("Stored the food");
+                }
+                break;
+            case 3:
+                var destroyed = Unit.Attack();
+                if (destroyed)
+                {
+                    //print($"destroyed {destroyed}");
+                }
+                break;
+        }
+    }
+
     public override void Heuristic(in ActionBuffers actionsOut)
     {
         var discrete = actionsOut.DiscreteActions;
-        discrete[0] = 0;
-        discrete[1] = 0;
-        discrete[2] = 0;
+        for (int i = 0; i < discrete.Length; i++)
+        {
+            discrete[i] = 0;
+        }
+
         if (Input.GetKey(KeyCode.D))
         {
             discrete[2] = 2;
@@ -156,18 +213,30 @@ public class FoodCollectorAgent : Agent
         {
             discrete[1] = 2;
         }
-    }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("food"))
+        if (Input.GetKey(KeyCode.J))
         {
-            var reward = ResetParams.GetWithDefault("food_reward", FoodReward);
-            AddReward(reward);
-            Settings.TotalScore += reward;
-            Arena.RemoveFood(other.gameObject);
+            discrete[3] = 1;
+        }
+        if (Input.GetKey(KeyCode.K))
+        {
+            discrete[3] = 2;
+        }
+        if (Input.GetKey(KeyCode.H))
+        {
+            discrete[3] = 3;
+        }
+        if (Input.GetKey(KeyCode.L))
+        {
+            discrete[4] = 1;
         }
     }
 
-    
+    void AddReward(string name, float defaultValue)
+    {
+        var reward = ResetParams.GetWithDefault(name, defaultValue);
+        AddReward(reward);
+        Settings.TotalScore += reward;
+    }
+
 }

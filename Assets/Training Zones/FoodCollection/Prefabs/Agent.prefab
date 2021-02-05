@@ -9,15 +9,16 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9158365262082801775}
-  - component: {fileID: 2111804957962697623}
   - component: {fileID: 4048741234536359261}
+  - component: {fileID: 2111804957962697623}
   - component: {fileID: 80278246850494505}
   - component: {fileID: 8605306914917164915}
   - component: {fileID: 7806072236947503908}
   - component: {fileID: 4164173493089938949}
+  - component: {fileID: 9095257345329068995}
   m_Layer: 0
   m_Name: Agent
-  m_TagString: Untagged
+  m_TagString: agent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -37,6 +38,36 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4048741234536359261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8324570671479764442}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d1c4e0b1822b495aa52bc52839ecb30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_BrainParameters:
+    VectorObservationSize: 1
+    NumStackedVectorObservations: 1
+    m_ActionSpec:
+      m_NumContinuousActions: 0
+      BranchSizes: 0300000003000000030000000300000003000000
+    VectorActionSize: 0300000003000000030000000300000003000000
+    VectorActionDescriptions: []
+    VectorActionSpaceType: 0
+    hasUpgradedBrainParametersWithActionSpec: 1
+  m_Model: {fileID: 0}
+  m_InferenceDevice: 0
+  m_BehaviorType: 0
+  m_BehaviorName: Collector
+  TeamId: 0
+  m_UseChildSensors: 0
+  m_UseChildActuators: 1
+  m_ObservableAttributeHandling: 0
 --- !u!114 &2111804957962697623
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -56,39 +87,10 @@ MonoBehaviour:
   Arena: {fileID: 0}
   TurnSpeed: 300
   MoveSpeed: 2.38
-  FoodReward: 0.1
-  MovementPenalty: -0.001
-  StepPenalty: -0.001
---- !u!114 &4048741234536359261
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8324570671479764442}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d1c4e0b1822b495aa52bc52839ecb30, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_BrainParameters:
-    VectorObservationSize: 1
-    NumStackedVectorObservations: 1
-    m_ActionSpec:
-      m_NumContinuousActions: 0
-      BranchSizes: 010000000100000001000000
-    VectorActionSize: 010000000100000001000000
-    VectorActionDescriptions: []
-    VectorActionSpaceType: 0
-    hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 0}
-  m_InferenceDevice: 0
-  m_BehaviorType: 0
-  m_BehaviorName: Collector
-  TeamId: 0
-  m_UseChildSensors: 0
-  m_UseChildActuators: 1
-  m_ObservableAttributeHandling: 0
+  FoodGatheredReward: 0.05
+  FoodStoredReward: 1
+  MovementPenalty: -0.0005
+  StepPenalty: -0.0001
 --- !u!114 &80278246850494505
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -101,15 +103,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ec515aaa66ab8c4cb23069f81ee7bc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Health: 10
+  StartingHealth: 10
   FocusRange: 2
   DetectableTags:
   - entity
   AttackRate: 1
   AttackDamage: 1
-  GatherLimit: 0
+  FoodLimit: 10
+  ItemLimit: 1
   Items: []
-  GatherRate: 0
+  FoodSupply: []
+  GatherRate: 1
 --- !u!114 &8605306914917164915
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -153,6 +157,36 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &9095257345329068995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8324570671479764442}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bb6b867a41448888c1cd4f99643ad71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SensorName: RayPerceptionSensor
+  m_DetectableTags:
+  - food
+  - storage
+  - agent
+  - wall
+  m_RaysPerDirection: 4
+  m_MaxRayDegrees: 70
+  m_SphereCastRadius: 0.5
+  m_RayLength: 30
+  m_RayLayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967291
+  m_ObservationStacks: 2
+  rayHitColor: {r: 1, g: 0, b: 0, a: 1}
+  rayMissColor: {r: 1, g: 1, b: 1, a: 1}
+  m_StartVerticalOffset: 0
+  m_EndVerticalOffset: 0
 --- !u!1001 &1609043701112521936
 PrefabInstance:
   m_ObjectHideFlags: 0

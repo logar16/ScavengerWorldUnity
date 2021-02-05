@@ -6,7 +6,7 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
     public class Actor : Entity
     {
         [HideInInspector]
-        public Entity Target { get; private set; }
+        public Entity Target { get; protected set; }
         [HideInInspector]
         public bool HasTarget { get => Target != null; }
 
@@ -28,6 +28,12 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
             Targetable = new HashSet<string>(DetectableTags);
         }
 
+        override public void Reset()
+        {
+            Target = null;
+            base.Reset();
+        }
+
         /// <summary>
         /// Sends out a Raycast to check for any targetable item directly in front of the actor.
         /// Modify which items are targetable by adjusting the list of DetectableTags
@@ -35,9 +41,10 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
         /// <returns><see langword="true"/> if a target was found (and added)</returns>
         public bool CheckForTarget()
         {
+            //Debug.DrawRay(transform.position, transform.forward * 2, Color.green, 0.5f);
             //position + transform.forward * 0.5f (if agent's body gets in the way)
             var ray = new Ray(transform.position, transform.forward);
-            if (Physics.Raycast(ray, out RaycastHit hit, FocusRange))
+            if (Physics.SphereCast(ray, 1f, out RaycastHit hit, FocusRange))
             {
                 var target = hit.collider.gameObject;
                 if (Targetable.Contains(target.tag))
@@ -50,6 +57,11 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
             return false;
         }
 
+        //private void Update()
+        //{
+        //    
+        //}
+
         /// <summary>
         /// Attack the current target
         /// </summary>
@@ -59,10 +71,12 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
             if (!HasTarget)
                 return null;
 
-            Target.Health -= AttackDamage;
+            Target.TakeDamage(AttackDamage);
+
             if (Target.IsAlive)
                 return null;
 
+            //It must have died
             var target = Target;
             Target = null;
             return target;
