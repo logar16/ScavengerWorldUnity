@@ -79,8 +79,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Food: {fileID: 2606074238597525109}
   NumFood: 20
-  XRange: 22
-  ZRange: 22
+  XRange: 12
+  ZRange: 12
 --- !u!65 &8367097471211740409
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -109,7 +109,7 @@ PrefabInstance:
     - target: {fileID: 5274778500413830802, guid: d8241e547bd60ff49a37e08c30d37269,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 10.3
+      value: 9.51
       objectReference: {fileID: 0}
     - target: {fileID: 5274778500413830802, guid: d8241e547bd60ff49a37e08c30d37269,
         type: 3}
@@ -330,12 +330,12 @@ PrefabInstance:
     - target: {fileID: 839922442615925678, guid: d6fc96a99a9754f07b48abf1e0d55a5c,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.5
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 839922442615925678, guid: d6fc96a99a9754f07b48abf1e0d55a5c,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.5
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 845566399918322646, guid: d6fc96a99a9754f07b48abf1e0d55a5c,
         type: 3}
@@ -403,76 +403,15 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4418595719692845376}
     m_Modifications:
-    - target: {fileID: 80278246850494505, guid: ffa633624ac2ca24a8a9538b34f5747c,
-        type: 3}
-      propertyPath: DetectableTags.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 80278246850494505, guid: ffa633624ac2ca24a8a9538b34f5747c,
-        type: 3}
-      propertyPath: DetectableTags.Array.data[0]
-      value: food
-      objectReference: {fileID: 0}
-    - target: {fileID: 80278246850494505, guid: ffa633624ac2ca24a8a9538b34f5747c,
-        type: 3}
-      propertyPath: DetectableTags.Array.data[1]
-      value: storage
-      objectReference: {fileID: 0}
-    - target: {fileID: 2111804957962697623, guid: ffa633624ac2ca24a8a9538b34f5747c,
-        type: 3}
-      propertyPath: Arena
-      value: 
-      objectReference: {fileID: 4093792946585758929}
-    - target: {fileID: 2111804957962697623, guid: ffa633624ac2ca24a8a9538b34f5747c,
-        type: 3}
-      propertyPath: MaxStep
-      value: 2000
-      objectReference: {fileID: 0}
-    - target: {fileID: 2111804957962697623, guid: ffa633624ac2ca24a8a9538b34f5747c,
-        type: 3}
-      propertyPath: FoodReward
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4048741234536359261, guid: ffa633624ac2ca24a8a9538b34f5747c,
-        type: 3}
-      propertyPath: m_BrainParameters.VectorActionSize.Array.data[0]
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4048741234536359261, guid: ffa633624ac2ca24a8a9538b34f5747c,
-        type: 3}
-      propertyPath: m_BrainParameters.VectorActionSize.Array.data[1]
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4048741234536359261, guid: ffa633624ac2ca24a8a9538b34f5747c,
-        type: 3}
-      propertyPath: m_BrainParameters.VectorActionSize.Array.data[2]
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4048741234536359261, guid: ffa633624ac2ca24a8a9538b34f5747c,
-        type: 3}
-      propertyPath: m_BehaviorType
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4048741234536359261, guid: ffa633624ac2ca24a8a9538b34f5747c,
-        type: 3}
-      propertyPath: m_Model
-      value: 
-      objectReference: {fileID: 5022602860645237092, guid: 2355f4a6a92ba2041a06d4b8edf7a685,
-        type: 3}
     - target: {fileID: 8324570671479764442, guid: ffa633624ac2ca24a8a9538b34f5747c,
         type: 3}
       propertyPath: m_Name
       value: Agent
       objectReference: {fileID: 0}
-    - target: {fileID: 8324570671479764442, guid: ffa633624ac2ca24a8a9538b34f5747c,
-        type: 3}
-      propertyPath: m_TagString
-      value: agent
-      objectReference: {fileID: 0}
     - target: {fileID: 9158365262082801775, guid: ffa633624ac2ca24a8a9538b34f5747c,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 9158365262082801775, guid: ffa633624ac2ca24a8a9538b34f5747c,
         type: 3}

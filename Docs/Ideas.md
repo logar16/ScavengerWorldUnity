@@ -103,3 +103,21 @@ Is there a way to allow for inter-team cooperation, not just intra-team? It woul
 ## Units vs Teams
 Can units defect from their team if they feel they are going to lose?  This is only possible if units are controlled completely separate from the overall team.
 Also, an easy way to win is to have every unit of the team defect at once and they are suddenly all on the same team
+
+
+## Unity and Code
+
+### Custom Sensor
+I think the `ISensor` makes sense for a compromise between Ray sensors and full-on Visual observations.  I envision using ray casts to identify objects in the visual field and then create a summary of each object and send that as observations.  For example, there is a piece of food and an ally agent and an enemy agent in view.  The observations produced would look like:
+```json
+//[normed-distance, width, height, depth, colorR, colorG, colorB, health, custom1, custom2]
+[
+  [0.30, .5, .5, .5, 0, 16, 0, 2, 1, 0],  //food (small and green, with other data indicating freshness or something)
+  [0.80, 1, 1, 1, 0, 8, 12, 8, 3, 12], //ally (same color as agent and 8 health, 3 indicates the agent's class, and 12 food)
+  [0.35, 1, 1, 1, 16, 16, 0, 10, 1, 0]  //enemy (all yellow so an enemy, with 10 health and 1 food)
+]
+```
+To make this data useful, the agent will need to be given some static observations as well, such as its color, so it can compare with other agents.  Other information as needed could be shared, but it is best to keep static info limited.
+
+### Actions
+Could consider adding implementations of `IActuator` (see [example](https://github.com/Unity-Technologies/ml-agents/blob/release_7_docs/Project/Assets/ML-Agents/Examples/Basic/Scripts/BasicActuatorComponent.cs)) to make possible actions a little more clean.  I'm not sure if it supports dynamically resizing the possible actions the model can take? Would also need to consider if you have to hardcode that the gather action is index [2] and attack is index [3], then what happens if we remove the gather option for some agents?  Can we just add checkboxes next to each action and the actuator dynamically resizes possible actions and just loops over the action types and if enabled uses the next action input else checks next action type?

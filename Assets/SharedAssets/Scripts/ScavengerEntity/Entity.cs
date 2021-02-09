@@ -12,6 +12,8 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
         [HideInInspector]
         public bool IsAlive { get => Health > 0; }
 
+        private EntitySummary Summary;
+
         virtual public void Reset()
         {
             Health = StartingHealth;
@@ -36,7 +38,7 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
         protected T Pop<T>(List<T> list, int index = -1)
         {
             if (list.Count == 0)
-                return default(T);
+                return default;
 
             if (index < 0)
                 index += list.Count;
@@ -46,6 +48,54 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
             list.RemoveAt(index);
             return element;
         }
+
+        private void Update()
+        {
+            Summary = null;
+        }
+
+        public virtual EntitySummary Summarize()
+        {
+            if (Summary)
+                return Summary;
+
+            var renderer = GetComponentInChildren<MeshRenderer>();
+            var size = renderer.bounds.size;
+            // This function (renderer.material) automatically instantiates the materials and makes them unique to this renderer. 
+            //      It is your responsibility to destroy the materials when the game object is being destroyed.
+            var color = renderer.material.color;
+
+            Summary = new EntitySummary { Size = size, Color = color, Health = Health };
+            return Summary;
+        }
+
+        private void OnDestroy()
+        {
+            var renderer = GetComponent<MeshRenderer>();
+            if (renderer)
+                Destroy(renderer.material);
+        }
     }
 
+    public class EntitySummary
+    {
+        public Vector3 Size;
+        public Color Color;
+        public float Health;
+        public float Custom1;
+        public float Custom2;
+
+        public float[] ToArray()
+        {
+            return new float[]
+            {
+                Size.x, Size.y, Size.z, Color.r, Color.g, Color.b, Health, Custom1, Custom2
+            };
+        }
+
+        public static implicit operator bool(EntitySummary es)
+        {
+            return es != null;
+        }
+    }
 }
