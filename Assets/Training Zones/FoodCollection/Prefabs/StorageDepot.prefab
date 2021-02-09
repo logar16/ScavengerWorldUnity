@@ -94,7 +94,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2cfbc9a562ef7641acb04bbea277583, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StartingHealth: 10
+  MaxHealth: 50
   Limit: 10000
 --- !u!135 &574948456355196219
 SphereCollider:
@@ -108,7 +108,7 @@ SphereCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.52
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!135 &5466238217909520363
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -121,4 +121,4 @@ SphereCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.34
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
+  m_Center: {x: 0, y: 0, z: 0}

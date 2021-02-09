@@ -12,9 +12,9 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
         public int ItemLimit = 1;
 
         [HideInInspector]
-        public List<Item> Items = new List<Item>();
+        protected readonly List<Item> Items = new List<Item>();
         [HideInInspector]
-        public List<Food> FoodSupply = new List<Food>();
+        protected readonly List<Food> FoodSupply = new List<Food>();
 
         public int FoodCount { get => FoodSupply.Count; }
         public int ItemCount { get => Items.Count; }
@@ -142,7 +142,7 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
         public bool Transfer<T>(IHolder other) where T : Item
         {
             var complete = other?.Take(Drop<T>());
-            return complete.HasValue ? complete.Value : false;
+            return complete ?? false;
         }
     }
 }

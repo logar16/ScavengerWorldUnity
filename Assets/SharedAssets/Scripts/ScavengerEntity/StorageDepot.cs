@@ -5,7 +5,7 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
 {
     public class StorageDepot : Entity, IHolder
     {
-        private List<Food> Supply = new List<Food>();
+        private readonly List<Food> Supply = new List<Food>();
 
         [Tooltip("Maximum amount of food to hold.")]
         [Range(1, 10_000)]
@@ -13,6 +13,13 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
         
         public int Count { get => Supply.Count; }
         public bool Full { get => Count >= Limit; }
+
+        public override EntitySummary Summarize()
+        {
+            var summary = base.Summarize();
+            summary.Custom1 = Full ? 1 : 0;
+            return summary;
+        }
 
         override public void Reset()
         {
@@ -47,6 +54,7 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
             if (item is Food food && !Full && food.PickUpWith(this))
             {
                 Supply.Add(food);
+                //TODO: Make some visual change to indicate food added
                 food.gameObject.SetActive(false);
                 return true;
             }
@@ -56,7 +64,7 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
         public bool Transfer<T>(IHolder other) where T : Item
         {
             var complete = other?.Take(Drop<T>());
-            return complete.HasValue ? complete.Value : false;
+            return complete ?? false;
         }
     }
 }

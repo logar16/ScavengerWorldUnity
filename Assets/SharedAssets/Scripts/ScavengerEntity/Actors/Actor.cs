@@ -11,7 +11,7 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
         public bool HasTarget { get => Target != null; }
 
         [Range(.1f, 3f)]
-        public float FocusRange = 2;
+        public float FocusRange = 1.5f;
 
         [Tooltip("Tags for objects that can be targeted. " +
             "If zero entries, the actor target any ScavengerEntity")]
@@ -44,7 +44,7 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
         /// <returns><see langword="true"/> if a target was found (and added)</returns>
         public bool CheckForTarget()
         {
-            Debug.DrawRay(transform.position, transform.forward * FocusRange, Color.green);
+            //Debug.DrawRay(transform.position, transform.forward * FocusRange, Color.green);
             //position + transform.forward * 0.5f (if agent's body gets in the way)
             var ray = new Ray(transform.position, transform.forward);
             if (Physics.SphereCast(ray, 0.75f, out RaycastHit hit, FocusRange))

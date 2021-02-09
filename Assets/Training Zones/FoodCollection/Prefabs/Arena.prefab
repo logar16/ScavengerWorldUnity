@@ -79,8 +79,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Food: {fileID: 2606074238597525109}
   NumFood: 20
-  XRange: 12
-  ZRange: 12
+  XRange: 10
+  ZRange: 10
 --- !u!65 &8367097471211740409
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -414,11 +414,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 5022602860645237092, guid: 2355f4a6a92ba2041a06d4b8edf7a685,
         type: 3}
-    - target: {fileID: 4048741234536359261, guid: ffa633624ac2ca24a8a9538b34f5747c,
-        type: 3}
-      propertyPath: m_BehaviorType
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8324570671479764442, guid: ffa633624ac2ca24a8a9538b34f5747c,
         type: 3}
       propertyPath: m_Name

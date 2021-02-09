@@ -1508,7 +1508,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1095429763
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2332,6 +2332,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Arena (16)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4396296942281619974, guid: b86dc8166297ddc4690b10581ad68b2b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4418595719692845376, guid: b86dc8166297ddc4690b10581ad68b2b,
         type: 3}

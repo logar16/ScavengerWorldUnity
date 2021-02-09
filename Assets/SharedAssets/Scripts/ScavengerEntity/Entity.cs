@@ -5,7 +5,10 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
 {
     public abstract class Entity : MonoBehaviour
     {
-        public float StartingHealth = 10;
+        [Range(1, 10_000)]
+        [Tooltip("The maximum health for the entity.")]
+        public float MaxHealth = 10;
+
         [HideInInspector]
         public float Health { get; private set; }
 
@@ -16,7 +19,8 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
 
         virtual public void Reset()
         {
-            Health = StartingHealth;
+            Health = MaxHealth;
+            gameObject.SetActive(true);
         }
 
         public void TakeDamage(float damage)
