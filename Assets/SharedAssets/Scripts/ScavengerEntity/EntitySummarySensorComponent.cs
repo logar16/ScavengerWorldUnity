@@ -8,22 +8,23 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
     {
         public string SensorName = "Entity Summary Sensor";
 
-        [Range(0.1f, 100f)]
-        [Tooltip("Length of the rays to cast.")]
-        public float RayLength = 20f;
-
-        [Range(0f, 10f)]
-        [Tooltip("Radius of sphere to cast. Set to zero for raycasts.")]
-        public float SphereCastRadius = 0.5f;
-
         [Range(0, 20)]
         [Tooltip("Number of rays to the left and right of center.")]
         public int RaysPerDirection = 5;
+        
+        [Range(0.1f, 100f)]
+        [Tooltip("Length of the rays to cast.")]
+        public float RayLength = 20f;
 
         [Range(0, 180)]
         [Tooltip("Cone size for rays. Using 90 degrees will cast rays to the left and right. " +
             "Greater than 90 degrees will go backwards.")]
         public float MaxRayDegrees = 70;
+
+        [Range(0f, 10f)]
+        [Tooltip("Radius of sphere to cast. Set to zero for raycasts.")]
+        public float SphereCastRadius = 0.5f;
+
 
         [Tooltip("List of tags in the scene that should be considered a detectable entity. " +
             "If none are specified, the agent will not filter by tag.")]
@@ -38,7 +39,7 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
 
         public override int[] GetObservationShape()
         {
-            var perStack = RaysPerDirection * EntitySummarySensor.NUM_DATAPOINTS;
+            var perStack = (RaysPerDirection * 2 + 1) * EntitySummarySensor.NUM_DATAPOINTS;
             return new[] { perStack * ObservationStacks };
         }
 

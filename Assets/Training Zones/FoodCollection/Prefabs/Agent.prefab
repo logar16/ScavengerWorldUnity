@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 2111804957962697623}
   - component: {fileID: 80278246850494505}
   - component: {fileID: 8605306914917164915}
+  - component: {fileID: 525349572524863850}
   - component: {fileID: 7806072236947503908}
   - component: {fileID: 4164173493089938949}
-  - component: {fileID: 525349572524863850}
   m_Layer: 0
   m_Name: Agent
   m_TagString: agent
@@ -51,12 +51,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BrainParameters:
-    VectorObservationSize: 2
+    VectorObservationSize: 7
     NumStackedVectorObservations: 1
     m_ActionSpec:
       m_NumContinuousActions: 0
-      BranchSizes: 0300000003000000030000000300000003000000
-    VectorActionSize: 0300000003000000030000000300000003000000
+      BranchSizes: 030000000300000003000000030000000300000002000000
+    VectorActionSize: 030000000300000003000000030000000300000002000000
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
@@ -85,11 +85,11 @@ MonoBehaviour:
   hasUpgradedFromAgentParameters: 1
   MaxStep: 2000
   Arena: {fileID: 0}
-  TurnSpeed: 300
-  MoveSpeed: 2.38
+  TurnSpeed: 1000
+  MoveSpeed: 5
   FoodGatheredReward: 0.05
   FoodStoredReward: 1
-  MovementPenalty: -0.005
+  MovementPenalty: -0.001
   StepPenalty: -0.001
 --- !u!114 &80278246850494505
 MonoBehaviour:
@@ -105,8 +105,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StartingHealth: 10
   FocusRange: 2
-  DetectableTags:
-  - entity
+  DetectableTags: []
   AttackRate: 1
   AttackDamage: 1
   FoodLimit: 10
@@ -128,6 +127,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DecisionPeriod: 5
   TakeActionsBetweenDecisions: 1
+--- !u!114 &525349572524863850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8324570671479764442}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d87f05005823d7b4d9ccedaa62b4640d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SensorName: Entity Summary Sensor
+  RaysPerDirection: 7
+  RayLength: 20
+  MaxRayDegrees: 70
+  SphereCastRadius: 0.5
+  DetectableTags: []
+  RayLayerMask:
+    serializedVersion: 2
+    m_Bits: 3
+  ObservationStacks: 3
 --- !u!65 &7806072236947503908
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -157,28 +178,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &525349572524863850
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8324570671479764442}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d87f05005823d7b4d9ccedaa62b4640d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SensorName: Entity Summary Sensor
-  RayLength: 20
-  SphereCastRadius: 0.5
-  RaysPerDirection: 7
-  MaxRayDegrees: 70
-  DetectableTags: []
-  RayLayerMask:
-    serializedVersion: 2
-    m_Bits: 3
-  ObservationStacks: 3
 --- !u!1001 &1609043701112521936
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -51,15 +51,61 @@ public class FoodCollectorAgent : Agent
         Arena.Reset();
     }
 
-    //TODO: Add observation for current load
+
     public override void CollectObservations(VectorSensor sensor)
     {
-        var hasTarget = Unit.CheckForTarget();
-        //print($"hasTarget: {hasTarget}");
-        sensor.AddObservation(hasTarget);
+        sensor.AddObservation(Unit.CheckForTarget());
         sensor.AddObservation(Unit.FoodCount);
+        sensor.AddObservation(Unit.ItemCount);
+        sensor.AddObservation(Unit.Health);
+
+        var summary = Unit.Summarize();
+        var color = summary.Color;
+        sensor.AddObservation(color.r);
+        sensor.AddObservation(color.g);
+        sensor.AddObservation(color.b);
+
+        //print("collected observations");
     }
 
+
+    public override void OnActionReceived(ActionBuffers actions)
+    {
+        //Discrete Actions:
+        //  1. Move Forward Axis (Forward, Backward)
+        //  2. Move Side Axis (Right, Left)
+        //  3. Rotate (Left, Right)
+        //  4. Act on Target (Gather, Attack)
+        //  5. Transfer/Drop next of (Food, Other Item)
+        //  6. Create (Marker)
+
+        //print($"Received actions: {string.Join(",", actions.DiscreteActions)}");
+        ActionSegment<int> discrete = actions.DiscreteActions;
+        MoveAgent(discrete[0], discrete[1], discrete[2]);
+        ExecuteOnTarget(discrete[3]);
+        TransferOrDrop(discrete[4]);
+        CreateItem(discrete[5]);
+
+        if (Arena.AllGatheredIn())
+        {
+            AddReward("completed", 10);
+            EndEpisode();
+        }
+
+        AddReward(StepPenalty);
+        Settings.TotalScore += StepPenalty;
+        //print($"reward: {GetCumulativeReward()}");
+    }
+
+    private void CreateItem(int action)
+    {
+        switch (action)
+        {
+            case 1:
+                //TODO: Unit.Create(Enum indicating Object Type?);
+                break;
+        }
+    }
 
     public void MoveAgent(int forwardAxis, int rightAxis, int rotateAxis)
     {
@@ -112,44 +158,28 @@ public class FoodCollectorAgent : Agent
         }
     }
 
-
-    public override void OnActionReceived(ActionBuffers actions)
-    {
-        //Discrete Actions:
-        //  1. Move Forward Axis
-        //  2. Move Side Axis
-        //  3. Rotate 
-        //  4. Targeting Actions (Gather, Transfer Food, Attack)
-        //  5. Drop next item (Food, Other)
-
-        //print($"Received actions: {string.Join(",", actions.DiscreteActions)}");
-        ActionSegment<int> discrete = actions.DiscreteActions;
-        MoveAgent(discrete[0], discrete[1], discrete[2]);
-        ExecuteOnTarget(discrete[3]);
-        Drop(discrete[4]);
-
-        if (Arena.AllGatheredIn())
-        {
-            AddReward("completed", 10);
-            EndEpisode();
-        }
-        
-        AddReward(StepPenalty);
-        Settings.TotalScore += StepPenalty;
-        //print($"reward: {GetCumulativeReward()}");
-    }
-
-    private void Drop(int action)
+    /// <summary>
+    /// If the Transfer action returns <see langword="true"/>, a transfer was made, 
+    /// but if <see langword="false"/>, the item was dropped.
+    /// </summary>
+    /// <param name="action"></param>
+    private void TransferOrDrop(int action)
     {
         switch (action)
         {
             case 1:
-                Unit.Drop<Food>();
-                //print($"dropping food {}");
+                if (Unit.Transfer<Food>())
+                {
+                    //TODO: Move deciding if food was stored to the StorageDepot class (it will need to signal the agent)
+                    AddReward("food_stored", FoodStoredReward);
+                    //print("Stored the food");
+                }
                 break;
             case 2:
-                Unit.Drop<Item>();
-                //print($"dropping item {}");
+                if (Unit.Transfer<Item>())
+                {
+                    //print("Stored the food");
+                }
                 break;
         }
     }
@@ -167,13 +197,6 @@ public class FoodCollectorAgent : Agent
                 }
                 break;
             case 2:
-                if (Unit.Transfer<Food>())
-                {
-                    AddReward("food_stored", FoodStoredReward);
-                    //print("Stored the food");
-                }
-                break;
-            case 3:
                 var destroyed = Unit.Attack();
                 if (destroyed)
                 {
@@ -224,13 +247,17 @@ public class FoodCollectorAgent : Agent
         {
             discrete[3] = 2;
         }
-        if (Input.GetKey(KeyCode.H))
-        {
-            discrete[3] = 3;
-        }
         if (Input.GetKey(KeyCode.L))
         {
             discrete[4] = 1;
+        }
+        if (Input.GetKey(KeyCode.Semicolon))
+        {
+            discrete[4] = 2;
+        }
+        if (Input.GetKey(KeyCode.H))
+        {
+            discrete[5] = 1;
         }
     }
 

@@ -17,6 +17,7 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
         public List<Food> FoodSupply = new List<Food>();
 
         public int FoodCount { get => FoodSupply.Count; }
+        public int ItemCount { get => Items.Count; }
 
         [Tooltip("The number of food pieces that can be gathered per second")]
         public float GatherRate = 1;
@@ -31,6 +32,13 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
             }
             FoodSupply.Clear();
             base.Reset();
+        }
+
+        public override EntitySummary Summarize()
+        {
+            var summary = base.Summarize();
+            summary.Custom1 = FoodCount;
+            return summary;
         }
 
         public bool Gather()
@@ -87,6 +95,7 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
             food.transform.position = transform.position - transform.forward;   //TODO: Add some randomness
         }
 
+
         public T Drop<T>() where T : Item
         {
             if (typeof(T) == typeof(Food))
@@ -113,12 +122,21 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
             return item as T;
         }
 
+        /// <summary>
+        /// Will attempt to transfer an <see cref="Item"/> to the current Target, 
+        /// or drop the item if there is no current Target or the Target cannot accept the item.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns><see langword="true"/> if the item was transferred to the target and 
+        /// <see langword="false"/> if the item was dropped instead</returns>
         public bool Transfer<T>() where T : Item
         {
             if (HasTarget)
                 return Transfer<T>(Target as IHolder);
-            else
-                return false;
+            
+            //
+            Drop<T>();
+            return false;
         }
 
         public bool Transfer<T>(IHolder other) where T : Item

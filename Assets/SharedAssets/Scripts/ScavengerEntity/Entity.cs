@@ -54,6 +54,11 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
             Summary = null;
         }
 
+        /// <summary>
+        /// Summarize the top visual features in a simple to interpret way.
+        /// Convert to a float vector using <see cref="EntitySummary.ToArray"/>
+        /// </summary>
+        /// <returns></returns>
         public virtual EntitySummary Summarize()
         {
             if (Summary)

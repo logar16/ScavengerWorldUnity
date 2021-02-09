@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 5274778500413830802}
   - component: {fileID: 1756350407932902326}
   - component: {fileID: 3929195883480144764}
-  - component: {fileID: 7289240889446294894}
   - component: {fileID: 340850743019643266}
+  - component: {fileID: 574948456355196219}
+  - component: {fileID: 5466238217909520363}
   m_Layer: 0
   m_Name: StorageDepot
   m_TagString: storage
@@ -81,20 +82,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!136 &7289240889446294894
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 904189656946741159}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.51
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
 --- !u!114 &340850743019643266
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -107,4 +94,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2cfbc9a562ef7641acb04bbea277583, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  StartingHealth: 10
   Limit: 10000
+--- !u!135 &574948456355196219
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 904189656946741159}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.52
+  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
+--- !u!135 &5466238217909520363
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 904189656946741159}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.34
+  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
