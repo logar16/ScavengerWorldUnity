@@ -10,14 +10,14 @@ GameObject:
   m_Component:
   - component: {fileID: 9158365262082801775}
   - component: {fileID: 4048741234536359261}
-  - component: {fileID: 2111804957962697623}
-  - component: {fileID: 80278246850494505}
+  - component: {fileID: 8305900980287334493}
+  - component: {fileID: 5864369507009581155}
   - component: {fileID: 8605306914917164915}
   - component: {fileID: 525349572524863850}
   - component: {fileID: 7806072236947503908}
   - component: {fileID: 4164173493089938949}
   m_Layer: 0
-  m_Name: Agent
+  m_Name: UnitAgent
   m_TagString: agent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31,7 +31,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8324570671479764442}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 180.89978, y: 0.2, z: -0.10121155}
+  m_LocalPosition: {x: 510.8561, y: 0.2, z: -313.41428}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1604522407145679248}
@@ -68,7 +68,7 @@ MonoBehaviour:
   m_UseChildSensors: 0
   m_UseChildActuators: 1
   m_ObservableAttributeHandling: 0
---- !u!114 &2111804957962697623
+--- !u!114 &8305900980287334493
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -77,21 +77,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 8324570671479764442}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eed4888479fc2f3468a6a88472c261bf, type: 3}
+  m_Script: {fileID: 11500000, guid: 5298143491539464482e5e3a77748bc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   agentParameters:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
   MaxStep: 200
-  Arena: {fileID: 0}
-  TurnSpeed: 1000
-  MoveSpeed: 5
-  FoodGatheredReward: 0.05
-  FoodStoredReward: 1
+  TurnSpeed: 300
+  MoveSpeed: 2
   MovementPenalty: -0.001
-  StepPenalty: -0.001
---- !u!114 &80278246850494505
+  StepPenalty: -0.005
+  FoodGatheredReward: 1
+  FoodStoredReward: 1
+--- !u!114 &5864369507009581155
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -104,7 +103,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxHealth: 10
-  FocusRange: 2
+  FocusRange: 1.5
   DetectableTags: []
   AttackRate: 1
   AttackDamage: 1

@@ -17,6 +17,12 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
 
         private EntitySummary Summary;
 
+        public delegate void DeathEventHandler(Entity sender);
+        /// <summary>
+        /// Event sent when the Entity's Health reaches zero and it is "removed" from the scene
+        /// </summary>
+        public event DeathEventHandler OnDeath;
+
         virtual public void Reset()
         {
             Health = MaxHealth;
@@ -35,7 +41,8 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
         /// </summary>
         private void Die()
         {
-            //TODO: Does this entity need to be destroyed or fire off any events?
+            OnDeath?.Invoke(this);
+            //TODO: Does this entity need to be destroyed?  Probably not if we are going to reset it.
             gameObject.SetActive(false);
         }
 

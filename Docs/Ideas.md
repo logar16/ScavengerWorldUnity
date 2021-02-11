@@ -48,6 +48,8 @@ Units can create markers, and later maybe other items.  See [Marker](#markers) s
 
 ## Units
 
+Each unit will have a cost and each team gets a budget to attempt to keep things balanced
+
 ### Scout
 The Searcher has expanded range for identifying food items and other units (including friend or foe status). Fastest unit.
 

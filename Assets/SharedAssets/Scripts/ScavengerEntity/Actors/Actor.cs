@@ -14,14 +14,16 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
         public float FocusRange = 1.5f;
 
         [Tooltip("Tags for objects that can be targeted. " +
-            "If zero entries, the actor target any ScavengerEntity")]
+            "If zero entries, the actor can target any ScavengerEntity")]
         public List<string> DetectableTags;
 
         private HashSet<string> Targetable;
         private bool CheckTag;
 
+        [Range(0.1f, 5f)]
         [Tooltip("Attacks per second")]
         public float AttackRate = 1;
+        [Range(0.1f, 5f)]
         [Tooltip("Amount of damage each attack inflicts (HP drop)")]
         public float AttackDamage = 1;
 
@@ -73,7 +75,7 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
         {
             if (!HasTarget)
                 return null;
-
+            //TODO: Limit number of attacks by AttackRate
             Target.TakeDamage(AttackDamage);
 
             if (Target.IsAlive)

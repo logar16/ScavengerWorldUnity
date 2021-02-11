@@ -12,6 +12,7 @@ public class FoodCollectorAgent : Agent
     Rigidbody RigidBody;
     FoodCollectorSettings Settings;
 
+    [HideInInspector]
     public FoodCollectorArea Arena;
     
     [Tooltip("Speed of agent rotation.")]
@@ -168,9 +169,8 @@ public class FoodCollectorAgent : Agent
         switch (action)
         {
             case 1:
-                if (Unit.Transfer<Food>())
+                if (Unit.Transfer<Food>() is StorageDepot)
                 {
-                    //TODO: Move deciding if food was stored to the StorageDepot class (it will need to signal the agent)
                     AddReward("food_stored", FoodStoredReward);
                     //print("Stored the food");
                 }
@@ -178,7 +178,7 @@ public class FoodCollectorAgent : Agent
             case 2:
                 if (Unit.Transfer<Item>())
                 {
-                    //print("Stored the food");
+                    //print("Transferred an item");
                 }
                 break;
         }

@@ -31,6 +31,7 @@ public class FoodCollectorSettings : MonoBehaviour
     {
         //ClearObjects(GameObject.FindGameObjectsWithTag("food"));
         //Agents = GameObject.FindGameObjectsWithTag("agent");
+        print("Reset!");
 
         foreach (var area in AreaList)
         {

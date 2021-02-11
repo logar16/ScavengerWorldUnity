@@ -55,6 +55,7 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
             {
                 Supply.Add(food);
                 //TODO: Make some visual change to indicate food added
+                //  Could be a text box or progress bar or objects being added
                 food.gameObject.SetActive(false);
                 return true;
             }

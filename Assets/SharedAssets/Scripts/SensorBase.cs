@@ -28,7 +28,6 @@ namespace Unity.MLAgentsExamples
         /// <returns>The number of elements written.</returns>
         public virtual int Write(ObservationWriter writer)
         {
-            // TODO reuse buffer for similar agents, don't call GetObservationShape()
             var numFloats = this.ObservationSize();
             float[] buffer = new float[numFloats];
             WriteObservation(buffer);

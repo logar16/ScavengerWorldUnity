@@ -3,25 +3,39 @@ using System.Linq;
 using UnityEngine;
 using Assets.SharedAssets.Scripts.ScavengerEntity;
 
+[ExecuteInEditMode]
 public class FoodCollectorArea : MonoBehaviour
 {
     public GameObject Food;
-    [Range(1, 400)]
-    public int NumFood;
-    //TODO: Respawn food as it is taken away
-    //public bool RespawnFood;
-    //TODO: Dynamically decide where food should go
+    public GameObject Agent;
+
+    [Range(1, 500)]
+    [Tooltip("Number of food items to generate at the beginning of every episode (max 500).")]
+    public int NumFood = 20;
+
+
+
+    [Range(1, 100)]
+    [Tooltip("Number of Agents per team.")]
+    public int NumAgents = 1;
+    
+    [Range(8, 200)]
     public float XRange;
+    [Range(8, 200)]
     public float ZRange;
 
     private HashSet<GameObject> FoodPieces;
-    private GameObject Agent;
     private StorageDepot StorageDepot;
+    private GameObject Platform;
     private Entity[] Entities;
+
+    private void Awake()
+    {
+        Platform = transform.Find("Platform").gameObject;
+    }
 
     private void Start()
     {
-        Agent = transform.Find("Agent").gameObject;
         StorageDepot = GetComponentInChildren<StorageDepot>();
         FoodPieces = new HashSet<GameObject>();
         Entities = GetComponentsInChildren<Entity>();
@@ -72,7 +86,16 @@ public class FoodCollectorArea : MonoBehaviour
         StorageDepot.transform.position = GenerateChildPosition();
         CreateFood(NumFood, Food);
     }
-    
+
+    private void Update()
+    {
+        if (Application.isPlaying)
+            return;
+
+        if (Platform)
+            Platform.transform.localScale = new Vector3(2 * XRange / 100, 1, 2 * ZRange / 100);
+    }
+
     public bool AllGatheredIn()
     {
         return StorageDepot.Count == NumFood;

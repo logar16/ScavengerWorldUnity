@@ -24,7 +24,7 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
         /// This will (using generics) transfer the next item of the given type if possible.
         /// </summary>
         /// <param name="other">The new owner</param>
-        bool Transfer<T>(IHolder other) where T : Item; //TODO: add a default implementation by using >= C#8
+        bool Transfer<T>(IHolder other) where T : Item;
 
         //It is assumed that the IHolder inherits from MonoBehavior
         GameObject gameObject { get; }

@@ -6,9 +6,16 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
 {
     public class Unit : Actor, IHolder
     {
-        [Tooltip("How many pieces of food the unit can carry at one time")]
+        [Range(0, 30)]
+        [Tooltip("Number of food pieces the unit can carry at one time.")]
         public int FoodLimit = 10;
-        [Tooltip("How many items the unit can carry at one time")]
+
+        [Range(0.1f, 5f)]
+        [Tooltip("The number of food pieces that can be gathered per second")]
+        public float GatherRate = 1;
+
+        [Range(0, 10)]
+        [Tooltip("Number of items the unit can carry at one time.")]
         public int ItemLimit = 1;
 
         [HideInInspector]
@@ -19,8 +26,8 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
         public int FoodCount { get => FoodSupply.Count; }
         public int ItemCount { get => Items.Count; }
 
-        [Tooltip("The number of food pieces that can be gathered per second")]
-        public float GatherRate = 1;
+        [Range(1, 100)]
+        public int Cost = 1;
 
         override public void Reset()
         {
@@ -43,6 +50,7 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
 
         public bool Gather()
         {
+            //TODO: Limit if it can gather by GatherRate
             if (HasTarget && Target is Item item && Take(item))
             {
                 Target = null;  //Since it was gathered and is now owned
@@ -66,7 +74,7 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
                 {
                     AddFood(food);
                     return true;
-                    //TODO: Add food to the agent's pack
+                    //TODO: Add food to the agent's pack visually
                     //transform.SetParent(Owner.transform);
                     //transform.localPosition = -Vector3.forward + Vector3.up;
                 }
@@ -129,14 +137,17 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
         /// <typeparam name="T"></typeparam>
         /// <returns><see langword="true"/> if the item was transferred to the target and 
         /// <see langword="false"/> if the item was dropped instead</returns>
-        public bool Transfer<T>() where T : Item
+        public Entity Transfer<T>() where T : Item
         {
             if (HasTarget)
-                return Transfer<T>(Target as IHolder);
+            {
+                var target = Target;
+                return Transfer<T>(Target as IHolder) ? target : null;
+            }
             
-            //
+            // If there is no target, we just drop
             Drop<T>();
-            return false;
+            return null;
         }
 
         public bool Transfer<T>(IHolder other) where T : Item
