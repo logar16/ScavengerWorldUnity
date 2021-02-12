@@ -19,6 +19,7 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
 
             EditorGUILayout.PropertyField(so.FindProperty("Id"));
             EditorGUILayout.PropertyField(so.FindProperty("Color"));
+            EditorGUILayout.PropertyField(so.FindProperty("StorageDepot"));
             EditorGUILayout.PropertyField(so.FindProperty("Budget"));
             var classes = so.FindProperty("UnitClasses");
             EditorGUILayout.LabelField("Classes", EditorStyles.boldLabel);

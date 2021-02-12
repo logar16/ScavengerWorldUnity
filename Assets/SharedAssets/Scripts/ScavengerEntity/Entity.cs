@@ -23,7 +23,19 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
         /// </summary>
         public event DeathEventHandler OnDeath;
 
-        virtual public void Reset()
+        private MeshRenderer _Renderer;
+        private MeshRenderer Renderer
+        { 
+            get
+            {
+                if (!_Renderer)
+                    _Renderer = GetComponentInChildren<MeshRenderer>();
+                return _Renderer;
+            }
+        }
+        public Color Color { set => Renderer.material.color = value; }
+
+        public virtual void Reset()
         {
             Health = MaxHealth;
             gameObject.SetActive(true);
@@ -75,11 +87,10 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
             if (Summary)
                 return Summary;
 
-            var renderer = GetComponentInChildren<MeshRenderer>();
-            var size = renderer.bounds.size;
+            var size = Renderer.bounds.size;
             // This function (renderer.material) automatically instantiates the materials and makes them unique to this renderer. 
             //      It is your responsibility to destroy the materials when the game object is being destroyed.
-            var color = renderer.material.color;
+            var color = Renderer.material.color;
 
             Summary = new EntitySummary { Size = size, Color = color, Health = Health };
             return Summary;
@@ -87,9 +98,8 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
 
         private void OnDestroy()
         {
-            var renderer = GetComponent<MeshRenderer>();
-            if (renderer)
-                Destroy(renderer.material);
+            if (Renderer)
+                Destroy(Renderer.material);
         }
     }
 

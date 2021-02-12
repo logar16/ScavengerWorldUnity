@@ -27,6 +27,7 @@ public class ActorAgent : Agent
     public override void Initialize()
     {
         RigidBody = GetComponent<Rigidbody>();
+        Actor = GetComponent<Actor>();
         ResetParams = Academy.Instance.EnvironmentParameters;
     }
 

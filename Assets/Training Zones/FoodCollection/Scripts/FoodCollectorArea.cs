@@ -7,13 +7,10 @@ using Assets.SharedAssets.Scripts.ScavengerEntity;
 public class FoodCollectorArea : MonoBehaviour
 {
     public GameObject Food;
-    public GameObject Agent;
 
     [Range(1, 500)]
     [Tooltip("Number of food items to generate at the beginning of every episode (max 500).")]
     public int NumFood = 20;
-
-
 
     [Range(1, 100)]
     [Tooltip("Number of Agents per team.")]
@@ -25,9 +22,9 @@ public class FoodCollectorArea : MonoBehaviour
     public float ZRange;
 
     private HashSet<GameObject> FoodPieces;
-    private StorageDepot StorageDepot;
+    private Team[] Teams;
+
     private GameObject Platform;
-    private Entity[] Entities;
 
     private void Awake()
     {
@@ -36,9 +33,8 @@ public class FoodCollectorArea : MonoBehaviour
 
     private void Start()
     {
-        StorageDepot = GetComponentInChildren<StorageDepot>();
+        Teams = GetComponentsInChildren<Team>();
         FoodPieces = new HashSet<GameObject>();
-        Entities = GetComponentsInChildren<Entity>();
     }
 
     void CreateFood(int num, GameObject type)
@@ -59,12 +55,6 @@ public class FoodCollectorArea : MonoBehaviour
 
             FoodPieces.Add(f);
         }
-
-        if (Entities.Length < num)
-        {
-            var e = FoodPieces.Select(p => p.GetComponent<Food>());
-            Entities = e.Concat(Entities).ToArray();
-        }
     }
 
     private Vector3 GenerateChildPosition()
@@ -77,13 +67,11 @@ public class FoodCollectorArea : MonoBehaviour
 
     public void Reset()
     {
-        foreach (var entity in Entities)
+        foreach (var team in Teams)
         {
-            entity.Reset();
+            team.Reset();
         }
 
-        Agent.transform.position = GenerateChildPosition();
-        StorageDepot.transform.position = GenerateChildPosition();
         CreateFood(NumFood, Food);
     }
 
@@ -98,6 +86,6 @@ public class FoodCollectorArea : MonoBehaviour
 
     public bool AllGatheredIn()
     {
-        return StorageDepot.Count == NumFood;
+        return false; //TODO: check if any team is gathered in
     }
 }

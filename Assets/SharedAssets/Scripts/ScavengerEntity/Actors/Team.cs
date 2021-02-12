@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Assets.SharedAssets.Scripts.ScavengerEntity
 {
@@ -9,6 +10,8 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
     public class Team: MonoBehaviour
     {
         public int Id;
+
+        public StorageDepot StorageDepot;
 
         public int Budget;
 
@@ -18,15 +21,35 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
 
         public Color Color;
 
+        private List<Unit> Units;
+
         private void Awake()
         {
-            print($"team awake with {Classes.Count} unit types");
+            Units = new List<Unit>();
+        }
+
+        internal void Reset()
+        {
+            StorageDepot.Reset();
+            Units.ForEach(u => u.Reset());
+        }
+
+        private void Start()
+        {
+            StorageDepot = Instantiate(StorageDepot, transform);
+            StorageDepot.Color = Color;
+
+            print($"team started with {Classes.Count} unit types");
             foreach (var item in Classes)
             {
                 for (int i = 0; i < item.Count; i++)
                 {
-                    var unit = Instantiate(item.Unit, transform.parent.parent);
-                    print($"created {unit}");
+                    var x = Random.Range(-4f, 4f);
+                    var z = Random.Range(-4f, 4f);
+                    Vector3 position = new Vector3(x, 0, z) + transform.position;
+                    var unit = Instantiate(item.Unit, position, Quaternion.identity, transform);
+                    unit.Color = Color;
+                    Units.Add(unit);
                 }
             }
         }
