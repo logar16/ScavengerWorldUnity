@@ -9,6 +9,11 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
     [ExecuteInEditMode]
     public class Arena : MonoBehaviour
     {
+        [Range(100, 3000)]
+        [Tooltip("Maximum number of steps before environment reset.")]
+        public int MaxSteps = 1000;
+
+        [Tooltip("Food Prefab to use for generating food.")]
         public Food Food;
 
         [Range(1, 500)]
@@ -29,7 +34,8 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
         private GameObject Platform;
         private HaltonSequence Sequencer;
         
-        private bool ResetRequested;
+        private bool ResetRequested { get => AlreadyEnded.Count > 0; }
+        private bool ResetReady { get => AlreadyEnded.Count == Teams.Length; }
         private HashSet<Team> AlreadyEnded;
 
         private void Awake()
@@ -54,6 +60,7 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
             foreach (var team in Teams)
             {
                 team.OnRequestReset += OnTeamRequestReset;
+                team.SetMaxSteps(MaxSteps);
             }
         }
 
@@ -74,18 +81,15 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
 
         private void OnAgentPrestep(int stepCount)
         {
-            //print($"AgentPrestep");
-            if (ResetRequested)
-            {
+            if (ResetReady)
+                Reset();
+            else if (ResetRequested)
                 EndEpisodeForAll();
-            }
         }
 
         private void OnTeamRequestReset(Team requester)
         {
-            print($"Team {requester.Id} requested reset");
             AlreadyEnded.Add(requester);
-            ResetRequested = true;
         }
 
         private void EndEpisodeForAll()
@@ -102,7 +106,6 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
 
         public void Reset()
         {
-            ResetRequested = false;
             AlreadyEnded.Clear();
 
             foreach (var team in Teams)
@@ -127,7 +130,7 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
 
         void ResetFood()
         {
-            if (Distribution == FoodDistribution.PsuedoUniform)
+            if (Distribution == FoodDistribution.PsuedoUniform && Random.value > 0.5)
                 Sequencer.Reset();
 
             foreach (var food in FoodPieces)
@@ -161,21 +164,19 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
 
         private void Update()
         {
-            if (Application.isPlaying)
-            {
-                if (AlreadyEnded.Count == Teams.Length)
-                    Reset();
-            }
-            else
-            {
+            if (!Application.isPlaying)
+            { 
                 if (Platform)
-                    Platform.transform.localScale = new Vector3(2 * (XRange + 4) / 100, 1, 2 * (ZRange + 4) / 100);
+                {
+                    var x = 2 * (XRange + 6) / 100;
+                    var z = 2 * (ZRange + 6) / 100;
+                    Platform.transform.localScale = new Vector3(x, 1, z);
+                }
             }
         }
 
         private void OnDestroy()
         {
-            print("Destroying");
             foreach (var food in FoodPieces)
             {
                 if (Application.isPlaying)
