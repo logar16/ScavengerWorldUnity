@@ -22,6 +22,9 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
         public Color Color;
 
         private List<Unit> Units;
+        private IEnumerable<UnitAgent> Agents 
+            { get => Units.Select(u => u.gameObject.GetComponent<UnitAgent>()); }
+
         private bool NeedsReset;
 
         public delegate void RequestReset(Team requester);
@@ -29,7 +32,22 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
 
         private void Awake()
         {
+            StorageDepot = Instantiate(StorageDepot, transform);
+            StorageDepot.Color = Color;
+
             Units = new List<Unit>();
+            foreach (var item in UnitClasses)
+            {
+                for (int i = 0; i < item.Count; i++)
+                {
+                    Vector3 position = PositionUnit();
+                    var unit = Instantiate(item.Unit, position, Quaternion.identity, transform);
+                    unit.Color = Color;
+                    Units.Add(unit);
+                    var agent = GetAgentFrom(unit);
+                    agent.OnNewEpisode += OnNewAgentEpisode;
+                }
+            }
         }
 
         public void Reset()
@@ -43,23 +61,9 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
             }
         }
 
-        private void Start()
+        private UnitAgent GetAgentFrom(Unit unit)
         {
-            StorageDepot = Instantiate(StorageDepot, transform);
-            StorageDepot.Color = Color;
-
-            foreach (var item in UnitClasses)
-            {
-                for (int i = 0; i < item.Count; i++)
-                {
-                    Vector3 position = PositionUnit();
-                    var unit = Instantiate(item.Unit, position, Quaternion.identity, transform);
-                    unit.Color = Color;
-                    Units.Add(unit);
-                    var agent = unit.gameObject.GetComponent<UnitAgent>();
-                    agent.OnNewEpisode += OnNewAgentEpisode;
-                }
-            }
+            return unit.gameObject.GetComponent<UnitAgent>();
         }
 
         private Vector3 PositionUnit()
@@ -67,6 +71,17 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
             var x = Random.Range(-4f, 4f);
             var z = Random.Range(-4f, 4f);
             return new Vector3(x, 0.2f, z) + transform.position;
+        }
+
+        public void SetMaxSteps(int maxSteps)
+        {
+            if (Units == null)
+                return;
+
+            foreach (var agent in Agents)
+            {
+                agent.MaxStep = maxSteps;
+            }
         }
 
         private void OnNewAgentEpisode()
@@ -80,7 +95,6 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
 
         public void EndEpisode()
         {
-            print($"Ending Episodes for team {Id}");
             foreach (var unit in Units)
             {
                 var agent = unit.gameObject.GetComponent<UnitAgent>();
