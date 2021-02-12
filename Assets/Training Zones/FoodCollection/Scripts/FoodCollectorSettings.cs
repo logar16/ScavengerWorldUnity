@@ -2,13 +2,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using Unity.MLAgents;
 using System;
+using Assets.SharedAssets.Scripts.ScavengerEntity;
 
 public class FoodCollectorSettings : MonoBehaviour
 {
-    [HideInInspector]
-    public GameObject[] Agents;
-    [HideInInspector]
-    public FoodCollectorArea[] AreaList;
     [HideInInspector]
     public float TotalScore;
 
@@ -22,22 +19,8 @@ public class FoodCollectorSettings : MonoBehaviour
         Recorder = Academy.Instance.StatsRecorder;
     }
 
-    private void Start()
-    {
-        AreaList = FindObjectsOfType<FoodCollectorArea>(); 
-    }
-
     void EnvironmentReset()
     {
-        //ClearObjects(GameObject.FindGameObjectsWithTag("food"));
-        //Agents = GameObject.FindGameObjectsWithTag("agent");
-        print("ENV Reset!");
-
-        foreach (var area in AreaList)
-        {
-            area.Reset();
-        }
-
         TotalScore = 0;
     }
 

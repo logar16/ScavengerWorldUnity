@@ -45,6 +45,7 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
             FoodPieces = new Food[NumFood];
             AlreadyEnded = new HashSet<Team>();
             Academy.Instance.AgentPreStep += OnAgentPrestep;
+            Academy.Instance.OnEnvironmentReset += Reset;
         }
 
         private void Start()
