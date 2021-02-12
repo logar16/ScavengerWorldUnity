@@ -20,6 +20,9 @@ public class ActorAgent : Agent
     [Tooltip("Penalty incurred for each step taken, used to incentivize speed")]
     public float StepPenalty = -0.005f;
 
+    public delegate void EpisodeBeginEvent ();
+    public event EpisodeBeginEvent OnNewEpisode;
+
     private EnvironmentParameters ResetParams;
 
     protected Actor Actor;
@@ -35,8 +38,8 @@ public class ActorAgent : Agent
     {
         RigidBody.velocity = Vector3.zero;
         transform.rotation = Quaternion.Euler(new Vector3(0f, Random.Range(0, 360)));
+        OnNewEpisode?.Invoke();
     }
-
 
     public override void CollectObservations(VectorSensor sensor)
     {

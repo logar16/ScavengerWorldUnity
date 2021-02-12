@@ -108,8 +108,8 @@ MonoBehaviour:
   AttackRate: 1
   AttackDamage: 1
   FoodLimit: 10
-  ItemLimit: 1
   GatherRate: 1
+  ItemLimit: 1
   Cost: 1
 --- !u!114 &8605306914917164915
 MonoBehaviour:

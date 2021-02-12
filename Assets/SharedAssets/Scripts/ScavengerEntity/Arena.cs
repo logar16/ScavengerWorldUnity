@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Unity.MLAgents;
 using UnityEngine;
 
 namespace Assets.SharedAssets.Scripts.ScavengerEntity
@@ -27,19 +28,33 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
 
         private GameObject Platform;
         private HaltonSequence Sequencer;
+        
+        private bool ResetRequested;
+        private HashSet<Team> AlreadyEnded;
 
         private void Awake()
         {
             Platform = transform.Find("Platform").gameObject;
             Sequencer = new HaltonSequence();
             FoodPieces = new Food[NumFood];
+            AlreadyEnded = new HashSet<Team>();
+            Academy.Instance.AgentPreStep += OnAgentPrestep;
         }
 
         private void Start()
         {
+            SetupTeams();
+            CreateFood();
+        }
+
+        private void SetupTeams()
+        {
             Teams = GetComponentsInChildren<Team>();
             ArrangeTeams();
-            CreateFood();
+            foreach (var team in Teams)
+            {
+                team.OnRequestReset += OnTeamRequestReset;
+            }
         }
 
         private void ArrangeTeams()
@@ -55,6 +70,47 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
                 var position = new Vector3(x, 0, z);
                 Teams[i].transform.position = position + transform.position;
             }
+        }
+
+        private void OnAgentPrestep(int stepCount)
+        {
+            //print($"AgentPrestep");
+            if (ResetRequested)
+            {
+                EndEpisodeForAll();
+            }
+        }
+
+        private void OnTeamRequestReset(Team requester)
+        {
+            print($"Team {requester.Id} requested reset");
+            AlreadyEnded.Add(requester);
+            ResetRequested = true;
+        }
+
+        private void EndEpisodeForAll()
+        {
+            foreach (var team in Teams)
+            {
+                if (AlreadyEnded.Contains(team))
+                    continue;
+
+                team.EndEpisode();
+                AlreadyEnded.Add(team);
+            }
+        }
+
+        public void Reset()
+        {
+            ResetRequested = false;
+            AlreadyEnded.Clear();
+
+            foreach (var team in Teams)
+            {
+                team.Reset();
+            }
+
+            ResetFood();
         }
 
         private void CreateFood()
@@ -98,37 +154,23 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
                     z = vec.z * ZRange * 2 - ZRange;
                     break;
             }
-            
-            return new Vector3(x, 0.2f, z) + transform.position;
+
+            return new Vector3(x, 0.5f, z) + transform.position;
         }
 
-        public void Reset()
-        {
-            foreach (var team in Teams)
-            {
-                team.Reset();
-            }
-
-            ResetFood();
-        }
 
         private void Update()
         {
             if (Application.isPlaying)
-                return;
-
-            if (Platform)
-                Platform.transform.localScale = new Vector3(2 * (XRange + 4) / 100, 1, 2 * (ZRange + 4) / 100);
-        }
-
-        private void OnApplicationQuit()
-        {
-            print("Quitting");
-        }
-
-        private void OnDisable()
-        {
-            print("Disabling");
+            {
+                if (AlreadyEnded.Count == Teams.Length)
+                    Reset();
+            }
+            else
+            {
+                if (Platform)
+                    Platform.transform.localScale = new Vector3(2 * (XRange + 4) / 100, 1, 2 * (ZRange + 4) / 100);
+            }
         }
 
         private void OnDestroy()
