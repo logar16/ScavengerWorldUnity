@@ -23,6 +23,7 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
         [Range(0.1f, 5f)]
         [Tooltip("Attacks per second")]
         public float AttackRate = 1;
+        //TODO: Add visual attack indicator
         [Range(0.1f, 5f)]
         [Tooltip("Amount of damage each attack inflicts (HP drop)")]
         public float AttackDamage = 1;

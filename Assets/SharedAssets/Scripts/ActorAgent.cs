@@ -47,11 +47,14 @@ public class ActorAgent : Agent
         sensor.AddObservation(Actor.Health);
 
         var summary = Actor.Summarize();
+        //Color helps identify friend/foe
         var color = summary.Color;
         sensor.AddObservation(color.r);
         sensor.AddObservation(color.g);
         sensor.AddObservation(color.b);
-
+        //Positional data may or may not be useful (e.g. finding home base which is at [0,0,0])
+        sensor.AddObservation(summary.Position);
+        
         //print("collected observations");
     }
 

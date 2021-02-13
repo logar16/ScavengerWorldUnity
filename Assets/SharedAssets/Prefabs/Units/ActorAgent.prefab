@@ -30,7 +30,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8324570671479764442}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 510.8561, y: 0.2, z: -313.41428}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1604522407145679248}
@@ -50,7 +50,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BrainParameters:
-    VectorObservationSize: 7
+    VectorObservationSize: 8
     NumStackedVectorObservations: 1
     m_ActionSpec:
       m_NumContinuousActions: 0
@@ -162,34 +162,6 @@ PrefabInstance:
     - target: {fileID: 1293290366791352, guid: 2ed9eb45651500d4ea5ae787c2ae5c2b, type: 3}
       propertyPath: m_Name
       value: Agent_Cube
-      objectReference: {fileID: 0}
-    - target: {fileID: 4521296116772160, guid: 2ed9eb45651500d4ea5ae787c2ae5c2b, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4521296116772160, guid: 2ed9eb45651500d4ea5ae787c2ae5c2b, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4521296116772160, guid: 2ed9eb45651500d4ea5ae787c2ae5c2b, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4521296116772160, guid: 2ed9eb45651500d4ea5ae787c2ae5c2b, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4521296116772160, guid: 2ed9eb45651500d4ea5ae787c2ae5c2b, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4521296116772160, guid: 2ed9eb45651500d4ea5ae787c2ae5c2b, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4521296116772160, guid: 2ed9eb45651500d4ea5ae787c2ae5c2b, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4521296116772160, guid: 2ed9eb45651500d4ea5ae787c2ae5c2b, type: 3}
       propertyPath: m_RootOrder

@@ -9,6 +9,7 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
         [Tooltip("The initial food quality (defaults to 'Excellent').")]
         public Quality StartQuality = Quality.Excellent;
         public Quality Quality { get => (Quality)Value; }
+        public bool Stored { get => Owner is StorageDepot; }
 
         private float Value;
 

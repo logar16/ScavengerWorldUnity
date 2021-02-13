@@ -28,8 +28,9 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
         [Range(8, 200)]
         public float ZRange = 20;
 
-        private Food[] FoodPieces;
-        private Team[] Teams;
+        protected Food[] FoodPieces;
+        //protected Item[] Items;
+        protected Team[] Teams;
 
         private GameObject Platform;
         private HaltonSequence Sequencer;
@@ -38,7 +39,7 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
         private bool ResetReady { get => AlreadyEnded.Count == Teams.Length; }
         private HashSet<Team> AlreadyEnded;
 
-        private void Awake()
+        protected virtual void Awake()
         {
             Platform = transform.Find("Platform").gameObject;
             Sequencer = new HaltonSequence();
@@ -46,10 +47,7 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
             AlreadyEnded = new HashSet<Team>();
             Academy.Instance.AgentPreStep += OnAgentPrestep;
             Academy.Instance.OnEnvironmentReset += Reset;
-        }
 
-        private void Start()
-        {
             SetupTeams();
             CreateFood();
         }
@@ -93,7 +91,7 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
             AlreadyEnded.Add(requester);
         }
 
-        private void EndEpisodeForAll()
+        protected void EndEpisodeForAll()
         {
             foreach (var team in Teams)
             {
@@ -107,13 +105,15 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
 
         public void Reset()
         {
+            //Reset Teams/Units/Storage Depots
             AlreadyEnded.Clear();
-
             foreach (var team in Teams)
             {
                 team.Reset();
             }
-
+            ArrangeTeams();
+            //TODO: How will markers and other items be handled if they are (not) currently owned?
+            
             ResetFood();
         }
 
@@ -159,7 +159,7 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
                     break;
             }
 
-            return new Vector3(x, 0.5f, z) + transform.position;
+            return new Vector3(x, 0.1f, z) + transform.position;
         }
 
 

@@ -48,7 +48,7 @@ Units can create markers, and later maybe other items.  See [Marker](#markers) s
 
 ## Units
 
-Each unit will have a cost and each team gets a budget to attempt to keep things balanced
+Each unit will have a cost and each team gets a budget to attempt to keep things balanced.
 
 ### Scout
 The Searcher has expanded range for identifying food items and other units (including friend or foe status). Fastest unit.
@@ -105,6 +105,18 @@ Is there a way to allow for inter-team cooperation, not just intra-team? It woul
 ## Units vs Teams
 Can units defect from their team if they feel they are going to lose?  This is only possible if units are controlled completely separate from the overall team.
 Also, an easy way to win is to have every unit of the team defect at once and they are suddenly all on the same team
+
+
+## Test Environments
+
+### Food Collection
+* Solo - Just have one agent learning that it can pick up food and deliver it to the storage depot
+* Single Team - Several agents on one team learning to help each other gather food quicker
+  * Should there be an additional reward for cooperation?
+  * Should there be a penalty for killing your coworkers? (other than the obvious guilt that would rack the agent)
+* Multi Team - Single agent for each team and several teams
+  * Could also do several agents on each team
+  * Will there be a zero-sum reward of most-gathered gets an end-prize?
 
 
 ## Unity and Code

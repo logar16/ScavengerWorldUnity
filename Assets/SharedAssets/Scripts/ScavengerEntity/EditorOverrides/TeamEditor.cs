@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace Assets.SharedAssets.Scripts.ScavengerEntity
 {
+    [CanEditMultipleObjects]
     [CustomEditor(typeof(Team))]
     public class TeamEditor : Editor
     {

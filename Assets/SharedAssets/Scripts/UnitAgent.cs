@@ -42,6 +42,12 @@ public class UnitAgent : ActorAgent
         CreateItem(actions[5]);
     }
 
+    protected override void Attack()
+    {
+        //TODO: Check if friendly fire using Unit.Team
+        base.Attack();
+    }
+
     private void CreateItem(int action)
     {
         switch (action)

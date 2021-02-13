@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Assets.SharedAssets.Scripts.ScavengerEntity
 {
@@ -28,6 +29,9 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
 
         [Range(1, 100)]
         public int Cost = 1;
+
+        [HideInInspector]
+        public Team Team { get; internal set; }
 
         override public void Reset()
         {
@@ -100,7 +104,10 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
                 return;
 
             food.gameObject.SetActive(true);
-            food.transform.position = transform.position - transform.forward;   //TODO: Add some randomness
+            //TODO: Add some randomness to where it is dropped so there is no conflict on position
+            var offset = transform.right * Random.Range(-1f, 1f);
+            offset += transform.forward * Random.Range(-1f, 0);
+            food.transform.position = transform.position - transform.forward + offset;   
         }
 
 

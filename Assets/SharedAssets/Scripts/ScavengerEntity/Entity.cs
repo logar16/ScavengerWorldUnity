@@ -41,6 +41,7 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
             gameObject.SetActive(true);
         }
 
+        //TODO: Add visual indicator of HP or something
         public void TakeDamage(float damage)
         {
             Health -= damage;
@@ -92,7 +93,13 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
             //      It is your responsibility to destroy the materials when the game object is being destroyed.
             var color = Renderer.material.color;
 
-            Summary = new EntitySummary { Size = size, Color = color, Health = Health };
+            Summary = new EntitySummary 
+            { 
+                Size = size, 
+                Color = color, 
+                Health = Health, 
+                Position = transform.localPosition 
+            };
             return Summary;
         }
 
@@ -110,6 +117,9 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
         public float Health;
         public float Custom1;
         public float Custom2;
+        
+        //Not used in identification
+        public Vector3 Position;
 
         public float[] ToArray()
         {

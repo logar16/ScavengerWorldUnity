@@ -40,14 +40,20 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
             {
                 for (int i = 0; i < item.Count; i++)
                 {
-                    Vector3 position = PositionUnit();
-                    var unit = Instantiate(item.Unit, position, Quaternion.identity, transform);
-                    unit.Color = Color;
+                    var unit = CreateUnit(item.Unit);
                     Units.Add(unit);
-                    var agent = GetAgentFrom(unit);
-                    agent.OnNewEpisode += OnNewAgentEpisode;
                 }
             }
+        }
+
+        private Unit CreateUnit(Unit prototype)
+        {
+            Vector3 position = PositionUnit();
+            var unit = Instantiate(prototype, position, Quaternion.identity, transform);
+            unit.Color = Color;
+            var agent = GetAgentFrom(unit);
+            agent.OnNewEpisode += OnNewAgentEpisode;
+            return unit;
         }
 
         public void Reset()

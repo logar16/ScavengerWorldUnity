@@ -31,7 +31,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8324570671479764442}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 510.8561, y: 0.2, z: -313.41428}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1604522407145679248}
@@ -51,7 +51,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BrainParameters:
-    VectorObservationSize: 7
+    VectorObservationSize: 10
     NumStackedVectorObservations: 1
     m_ActionSpec:
       m_NumContinuousActions: 0
@@ -83,12 +83,12 @@ MonoBehaviour:
   agentParameters:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
-  MaxStep: 200
+  MaxStep: 2000
   TurnSpeed: 300
   MoveSpeed: 2
   MovementPenalty: -0.001
   StepPenalty: -0.005
-  FoodGatheredReward: 1
+  FoodGatheredReward: 0.1
   FoodStoredReward: 1
 --- !u!114 &5864369507009581155
 MonoBehaviour:
@@ -174,7 +174,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 116
   m_CollisionDetection: 0
 --- !u!1001 &1609043701112521936
 PrefabInstance:
@@ -186,34 +186,6 @@ PrefabInstance:
     - target: {fileID: 1293290366791352, guid: 2ed9eb45651500d4ea5ae787c2ae5c2b, type: 3}
       propertyPath: m_Name
       value: Agent_Cube
-      objectReference: {fileID: 0}
-    - target: {fileID: 4521296116772160, guid: 2ed9eb45651500d4ea5ae787c2ae5c2b, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4521296116772160, guid: 2ed9eb45651500d4ea5ae787c2ae5c2b, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4521296116772160, guid: 2ed9eb45651500d4ea5ae787c2ae5c2b, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4521296116772160, guid: 2ed9eb45651500d4ea5ae787c2ae5c2b, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4521296116772160, guid: 2ed9eb45651500d4ea5ae787c2ae5c2b, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4521296116772160, guid: 2ed9eb45651500d4ea5ae787c2ae5c2b, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4521296116772160, guid: 2ed9eb45651500d4ea5ae787c2ae5c2b, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4521296116772160, guid: 2ed9eb45651500d4ea5ae787c2ae5c2b, type: 3}
       propertyPath: m_RootOrder
