@@ -44,7 +44,7 @@ public class ActorAgent : Agent
     public override void CollectObservations(VectorSensor sensor)
     {
         sensor.AddObservation(Actor.CheckForTarget());
-        sensor.AddObservation(Actor.Health);
+        sensor.AddObservation(Actor.Health / Actor.MaxHealth);
 
         var summary = Actor.Summarize();
         //Color helps identify friend/foe
@@ -181,7 +181,7 @@ public class ActorAgent : Agent
         {
             discrete[2] = 2;
         }
-        if (Input.GetKey(KeyCode.W))
+        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
         {
             discrete[0] = 1;
         }
@@ -189,7 +189,7 @@ public class ActorAgent : Agent
         {
             discrete[2] = 1;
         }
-        if (Input.GetKey(KeyCode.S))
+        if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
         {
             discrete[0] = 2;
         }

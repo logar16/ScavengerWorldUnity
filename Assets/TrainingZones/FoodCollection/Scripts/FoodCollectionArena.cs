@@ -15,7 +15,7 @@ namespace Assets.TrainingZones.FoodCollector
         private void OnAgentPreStep(int obj)
         {
             if (FoodPieces.All(f => f.Stored))
-                EndEpisodeForAll();
+                EndEpisodeForAll(1f);
         }
     }
 }

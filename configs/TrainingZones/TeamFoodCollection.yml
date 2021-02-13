@@ -3,8 +3,8 @@ behaviors:
     framework: pytorch
     trainer_type: ppo
     hyperparameters:
-      batch_size: 2048
-      buffer_size: 20480
+      batch_size: 1024
+      buffer_size: 10240
       learning_rate: 0.0002
       beta: 0.005
       epsilon: 0.2

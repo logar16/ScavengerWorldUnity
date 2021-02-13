@@ -84,12 +84,12 @@ MonoBehaviour:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
   MaxStep: 2000
-  TurnSpeed: 300
-  MoveSpeed: 2
-  MovementPenalty: -0.001
-  StepPenalty: -0.005
-  FoodGatheredReward: 0.1
-  FoodStoredReward: 1
+  TurnSpeed: 400
+  MoveSpeed: 3
+  MovementPenalty: -0.0001
+  StepPenalty: -0.0005
+  FoodGatheredReward: 0.01
+  FoodStoredReward: 0.2
 --- !u!114 &5864369507009581155
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -27,8 +27,8 @@ public class UnitAgent : ActorAgent
     {
         base.CollectObservations(sensor);
 
-        sensor.AddObservation(Unit.FoodCount);
-        sensor.AddObservation(Unit.ItemCount);
+        sensor.AddObservation((float)Unit.FoodCount / Unit.FoodLimit);
+        sensor.AddObservation((float)Unit.ItemCount / Unit.ItemLimit);
     }
 
 

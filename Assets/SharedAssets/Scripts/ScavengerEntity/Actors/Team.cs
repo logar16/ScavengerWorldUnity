@@ -99,11 +99,13 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
             OnRequestReset?.Invoke(this);
         }
 
-        public void EndEpisode()
+        public void EndEpisode(float reward)
         {
             foreach (var unit in Units)
             {
-                var agent = unit.gameObject.GetComponent<UnitAgent>();
+                var agent = GetAgentFrom(unit);
+                if (reward != 0)
+                    agent.AddReward(reward);
                 agent.EndEpisode();
             }
         }

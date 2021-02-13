@@ -47,8 +47,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxSteps: 1500
   Food: {fileID: 9001165664982443325, guid: 4f08a8214b5e64a4583a3d0b9f806fcc, type: 3}
-  NumFood: 20
-  Distribution: 0
+  NumFood: 10
+  Distribution: 1
   XRange: 15
   ZRange: 15
 --- !u!65 &8367097471211740409
@@ -136,7 +136,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8900340439290511172}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 11.848623, y: -1, z: 5.3488436}
+  m_LocalPosition: {x: -2.004585, y: -1, z: 12.844518}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2884719118184644019}

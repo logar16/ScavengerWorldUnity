@@ -91,14 +91,14 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
             AlreadyEnded.Add(requester);
         }
 
-        protected void EndEpisodeForAll()
+        protected void EndEpisodeForAll(float reward=0)
         {
             foreach (var team in Teams)
             {
                 if (AlreadyEnded.Contains(team))
                     continue;
 
-                team.EndEpisode();
+                team.EndEpisode(reward);
                 AlreadyEnded.Add(team);
             }
         }
