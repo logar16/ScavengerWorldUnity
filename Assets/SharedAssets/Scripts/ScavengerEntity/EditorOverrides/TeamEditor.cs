@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Assets.SharedAssets.Scripts.ScavengerEntity
 {
     [CanEditMultipleObjects]
-    [CustomEditor(typeof(Team))]
+    [CustomEditor(typeof(BaseTeam))]
     public class TeamEditor : Editor
     {
         public override void OnInspectorGUI()
@@ -13,14 +13,13 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
             InformationalDisplay();
         }
 
-        private void ComponentsDisplay()
+        protected virtual void ComponentsDisplay()
         {
             var so = serializedObject;
             so.Update();
 
             EditorGUILayout.PropertyField(so.FindProperty("Id"));
             EditorGUILayout.PropertyField(so.FindProperty("Color"));
-            EditorGUILayout.PropertyField(so.FindProperty("StorageDepot"));
             EditorGUILayout.PropertyField(so.FindProperty("Budget"));
             var classes = so.FindProperty("UnitClasses");
             EditorGUILayout.LabelField("Classes", EditorStyles.boldLabel);
@@ -55,7 +54,7 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
 
         private void InformationalDisplay()
         {
-            var team = target as Team;
+            var team = target as BaseTeam;
             var budgetDiff = team.CalculateBudgetDiff();
             if (budgetDiff < 0)
             {
@@ -65,6 +64,17 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
             {
                 EditorGUILayout.HelpBox($"Remaining budget: {budgetDiff}", MessageType.Info);
             }
+        }
+    }
+
+    [CustomEditor(typeof(StandardTeam))]
+    public class StandardTeamEditor : TeamEditor
+    {
+        protected override void ComponentsDisplay()
+        {
+            base.ComponentsDisplay();
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("StorageDepot"));
+            serializedObject.ApplyModifiedProperties();
         }
     }
 }

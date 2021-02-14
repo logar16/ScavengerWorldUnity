@@ -151,11 +151,7 @@ public class ActorAgent : Agent
 
     virtual protected void Attack()
     {
-        var destroyed = Actor.Attack();
-        if (destroyed)
-        {
-            print($"destroyed {destroyed}");
-        }
+        Actor.Attack();
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)

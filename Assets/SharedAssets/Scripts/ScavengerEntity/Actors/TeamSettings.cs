@@ -8,11 +8,14 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
         [Range(1, 20)]
         public int NumTeams = 1;
 
+        [Tooltip("Each unit has a cost associated with it and this budget " +
+            "limits the strength of the team for balancing purposes.")]
         public int Budget = 100;
 
-        public Team Default;
+        [Tooltip("The Prototype team to use when adding new teams")]
+        public BaseTeam Default;
 
-        public Team[] Teams { get => transform.GetComponentsInChildren<Team>(); }
+        public BaseTeam[] Teams { get => transform.GetComponentsInChildren<BaseTeam>(); }
 
         private void Update()
         {

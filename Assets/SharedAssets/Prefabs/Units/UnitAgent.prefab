@@ -63,7 +63,7 @@ MonoBehaviour:
   m_Model: {fileID: 0}
   m_InferenceDevice: 0
   m_BehaviorType: 0
-  m_BehaviorName: Collector
+  m_BehaviorName: BasicUnit
   TeamId: 0
   m_UseChildSensors: 0
   m_UseChildActuators: 1
@@ -77,19 +77,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 8324570671479764442}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5298143491539464482e5e3a77748bc8, type: 3}
+  m_Script: {fileID: 11500000, guid: 2f856f7d264f46844a41cfe73c7c71d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   agentParameters:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
-  MaxStep: 2000
+  MaxStep: 0
   TurnSpeed: 400
   MoveSpeed: 3.5
-  MovementPenalty: 0
-  StepPenalty: 0
-  FoodGatheredReward: 0.1
-  FoodStoredReward: 1
+  MovementPenalty: -0.001
+  StepPenalty: -0.005
 --- !u!114 &5864369507009581155
 MonoBehaviour:
   m_ObjectHideFlags: 0

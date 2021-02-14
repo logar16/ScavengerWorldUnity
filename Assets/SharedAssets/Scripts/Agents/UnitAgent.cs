@@ -6,13 +6,7 @@ using Assets.SharedAssets.Scripts.ScavengerEntity;
 
 public class UnitAgent : ActorAgent
 {
-    [Tooltip("Reward for picking up food.")]
-    public float FoodGatheredReward = 1f;
-    
-    [Tooltip("Reward for storing food in the depot.")]
-    public float FoodStoredReward = 1f;
-
-    private Unit Unit;
+    protected Unit Unit;
 
     public override void Initialize()
     {
@@ -42,12 +36,6 @@ public class UnitAgent : ActorAgent
         CreateItem(actions[5]);
     }
 
-    protected override void Attack()
-    {
-        //TODO: Check if friendly fire using Unit.Team
-        base.Attack();
-    }
-
     private void CreateItem(int action)
     {
         switch (action)
@@ -63,22 +51,15 @@ public class UnitAgent : ActorAgent
     /// but if <see langword="false"/>, the item was dropped.
     /// </summary>
     /// <param name="action"></param>
-    private void TransferOrDrop(int action)
+    protected virtual void TransferOrDrop(int action)
     {
         switch (action)
         {
             case 1:
-                if (Unit.Transfer<Food>() is StorageDepot)
-                {
-                    AddReward("food_stored", FoodStoredReward);
-                    //print("Stored the food");
-                }
+                Unit.Transfer<Food>();
                 break;
             case 2:
-                if (Unit.Transfer<Item>())
-                {
-                    //print("Transferred an item");
-                }
+                Unit.Transfer<Item>();
                 break;
         }
     }
@@ -97,13 +78,19 @@ public class UnitAgent : ActorAgent
         }
     }
 
-    private void Gather()
+    protected virtual Item Gather()
     {
-        if (Unit.Gather())
-        {
-            AddReward("food_gathered", FoodGatheredReward);
-            //print("Gathered the food");
-        }
+        return Unit.Gather();
+    }
+
+    protected bool SameTeam(Unit other)
+    {
+        return other ? SameTeam(other.Team.Id) : false;
+    }
+
+    protected bool SameTeam(int id)
+    {
+        return id == Unit.Team.Id;
     }
 
     override protected void AddInputs(ActionSegment<int> discrete)

@@ -13,6 +13,8 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
         
         public int Count { get => Supply.Count; }
         public bool Full { get => Count >= Limit; }
+        
+        public StandardTeam Team { get; internal set; }
 
         public override EntitySummary Summarize()
         {

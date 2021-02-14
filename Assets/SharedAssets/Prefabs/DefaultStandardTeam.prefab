@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4433083610202253871}
-  - component: {fileID: 1531404841413973614}
+  - component: {fileID: 7561747982502322621}
   m_Layer: 0
-  m_Name: DefaultTeam
+  m_Name: DefaultStandardTeam
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31,7 +31,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1531404841413973614
+--- !u!114 &7561747982502322621
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -40,14 +40,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 2002744455552210374}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 92098ceb40de7914e96e79c0c752dbe1, type: 3}
+  m_Script: {fileID: 11500000, guid: bd25e47b6e4af7547ab9d485e363495c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Id: 0
-  StorageDepot: {fileID: 340850743019643266, guid: d8241e547bd60ff49a37e08c30d37269,
-    type: 3}
-  Budget: 100
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Budget: 0
   UnitClasses:
   - Unit: {fileID: 2958669952566141887, guid: 499c0c655eb42fe4f991b4b17c090847, type: 3}
     Count: 1
-  Color: {r: 0, g: 0, b: 0, a: 0}
+  StorageDepot: {fileID: 340850743019643266, guid: d8241e547bd60ff49a37e08c30d37269,
+    type: 3}

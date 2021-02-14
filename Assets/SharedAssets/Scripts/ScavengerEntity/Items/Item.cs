@@ -5,6 +5,9 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
 {
     public abstract class Item : Entity
     {
+        public Unit Creator { get; private set; }
+        public void CreatedBy(Unit creator) => Creator = creator;
+
         public IHolder Owner { get; private set; }
 
         public bool Taken { get => Owner != null; }

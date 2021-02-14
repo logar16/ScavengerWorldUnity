@@ -31,7 +31,7 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
         public int Cost = 1;
 
         [HideInInspector]
-        public Team Team { get; internal set; }
+        public BaseTeam Team { get; internal set; }
 
         override public void Reset()
         {
@@ -52,16 +52,21 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
             return summary;
         }
 
-        public bool Gather()
+        /// <summary>
+        /// Instructs the unit to gather to current target
+        /// </summary>
+        /// <returns>The gathered <see cref="Item"/> if one was in focus and available for gathering 
+        /// and <see langword="null"/> otherwise</returns>
+        public Item Gather()
         {
             //TODO: Limit if it can gather by GatherRate
             if (HasTarget && Target is Item item && Take(item))
             {
                 Target = null;  //Since it was gathered and is now owned
-                return true;
+                return item;
             }
 
-            return false;
+            return null;
         }
 
         public bool Take(Item item)

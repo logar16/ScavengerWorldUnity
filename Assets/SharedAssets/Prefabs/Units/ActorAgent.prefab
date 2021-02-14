@@ -76,15 +76,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 8324570671479764442}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef512402661406b439a2af45363e1369, type: 3}
+  m_Script: {fileID: 11500000, guid: 0fb5bd6cc9c9fbc499462cea9553fe5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   agentParameters:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
   MaxStep: 0
-  TurnSpeed: 300
-  MoveSpeed: 2
+  TurnSpeed: 400
+  MoveSpeed: 3.5
   MovementPenalty: -0.001
   StepPenalty: -0.005
 --- !u!114 &8605306914917164915

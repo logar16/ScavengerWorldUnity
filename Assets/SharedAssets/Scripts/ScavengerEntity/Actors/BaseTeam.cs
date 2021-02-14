@@ -6,35 +6,39 @@ using Random = UnityEngine.Random;
 
 namespace Assets.SharedAssets.Scripts.ScavengerEntity
 {
-    //[ExecuteInEditMode]
-    public class Team: MonoBehaviour
+    [Serializable]
+    public class UnitData
     {
+        public Unit Unit;
+        [Range(0, 100)]
+        public int Count = 1;
+    }
+
+    public class BaseTeam : MonoBehaviour
+    {
+        [Tooltip("Team ID to distinguish teams for Unity ML-Agents to separate team behaviors.")]
         public int Id;
 
-        public StorageDepot StorageDepot;
+        public Color Color;
 
+        [ReadOnly]
         public int Budget;
 
         //TODO: Prefabs for the different unit types
         [SerializeField]
-        List<UnitData> UnitClasses = new List<UnitData>();
-
-        public Color Color;
+        protected List<UnitData> UnitClasses = new List<UnitData>();
 
         private List<Unit> Units;
-        private IEnumerable<UnitAgent> Agents 
-            { get => Units.Select(u => u.gameObject.GetComponent<UnitAgent>()); }
+        private IEnumerable<UnitAgent> Agents
+        { get => Units.Select(u => u.gameObject.GetComponent<UnitAgent>()); }
 
         private bool NeedsReset;
-
-        public delegate void RequestReset(Team requester);
+        public delegate void RequestReset(BaseTeam requester);
         public event RequestReset OnRequestReset;
 
-        private void Awake()
-        {
-            StorageDepot = Instantiate(StorageDepot, transform);
-            StorageDepot.Color = Color;
 
+        protected virtual void Awake()
+        {
             Units = new List<Unit>();
             foreach (var item in UnitClasses)
             {
@@ -46,44 +50,42 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
             }
         }
 
+        virtual protected Vector3 GeneratePosition()
+        {
+            var x = Random.Range(-5f, 5f);
+            var z = Random.Range(-5f, 5f);
+            return new Vector3(x, 0.2f, z) + transform.position;
+        }
+
         private Unit CreateUnit(Unit prototype)
         {
-            Vector3 position = PositionUnit();
+            Vector3 position = GeneratePosition();
             var unit = Instantiate(prototype, position, Quaternion.identity, transform);
             unit.Color = Color;
+            unit.Team = this;
             var agent = GetAgentFrom(unit);
             agent.OnNewEpisode += OnNewAgentEpisode;
             return unit;
         }
 
-        public void Reset()
+        public virtual void Reset()
         {
             NeedsReset = false;
-            StorageDepot.Reset();
             foreach (var unit in Units)
             {
                 unit.Reset();
-                unit.transform.position = PositionUnit();
+                unit.transform.position = GeneratePosition();
             }
         }
 
-        private UnitAgent GetAgentFrom(Unit unit)
+        public bool AllUnitsAreDestroyed()
         {
-            return unit.gameObject.GetComponent<UnitAgent>();
+            return Units.All(u => !u.IsAlive);
         }
 
-        private Vector3 PositionUnit()
+        protected UnitAgent GetAgentFrom(Unit unit)
         {
-            Vector3 position;
-            do
-            {
-                var x = Random.Range(-5f, 5f);
-                var z = Random.Range(-5f, 5f);
-                position = new Vector3(x, 0.5f, z) + transform.position;
-            } 
-            while (Vector3.Distance(position, StorageDepot.transform.position) < 2);
-
-            return position;
+            return unit.gameObject.GetComponent<UnitAgent>();
         }
 
         public void SetMaxSteps(int maxSteps)
@@ -126,13 +128,5 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
         {
             return UnitClasses.Select(i => i.Unit).Sum(u => u ? u.Cost : 0);
         }
-    }
-
-    [Serializable]
-    public class UnitData
-    {
-        public Unit Unit;
-        [Range(0, 100)]
-        public int Count = 1;
     }
 }

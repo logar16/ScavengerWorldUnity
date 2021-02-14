@@ -13,10 +13,11 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
         [Tooltip("Maximum number of steps before environment reset.")]
         public int MaxSteps = 1000;
 
+        //TODO: Move food to a sub class
         [Tooltip("Food Prefab to use for generating food.")]
         public Food Food;
 
-        [Range(1, 500)]
+        [Range(0, 500)]
         [Tooltip("Number of food items to generate at the beginning of every episode (max 500).")]
         public int NumFood = 20;
 
@@ -30,21 +31,21 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
 
         protected Food[] FoodPieces;
         //protected Item[] Items;
-        protected Team[] Teams;
+        protected BaseTeam[] Teams;
 
         private GameObject Platform;
         private HaltonSequence Sequencer;
         
         private bool ResetRequested { get => AlreadyEnded.Count > 0; }
         private bool ResetReady { get => AlreadyEnded.Count == Teams.Length; }
-        private HashSet<Team> AlreadyEnded;
+        private HashSet<BaseTeam> AlreadyEnded;
 
         protected virtual void Awake()
         {
             Platform = transform.Find("Platform").gameObject;
             Sequencer = new HaltonSequence();
             FoodPieces = new Food[NumFood];
-            AlreadyEnded = new HashSet<Team>();
+            AlreadyEnded = new HashSet<BaseTeam>();
             Academy.Instance.AgentPreStep += OnAgentPrestep;
             Academy.Instance.OnEnvironmentReset += Reset;
 
@@ -54,7 +55,7 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
 
         private void SetupTeams()
         {
-            Teams = GetComponentsInChildren<Team>();
+            Teams = GetComponentsInChildren<BaseTeam>();
             ArrangeTeams();
             foreach (var team in Teams)
             {
@@ -86,7 +87,7 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
                 EndEpisodeForAll();
         }
 
-        private void OnTeamRequestReset(Team requester)
+        private void OnTeamRequestReset(BaseTeam requester)
         {
             AlreadyEnded.Add(requester);
         }
@@ -120,7 +121,7 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
         private void CreateFood()
         {
             if (!Application.isPlaying)
-                return;
+                return; //Don't add food if in Edit mode
 
             for (int i = 0; i < NumFood; i++)
             {
