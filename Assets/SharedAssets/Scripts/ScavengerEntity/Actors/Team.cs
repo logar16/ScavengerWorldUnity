@@ -74,9 +74,16 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
 
         private Vector3 PositionUnit()
         {
-            var x = Random.Range(-4f, 4f);
-            var z = Random.Range(-4f, 4f);
-            return new Vector3(x, 0.2f, z) + transform.position;
+            Vector3 position;
+            do
+            {
+                var x = Random.Range(-5f, 5f);
+                var z = Random.Range(-5f, 5f);
+                position = new Vector3(x, 0.5f, z) + transform.position;
+            } 
+            while (Vector3.Distance(position, StorageDepot.transform.position) < 2);
+
+            return position;
         }
 
         public void SetMaxSteps(int maxSteps)

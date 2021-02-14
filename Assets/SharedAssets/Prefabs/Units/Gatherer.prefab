@@ -33,6 +33,11 @@ PrefabInstance:
       propertyPath: Cost
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 8305900980287334493, guid: fa3683a8b5dfa53489e47628e18c2c01,
+        type: 3}
+      propertyPath: StepPenalty
+      value: -0.001
+      objectReference: {fileID: 0}
     - target: {fileID: 8324570671479764442, guid: fa3683a8b5dfa53489e47628e18c2c01,
         type: 3}
       propertyPath: m_Name
