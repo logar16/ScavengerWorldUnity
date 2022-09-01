@@ -38,24 +38,38 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
             }
         }
 
-        private void CreateTeam(int count)
+        private void CreateTeam(int id)
         {
             var t = Instantiate(Default, transform);
-            t.name = $"Team{count}";
-            t.Id = count;
+            t.name = $"Team{id}";
+            t.Id = id;
             t.Budget = Budget;
-            t.Color = NextColor(count);
+            t.Color = NextColor(id);
         }
 
         //private static readonly Color[] StandardColors = new[]
         //    { Color.blue, Color.green, Color.red, Color.cyan, Color.magenta, Color.yellow };
         private Color NextColor(int count)
         {
-            //TODO: Color more reliably using index
-            //  e.g. Red, Blue, Green; Purple, Cyan, Yellow; etc.
-            //if (count < StandardColors.Length)
-            //    return StandardColors[count];
-            return new Color(Random.value, Random.value, Random.value);
+            var grades = 2;  // How many strengths for each color: [0, grades)
+            var steps = (grades * 2) - 1;  // Number of grades reflected for a cycle (missing last one so zero is not repeated)
+            var lengths = new int[] { 1, 2, 3 };  // How long each cycle lasts. For red, green, and blue, respectively
+            var offsets = new int[] { 0, 2, 4 };  // Where in the cycle to begin
+            var rgb = new float[3];
+            for (int i = 0; i < 3; i++)
+            {
+                var length = lengths[i];
+                var offset = offsets[i];
+                var cycle = length * steps;
+                var strength = ((count + offset) % cycle) / length;
+                if (strength > grades)
+                {
+                    strength += grades - strength;  // Return toward zero the greater strength overshot grades
+                }
+                rgb[i] = (float)strength / grades;  // Normalize back to float [0, 1]
+            }
+            
+            return new Color(rgb[0], rgb[1], rgb[2]);
         }
     }
 }
