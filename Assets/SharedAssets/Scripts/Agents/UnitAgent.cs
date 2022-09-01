@@ -83,6 +83,18 @@ public class UnitAgent : ActorAgent
         return Unit.Gather();
     }
 
+
+    protected bool SameTeam(Entity entity)
+    {
+        switch (entity)
+        {
+            case Unit unit: return SameTeam(unit);
+            case Item item: return SameTeam(item.Creator);
+            case StorageDepot storage: return SameTeam(storage.Team.Id);
+            default: return false;
+        };
+    }
+
     protected bool SameTeam(Unit other)
     {
         return other ? SameTeam(other.Team.Id) : false;

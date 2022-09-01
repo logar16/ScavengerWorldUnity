@@ -37,19 +37,19 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
         [Tooltip("Number of raycast results that will be stacked before being fed to the neural network.")]
         public int ObservationStacks = 1;
 
-        public override int[] GetObservationShape()
-        {
-            var perStack = (RaysPerDirection * 2 + 1) * EntitySummarySensor.NUM_DATAPOINTS;
-            return new[] { perStack * ObservationStacks };
-        }
+        //public override int[] GetObservationShape()
+        //{
+        //    var perStack = (RaysPerDirection * 2 + 1) * EntitySummarySensor.NUM_DATAPOINTS;
+        //    return new[] { perStack * ObservationStacks };
+        //}
 
-        public override ISensor CreateSensor()
+        public override ISensor[] CreateSensors()
         {
             var sensor = new EntitySummarySensor(SensorName, CreateRayInput());
             if (ObservationStacks > 1)
-                return new StackingSensor(sensor, ObservationStacks);
+                return new ISensor[] { new StackingSensor(sensor, ObservationStacks) };
             else
-                return sensor;
+                return new ISensor[] { sensor };
         }
 
         private SummaryRayInput CreateRayInput()

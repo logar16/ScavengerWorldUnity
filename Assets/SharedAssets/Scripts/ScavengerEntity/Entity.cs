@@ -23,6 +23,12 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
         /// </summary>
         public event DeathEventHandler OnDeath;
 
+        public delegate void DamageEventHandler(float damage);
+        /// <summary>
+        /// Event dispatched when the Entity is attacked and takes damage
+        /// </summary>
+        public event DamageEventHandler OnDamageTaken;
+
         private MeshRenderer _Renderer;
         private MeshRenderer Renderer
         { 
@@ -45,6 +51,8 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
         public void TakeDamage(float damage)
         {
             Health -= damage;
+            OnDamageTaken?.Invoke(damage);
+
             if (!IsAlive)
                 Die();
         }

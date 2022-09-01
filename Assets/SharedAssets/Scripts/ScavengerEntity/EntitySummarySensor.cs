@@ -11,7 +11,7 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
         public string SensorName { get; }
         
         private SummaryRayInput RayInput;
-        private int[] ObservationSize;
+        private int ObservationSize;
         private float[] Observations;
         private float[] NoHitData = new float[NUM_DATAPOINTS];
         private HashSet<string> DetectableTags;
@@ -29,9 +29,8 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
         {
             SensorName = sensorName;
             RayInput = rayInput;
-            var size = rayInput.Rays * NUM_DATAPOINTS;
-            ObservationSize = new[] { size };
-            Observations = new float[size];
+            ObservationSize = rayInput.Rays * NUM_DATAPOINTS;
+            Observations = new float[ObservationSize];
             NoHitData[0] = 1.0f; //Normed-distance will equal 1.0 if no objects are hit
             DetectableTags = new HashSet<string>(RayInput.DetectableTags);
             FilterTags = DetectableTags.Count > 0;
@@ -44,10 +43,10 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
             return SensorName;
         }
 
-        /// <inheritdoc/>
-        public int[] GetObservationShape()
+
+        public ObservationSpec GetObservationSpec()
         {
-            return ObservationSize;
+            return ObservationSpec.Vector(ObservationSize);
         }
 
         /// <inheritdoc/>
@@ -62,7 +61,7 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
                 Array.Copy(rayData, 0, Observations, i * NUM_DATAPOINTS, NUM_DATAPOINTS);
             }
 
-            writer.AddRange(Observations);
+            writer.AddList(Observations);
             return Observations.Length;
         }
 
@@ -143,6 +142,11 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
         public SensorCompressionType GetCompressionType()
         {
             return SensorCompressionType.None;
+        }
+
+        public CompressionSpec GetCompressionSpec()
+        {
+            return CompressionSpec.Default();
         }
     }
 }

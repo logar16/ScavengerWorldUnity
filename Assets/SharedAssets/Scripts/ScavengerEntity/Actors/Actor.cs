@@ -28,6 +28,9 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
         [Tooltip("Amount of damage each attack inflicts (HP drop)")]
         public float AttackDamage = 1;
 
+        public delegate void AttackEvent(Entity target);
+        public event AttackEvent OnDestroyedTarget;
+
         private void Start()
         {
             Targetable = new HashSet<string>(DetectableTags);
@@ -63,28 +66,28 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
             return false;
         }
 
-        //private void Update()
-        //{
-        //    
-        //}
-
         /// <summary>
         /// Attack the current target
         /// </summary>
-        /// <returns>Destroyed <see cref="Entity"/> if attack reduced health of target below 0</returns>
+        /// <returns><see cref="Entity"/> that was attacked if attack was successful (<see langword="null"/> otherwise). 
+        /// The <see cref="OnDestroyedTarget"/> event is dispatched if the attack destroyed 
+        /// the target <see cref="Entity"/>.</returns>
         public Entity Attack()
         {
+            //TODO: Limit number of attacks by AttackRate
             if (!HasTarget)
                 return null;
-            //TODO: Limit number of attacks by AttackRate
+
             Target.TakeDamage(AttackDamage);
 
-            if (Target.IsAlive)
-                return null;
-
-            //It must have died
             var target = Target;
-            Target = null;
+            if (!Target.IsAlive)
+            {
+                //It must have died from the attack
+                OnDestroyedTarget?.Invoke(Target);
+                Target = null;
+            }
+
             return target;
         }
     }

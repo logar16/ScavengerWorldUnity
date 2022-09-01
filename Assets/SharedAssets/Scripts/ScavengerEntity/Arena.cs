@@ -24,9 +24,9 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
         [Tooltip("Method of food distribution across the arena.")]
         public FoodDistribution Distribution = FoodDistribution.Random;
 
-        [Range(8, 200)]
+        [Range(5, 200)]
         public float XRange = 20;
-        [Range(8, 200)]
+        [Range(5, 200)]
         public float ZRange = 20;
 
         protected Food[] FoodPieces;

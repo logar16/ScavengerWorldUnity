@@ -10,9 +10,14 @@ namespace Assets.SharedAssets.Scripts.Agents
         [Tooltip("Penalty for dying")]
         public float DeathPenalty;
         [Tooltip("Penalty for taking damage")]
-        public float DamagePenalty;
+        public float DamageTakenPenalty;
 
+        //TODO: Consider having one variable each that is positive if enemy or negative if not, 
+        //  instead of reward and penalty variables
         [Header("Enemy Destruction Rewards")]
+
+        [Tooltip("Reward for giving damage to anything of the enemy")]
+        public float DamageGivenReward;
         [Tooltip("Reward for destroying an enemy unit.")]
         public float UnitReward;
         [Tooltip("Reward for destroying an enemy marker.")]
@@ -21,6 +26,8 @@ namespace Assets.SharedAssets.Scripts.Agents
         public float StorageReward;
 
         [Header("Self Destruction Penalties (should be negative)")]
+        [Tooltip("Penalty for giving damage to anything allied")]
+        public float DamageGivenPenalty;
         [Tooltip("Reward for destroying an allied unit.")]
         public float UnitPenalty;
         [Tooltip("Reward for destroying an ally marker.")]
@@ -28,63 +35,63 @@ namespace Assets.SharedAssets.Scripts.Agents
         [Tooltip("Reward for destroying the team's storage depot.")]
         public float StoragePenalty;
 
-        private bool Died;
-        private float Health;
-
         public override void Initialize()
         {
             base.Initialize();
             Unit.OnDeath += OnUnitDeath;
+            Unit.OnDamageTaken += OnUnitDamaged;
+            Unit.OnDestroyedTarget += OnDestructiveAttack;
         }
 
-        private void OnUnitDeath(Entity sender)
+        private void OnUnitDamaged(float damage)
         {
-            Died = true;
-            AddReward("death_penalty", DeathPenalty);
+            AddReward("damage_penalty", DamageTakenPenalty * damage);
         }
 
-        public override void OnActionReceived(ActionBuffers actions)
+        private void OnDestructiveAttack(Entity target)
         {
-            base.OnActionReceived(actions);
+            var ally = SameTeam(target);
 
-            if (!Died && Unit.Health < Health)
+            switch (target)
             {
-                Health = Unit.Health;
-                AddReward("damage_penalty", DamagePenalty);
-            }
-        }
-
-        public override void OnEpisodeBegin()
-        {
-            base.OnEpisodeBegin();
-            Died = false;
-            Health = Unit.MaxHealth;
-        }
-
-        protected override void Attack()
-        {
-            var destroyed = Unit.Attack();
-            switch (destroyed)
-            {
-                case Unit unit:
-                    if (SameTeam(unit))
+                case Unit _:
+                    if (ally)
                         AddReward("friendly_fire_unit", UnitPenalty);
                     else
                         AddReward("destroy_unit_reward", UnitReward);
                     break;
-                case Item item:
-                    if (SameTeam(item.Creator))
+
+                case Item _:
+                    if (ally)
                         AddReward("friendly_fire_item", ItemPenalty);
                     else
                         AddReward("destroy_enemy_item", ItemReward);
                     break;
-                case StorageDepot storage:
-                    if (SameTeam(storage.Team.Id))
+
+                case StorageDepot _:
+                    if (ally)
                         AddReward("friendly_fire_storage", StoragePenalty);
                     else
                         AddReward("destroy_enemy_storage", StorageReward);
                     break;
             }
+        }
+
+        private void OnUnitDeath(Entity sender)
+        {
+            AddReward("death_penalty", DeathPenalty);
+        }
+
+        protected override void Attack()
+        {
+            var target = Unit.Attack();
+            if (!target) 
+                return;
+
+            if (SameTeam(target))
+                AddReward("damaged_ally_penalty", DamageGivenPenalty);
+            else
+                AddReward("damaged_enemy_reward", DamageGivenReward);
         }
     }
 }
