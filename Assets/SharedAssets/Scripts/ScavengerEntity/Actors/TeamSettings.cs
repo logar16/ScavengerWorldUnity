@@ -5,7 +5,9 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
     [ExecuteInEditMode]
     public class TeamSettings : MonoBehaviour
     {
-        [Range(1, 20)]
+        private const int MAX_TEAMS = 24;
+
+        [Range(1, MAX_TEAMS)]
         public int NumTeams = 1;
 
         [Tooltip("Each unit has a cost associated with it and this budget " +
@@ -47,29 +49,24 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
             t.Color = NextColor(id);
         }
 
-        //private static readonly Color[] StandardColors = new[]
-        //    { Color.blue, Color.green, Color.red, Color.cyan, Color.magenta, Color.yellow };
         private Color NextColor(int count)
         {
-            var grades = 2;  // How many strengths for each color: [0, grades)
-            var steps = (grades * 2) - 1;  // Number of grades reflected for a cycle (missing last one so zero is not repeated)
-            var lengths = new int[] { 1, 2, 3 };  // How long each cycle lasts. For red, green, and blue, respectively
-            var offsets = new int[] { 0, 2, 4 };  // Where in the cycle to begin
-            var rgb = new float[3];
-            for (int i = 0; i < 3; i++)
+            var shift = MAX_TEAMS / 2;
+            float saturation = 1f;
+            float value = 1f;
+            if (count > (2 * MAX_TEAMS / 3))
             {
-                var length = lengths[i];
-                var offset = offsets[i];
-                var cycle = length * steps;
-                var strength = ((count + offset) % cycle) / length;
-                if (strength > grades)
-                {
-                    strength += grades - strength;  // Return toward zero the greater strength overshot grades
-                }
-                rgb[i] = (float)strength / grades;  // Normalize back to float [0, 1]
+                shift += 1;
+                saturation = 0.3f;
+                value = 0.6f;
             }
-            
-            return new Color(rgb[0], rgb[1], rgb[2]);
+            else if (count > (MAX_TEAMS / 3))
+            {
+                saturation = 0.5f;
+            }
+            count = (count * 5 + shift) % MAX_TEAMS;
+            float hue = (float)count / MAX_TEAMS;
+            return Color.HSVToRGB(hue, saturation, value);
         }
     }
 }

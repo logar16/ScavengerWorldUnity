@@ -12,3 +12,12 @@ See more details in the Docs directory
 * A signal will be given when winter is approaching and then soon thereafter, winter will arrive.  
 * When winter comes, each team will have its stockpile evaluated and calculations will be made to decide how many of its members will survive.  
 * Excesses of resources result in additional offspring for next year.  And then the cycle repeats.
+
+
+## TODOs
+
+* Improve dynamic object creation in editor
+* Enforce more rules and add options to tune (or separate classes)
+* Build more training zones
+* Build the full game
+* Allow team-level control as well as per-unit control
