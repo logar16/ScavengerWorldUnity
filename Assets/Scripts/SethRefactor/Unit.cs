@@ -16,17 +16,20 @@ namespace ScavengerWorld
     public class Unit : MonoBehaviour
     {
         [SerializeField] private int teamId;
-        [SerializeField] private Unit storageDepot;
+        [SerializeField] private Interactable storageDepot;
         [SerializeField] private Inventory inventory;        
 
         private EntitySummary Summary;
         private MeshRenderer meshRenderer;
         private Interactable interactable;
         private Damageable damageable;
+        private Mover mover;
 
-        public Unit StorageDepot => storageDepot;
+        public Interactable StorageDepot => storageDepot;
         public Interactable Interactable => interactable;
         public Damageable Damageable => damageable;
+        public Mover Mover => mover;
+
         public int TeamId => teamId;
         public float HowFullIsInventory => inventory.HowFull();
         public bool IsStorageDepot => inventory.IsStorageDepot;
@@ -34,6 +37,7 @@ namespace ScavengerWorld
         void Awake()
         {
             damageable = GetComponent<Damageable>();
+            interactable = GetComponent<Interactable>();
             meshRenderer = GetComponentInChildren<MeshRenderer>();
         }
 

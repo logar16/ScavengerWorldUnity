@@ -14,7 +14,8 @@ namespace ScavengerWorld
 
         public override void StartAction(Unit agent, Interactable target)
         {
-            // Gather logic here if just an instant pickup
+            Debug.Log("Started Gather action!");
+
         }
 
         public override void StopAction(Unit agent, Interactable target)

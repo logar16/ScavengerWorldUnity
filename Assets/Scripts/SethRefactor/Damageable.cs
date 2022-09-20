@@ -16,6 +16,11 @@ namespace ScavengerWorld
         public float MaxHealth => health.MaxValue;
         public float HealthRemaining => health.Remaining;
 
+        private void Awake()
+        {
+            health.SetCurrentValue(health.MaxValue);
+        }
+
         // Start is called before the first frame update
         void Start()
         {

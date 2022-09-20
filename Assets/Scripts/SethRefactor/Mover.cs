@@ -12,13 +12,16 @@ namespace ScavengerWorld
     [RequireComponent(typeof(NavMeshAgent))]
     public class Mover : MonoBehaviour
     {        
-        [Range(.1f, 3f)]
-        [SerializeField] private float focusRange = 1.5f;
+        [Range(5f, 100f)]
+        [SerializeField] private float focusRange = 100f;
         [SerializeField] private LayerMask interactableLayer;
+        [SerializeField] private Interactable moveHereIfNoActionMarker;
         [SerializeField] private NavMeshAgent navigator;
         [SerializeField] private AI.ActorAgent actorAgent;
-        [SerializeField] private Unit unit;
+        
+        private Unit unit;
 
+        public Interactable MoveHereIfNoActionMarker => moveHereIfNoActionMarker;
         public Interactable Target { get; set; }
 
         private void Awake()
@@ -55,11 +58,11 @@ namespace ScavengerWorld
             navigator.SetDestination(pos);
         }
 
-        public bool HasReachedTarget() => Vector3.Distance(transform.position, Target.transform.position) <= navigator.stoppingDistance;
+        public bool HasReachedTarget(Interactable target) => Vector3.Distance(transform.position, target.transform.position) <= navigator.stoppingDistance;
 
-        public void MoveToTarget()
+        public void MoveToTarget(Interactable target)
         {
-            navigator.SetDestination(Target.transform.position);
+            navigator.SetDestination(target.transform.position);
         }
 
         public void StopMoving()
@@ -129,9 +132,9 @@ namespace ScavengerWorld
             foreach (Collider c in colliders)
             {
                 enemyStorage = c.GetComponent<Unit>();
-                if (unit != null
-                    && unit.TeamId != this.unit.TeamId
-                    && unit.IsStorageDepot)
+                if (enemyStorage != null
+                    && enemyStorage.TeamId != this.unit.TeamId
+                    && enemyStorage.IsStorageDepot)
                 {
                     return true;
                 }

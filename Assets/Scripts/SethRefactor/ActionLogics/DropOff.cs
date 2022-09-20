@@ -14,7 +14,7 @@ namespace ScavengerWorld
 
         public override void StartAction(Unit agent, Interactable target)
         {
-            // Implement drop off logic here 
+            Debug.Log("Started Dropoff action!");
         }
 
         public override void StopAction(Unit agent, Interactable target)

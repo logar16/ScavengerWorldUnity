@@ -30,8 +30,6 @@ namespace ScavengerWorld
         [SerializeField] private AI.ActorAgent actorAgent;
         [SerializeField] private List<Action> actionsAvailable;
 
-        public Interactable Target { get; private set; }
-        public ActionType ActionType { get; private set; }
         public Action CurrentAction { get; private set; }
 
         private void Awake()
@@ -39,8 +37,6 @@ namespace ScavengerWorld
             unit = GetComponent<Unit>();
             mover = GetComponent<Mover>();
             actorAgent = GetComponent<AI.ActorAgent>();
-
-            ActionType = ActionType.none;
         }
 
         // Start is called before the first frame update
@@ -57,29 +53,13 @@ namespace ScavengerWorld
         // Update is called once per frame
         void Update()
         {
-            /// 1. RL model returns action type that should be performed
-            /// 2. Agent searches for nearby interactable that can be acted with action type
-            /// 3. Set CurrentAction
-            /// 
-
-            if (ActionType == ActionType.none) return;
-
-            if (ActionType == ActionType.move)
-            {
-                // move logic
-                return;
-            }
-
-            DecideAction();
-            //SetCurrentAction();
-
             if (CurrentAction is null || CurrentAction.IsEmpty) return;
 
             if (CurrentAction.RequiresInRange(unit))
             {
-                if (!mover.HasReachedTarget())
+                if (!mover.HasReachedTarget(CurrentAction.Target))
                 {
-                    mover.MoveToTarget();
+                    mover.MoveToTarget(CurrentAction.Target);
                     return;
                 }
                 mover.StopMoving();
@@ -94,61 +74,97 @@ namespace ScavengerWorld
             CurrentAction.UpdateAction(unit);
         }
 
-        public void DecideAction()
+        public void SetCurrentAction(ActionType actionType, Vector3 moveHereIfNoAction = default)
         {
-            switch (ActionType)
+            switch (actionType)
             {
                 case ActionType.gather:
-                    Gatherable gatherable;
-                    mover.FoodIsNearby(out gatherable);
-                    if (gatherable != null)
-                    {
-                        Target = gatherable.Interactable;
-                        CurrentAction = GetActionOfType(ActionType.gather);
-                    }                        
-                    else
-                    {
-                        Target = null;
-                        CurrentAction = null;
-                    }                         
+                    InitGatherAction();    
                     break;
                 case ActionType.dropoff:
-                    Target = unit.StorageDepot.Interactable;
-                    CurrentAction = GetActionOfType(ActionType.dropoff);
-                    CurrentAction.Target = Target;
+                    InitDropoffAction();
                     break;
                 case ActionType.attackenemy:
-                    Unit enemyUnit;
-                    mover.EnemyUnitIsNearby(out enemyUnit);
-                    if (enemyUnit != null)
-                    {
-                        Target = enemyUnit.Interactable;
-                        CurrentAction = GetActionOfType(ActionType.attackenemy);
-                        CurrentAction.Target = Target;
-                    }
-                    else
-                    {
-                        Target = null;
-                        CurrentAction = null;
-                    }
+                    InitAttackEnemyAction();
                     break;
                 case ActionType.attackstorage:
-                    Unit enemyStorage;
-                    mover.EnemyStorageIsNearby(out enemyStorage);
-                    if (enemyStorage != null)
-                    {
-                        Target = enemyStorage.Interactable;
-                        CurrentAction = GetActionOfType(ActionType.attackstorage);
-                    }
-                    else
-                    {
-                        Target = null;
-                        CurrentAction= null;
-                    }
+                    InitAttackEnemyStorageAction();
+                    break;
+                case ActionType.move:
+                    InitMoveAction(moveHereIfNoAction);
+                    break;
+                case ActionType.none:
+                    CurrentAction = null;
                     break;
                 default:
                     break;
             }
+        }
+
+        private void InitGatherAction()
+        {
+            Gatherable gatherable;
+            mover.FoodIsNearby(out gatherable);
+            if (gatherable != null)
+            {
+                CurrentAction = GetActionOfType(ActionType.gather);
+                CurrentAction.Target = gatherable.Interactable;
+                CurrentAction.IsRunning = false;
+            }
+            else
+            {
+                CurrentAction = null;
+            }
+        }
+
+        private void InitDropoffAction()
+        {
+            CurrentAction = GetActionOfType(ActionType.dropoff);
+            CurrentAction.Target = unit.StorageDepot;
+            CurrentAction.IsRunning = false;
+            Debug.Log($"Dropoff target: {CurrentAction.Target.gameObject.name}");
+        }
+
+        private void InitAttackEnemyAction()
+        {
+            Unit enemyUnit;
+            mover.EnemyUnitIsNearby(out enemyUnit);
+            if (enemyUnit != null)
+            {
+                CurrentAction = GetActionOfType(ActionType.attackenemy);
+                CurrentAction.Target = enemyUnit.Interactable;
+                CurrentAction.IsRunning = false;
+            }
+            else
+            {
+                CurrentAction = null;
+            }
+        }
+
+        private void InitAttackEnemyStorageAction()
+        {
+            Unit enemyStorage;
+            mover.EnemyStorageIsNearby(out enemyStorage);
+            if (enemyStorage != null)
+            {
+                CurrentAction = GetActionOfType(ActionType.attackstorage);
+                CurrentAction.Target = enemyStorage.Interactable;
+                CurrentAction.IsRunning = false;
+            }
+            else
+            {
+                CurrentAction = null;
+            }
+        }
+
+        public void InitMoveAction(Vector3 pos)
+        {
+            mover.MoveHereIfNoActionMarker.transform.position = pos;
+            mover.MoveHereIfNoActionMarker.gameObject.SetActive(true);
+
+            CurrentAction = GetActionOfType(ActionType.move);
+            CurrentAction.Target = mover.MoveHereIfNoActionMarker;
+            CurrentAction.IsRunning = false;
         }
 
         private void OnReceivedActions(ActionSegment<int> discrete)
@@ -156,7 +172,7 @@ namespace ScavengerWorld
             // Run action determined by RL model
         }
 
-        public Action GetActionOfType(ActionType actionType)
+        private Action GetActionOfType(ActionType actionType)
         {
             foreach (Action a in actionsAvailable)
             {
@@ -166,17 +182,6 @@ namespace ScavengerWorld
                 }
             }
             return null;
-        }
-
-        public void Clear()
-        {
-            Target = null;
-            CurrentAction = null;
-        }
-
-        public void SetCurrentAction(Action action)
-        {
-            CurrentAction = action;
         }
 
         public void CancelCurrentAction()

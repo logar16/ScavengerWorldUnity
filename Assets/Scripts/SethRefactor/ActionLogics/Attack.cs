@@ -14,7 +14,7 @@ namespace ScavengerWorld
 
         public override void StartAction(Unit agent, Interactable target)
         {
-            // Implement damage logic here
+            Debug.Log("Started Attack action!");
         }
 
         public override void StopAction(Unit agent, Interactable target)
