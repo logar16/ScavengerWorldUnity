@@ -1,4 +1,3 @@
-using Assets.SharedAssets.Scripts.ScavengerEntity;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.MLAgents.Actuators;
@@ -18,6 +17,7 @@ namespace ScavengerWorld
         [SerializeField] private LayerMask interactableLayer;
         [SerializeField] private NavMeshAgent navigator;
         [SerializeField] private AI.ActorAgent actorAgent;
+        [SerializeField] private Unit unit;
 
         public IInteractable Target { get; set; }
 
@@ -25,17 +25,18 @@ namespace ScavengerWorld
         {
             navigator = GetComponent<NavMeshAgent>();
             actorAgent = GetComponent<AI.ActorAgent>();
+            unit = GetComponent<Unit>();
         }
 
         // Start is called before the first frame update
         void Start()
         {
-            actorAgent.OnActionsReceived += OnActionsReceived;
+            actorAgent.OnReceivedActions += OnReceivedActions;
         }
 
         private void OnDestroy()
         {
-            actorAgent.OnActionsReceived -= OnActionsReceived;
+            actorAgent.OnReceivedActions -= OnReceivedActions;
         }
 
         // Update is called once per frame
@@ -44,7 +45,7 @@ namespace ScavengerWorld
 
         }
 
-        public void OnActionsReceived(ActionSegment<int> discrete)
+        public void OnReceivedActions(ActionSegment<int> discrete)
         {
 
         }
@@ -69,7 +70,7 @@ namespace ScavengerWorld
 
         public void HandleRotation()
         {
-            // Inputs provided by RL model
+            // To be implemented if needed
         }
 
         /// <summary>
@@ -92,6 +93,52 @@ namespace ScavengerWorld
                 }
             }
             Target = null;
+            return false;
+        }
+
+        public bool FoodIsNearby()
+        {
+            var ray = new Ray(transform.position, transform.forward);
+            if (Physics.SphereCast(ray, 0.75f, out RaycastHit hit, FocusRange, interactableLayer))
+            {
+                Food target = hit.collider.gameObject.GetComponent<Food>();
+                if (target != null)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public bool EnemyUnitIsNearby()
+        {
+            var ray = new Ray(transform.position, transform.forward);
+            if (Physics.SphereCast(ray, 0.75f, out RaycastHit hit, FocusRange, interactableLayer))
+            {
+                Unit target = hit.collider.gameObject.GetComponent<Unit>();
+                if (target != null 
+                    && target.TeamId != unit.TeamId 
+                    && !target.IsStorageDepot)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public bool EnemyStorageIsNearby()
+        {
+            var ray = new Ray(transform.position, transform.forward);
+            if (Physics.SphereCast(ray, 0.75f, out RaycastHit hit, FocusRange, interactableLayer))
+            {
+                Unit target = hit.collider.gameObject.GetComponent<Unit>();
+                if (target != null 
+                    && target.TeamId != unit.TeamId
+                    && target.IsStorageDepot)
+                {
+                    return true;
+                }
+            }
             return false;
         }
     }

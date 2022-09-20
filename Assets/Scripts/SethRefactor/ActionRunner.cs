@@ -31,12 +31,12 @@ namespace ScavengerWorld
         // Start is called before the first frame update
         void Start()
         {
-            actorAgent.OnActionsReceived += OnActionsReceived;
+            actorAgent.OnReceivedActions += OnReceivedActions;
         }
 
         private void OnDestroy()
         {
-            actorAgent.OnActionsReceived -= OnActionsReceived;
+            actorAgent.OnReceivedActions -= OnReceivedActions;
         }
 
         // Update is called once per frame
@@ -63,7 +63,7 @@ namespace ScavengerWorld
             CurrentAction.UpdateAction(unit);
         }
 
-        private void OnActionsReceived(ActionSegment<int> discrete)
+        private void OnReceivedActions(ActionSegment<int> discrete)
         {
             // Run action determined by RL model
         }

@@ -15,7 +15,7 @@ namespace ScavengerWorld.AI
         [SerializeField] private Unit unit;
 
         public UnityAction OnNewEpisode;
-        public UnityAction<ActionSegment<int>> OnActionsReceived;
+        public UnityAction<ActionSegment<int>> OnReceivedActions;
 
         private EnvironmentParameters ResetParams;
 
@@ -52,13 +52,10 @@ namespace ScavengerWorld.AI
         public override void OnActionReceived(ActionBuffers actions)
         {
             //Discrete Actions: Need to figure out what these will be
-            //  1. Set new position
-            //  2. Rotate
-            //  3. Set current action
             
             // Pass this data along to relevant gameplay controllers
             ActionSegment<int> discrete = actions.DiscreteActions;
-            OnActionsReceived?.Invoke(discrete);
+            OnReceivedActions?.Invoke(discrete);
         }
 
         protected void AddReward(string name, float defaultValue)

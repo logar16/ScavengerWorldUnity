@@ -13,26 +13,33 @@ namespace ScavengerWorld
     /// </summary>
     public class Unit : MonoBehaviour, IInteractable
     {
-        [SerializeField] private float maxHealth;        
+        [SerializeField] private int teamId;
+        [SerializeField] private Attribute health;
+        [SerializeField] private Inventory inventory;
         [SerializeField] private List<Action> actionsAvailable;
 
-        private float health;
         private EntitySummary Summary;
-        private MeshRenderer renderer;
+        private MeshRenderer meshRenderer;
 
         public Transform Transform => transform;
 
-        public float HealthRemaining => health/maxHealth;
+        public int TeamId => teamId;
+        public float HealthRemaining => health.Remaining;
+        public float HowFullIsInventory => inventory.HowFull();
+        public bool IsStorageDepot => inventory.IsStorageDepot;
 
         void Awake()
         {
-            renderer = GetComponentInChildren<MeshRenderer>();
+            meshRenderer = GetComponentInChildren<MeshRenderer>();
+
+            health.SetCurrentValue(health.MaxValue);
         }
 
         // Start is called before the first frame update
         void Start()
         {            
             InitActions();
+            PreCheck();
         }
 
         // Update is called once per frame
@@ -49,6 +56,21 @@ namespace ScavengerWorld
             }
         }
 
+        public void AddItem(int amount)
+        {
+            inventory.Add(amount);
+        }
+
+        public void RemoveItem(int amount)
+        {
+            inventory.Remove(amount);
+        }
+
+        public void RemoveAllItems()
+        {
+            inventory.RemoveAll();
+        }
+
         /// <summary>
         /// Summarize the top visual features in a simple to interpret way.
         /// Convert to a float vector using <see cref="EntitySummary.ToArray"/>
@@ -59,19 +81,28 @@ namespace ScavengerWorld
             if (Summary)
                 return Summary;
 
-            var size = renderer.bounds.size;
+            var size = meshRenderer.bounds.size;
             // This function (renderer.material) automatically instantiates the materials and makes them unique to this renderer. 
             //      It is your responsibility to destroy the materials when the game object is being destroyed.
-            var color = renderer.material.color;
+            var color = meshRenderer.material.color;
 
             Summary = new EntitySummary
             {
                 Size = size,
                 Color = color,
-                Health = health,
+                Health = health.CurrentValue,
                 Position = transform.localPosition
             };
             return Summary;
+        }
+
+        // For testing only
+        private void PreCheck()
+        {
+            Debug.Log($"Unit: {gameObject.name} " +
+                $"| Health: {health.CurrentValue}/{health.MaxValue} " +
+                $"| Inventory: {inventory.HowFull()} " +
+                $"| Actions available: {actionsAvailable.Count}");
         }
     }
 }
