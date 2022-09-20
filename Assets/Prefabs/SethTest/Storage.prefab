@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 8398084700169391880}
   - component: {fileID: 8398084700169391895}
   - component: {fileID: 8398084700169391894}
+  - component: {fileID: 4260500525562960687}
+  - component: {fileID: 5591819140336589653}
   m_Layer: 6
   m_Name: Storage
   m_TagString: Untagged
@@ -111,11 +113,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   teamId: 0
-  health:
-    maxValue: 500
   inventory:
     maxCapacity: 200
     isStorageDepot: 1
-  actionsAvailable:
-  - actionLogic: {fileID: 11400000, guid: bea8d7f0eaa1e8247a3cc025837c50b3, type: 2}
-  - actionLogic: {fileID: 11400000, guid: bc7bf01fb0d32a34caa151d740db9fa6, type: 2}
+--- !u!114 &4260500525562960687
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8398084700169391893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0563fbec3f88cc942aa4d32300bd31fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5591819140336589653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8398084700169391893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b161219f73372b144b1164325d9c89b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health:
+    maxValue: 500

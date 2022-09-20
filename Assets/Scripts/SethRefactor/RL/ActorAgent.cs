@@ -33,17 +33,17 @@ namespace ScavengerWorld.AI
 
         public override void CollectObservations(VectorSensor sensor)
         {
-            sensor.AddObservation(mover.CheckForTarget());
-            sensor.AddObservation(unit.HealthRemaining);
+            //sensor.AddObservation(mover.CheckForTarget());
+            //sensor.AddObservation(unit.HealthRemaining);
 
-            var summary = unit.Summarize();
-            //Color helps identify friend/foe
-            var color = summary.Color;
-            sensor.AddObservation(color.r);
-            sensor.AddObservation(color.g);
-            sensor.AddObservation(color.b);
-            //Positional data may or may not be useful (e.g. finding home base which is at [0,0,0])
-            sensor.AddObservation(summary.Position);
+            //var summary = unit.Summarize();
+            ////Color helps identify friend/foe
+            //var color = summary.Color;
+            //sensor.AddObservation(color.r);
+            //sensor.AddObservation(color.g);
+            //sensor.AddObservation(color.b);
+            ////Positional data may or may not be useful (e.g. finding home base which is at [0,0,0])
+            //sensor.AddObservation(summary.Position);
 
             //print("collected observations");
         }

@@ -11,49 +11,42 @@ namespace ScavengerWorld
     /// handling unit-specific changes.
     /// (e.g. taking damage, inventory changes, stats)
     /// </summary>
-    public class Unit : MonoBehaviour, IInteractable
+    [RequireComponent(typeof(Damageable))]
+    [RequireComponent(typeof(Interactable))]
+    public class Unit : MonoBehaviour
     {
         [SerializeField] private int teamId;
-        [SerializeField] private Attribute health;
-        [SerializeField] private Inventory inventory;
-        [SerializeField] private List<Action> actionsAvailable;
+        [SerializeField] private Unit storageDepot;
+        [SerializeField] private Inventory inventory;        
 
         private EntitySummary Summary;
         private MeshRenderer meshRenderer;
+        private Interactable interactable;
+        private Damageable damageable;
 
-        public Transform Transform => transform;
-
+        public Unit StorageDepot => storageDepot;
+        public Interactable Interactable => interactable;
+        public Damageable Damageable => damageable;
         public int TeamId => teamId;
-        public float HealthRemaining => health.Remaining;
         public float HowFullIsInventory => inventory.HowFull();
         public bool IsStorageDepot => inventory.IsStorageDepot;
 
         void Awake()
         {
+            damageable = GetComponent<Damageable>();
             meshRenderer = GetComponentInChildren<MeshRenderer>();
-
-            health.SetCurrentValue(health.MaxValue);
         }
 
         // Start is called before the first frame update
         void Start()
         {            
-            InitActions();
-            PreCheck();
+            
         }
 
         // Update is called once per frame
         void Update()
         {
 
-        }
-
-        public void InitActions()
-        {
-            foreach (Action a in actionsAvailable)
-            {
-                a.Target = this;
-            }
         }
 
         public void AddItem(int amount)
@@ -90,19 +83,10 @@ namespace ScavengerWorld
             {
                 Size = size,
                 Color = color,
-                Health = health.CurrentValue,
+                Health = damageable.CurrentHealth,
                 Position = transform.localPosition
             };
             return Summary;
-        }
-
-        // For testing only
-        private void PreCheck()
-        {
-            Debug.Log($"Unit: {gameObject.name} " +
-                $"| Health: {health.CurrentValue}/{health.MaxValue} " +
-                $"| Inventory: {inventory.HowFull()} " +
-                $"| Actions available: {actionsAvailable.Count}");
         }
     }
 }

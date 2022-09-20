@@ -11,7 +11,9 @@ GameObject:
   - component: {fileID: 9158365262082801775}
   - component: {fileID: 7806072236947503908}
   - component: {fileID: -8742031068200252343}
+  - component: {fileID: 1303543626678120608}
   - component: {fileID: 1321734716633193770}
+  - component: {fileID: 6200729758338642257}
   - component: {fileID: 396005088559902576}
   - component: {fileID: 3945358106994800816}
   - component: {fileID: 8762846894782042498}
@@ -74,6 +76,18 @@ NavMeshAgent:
   m_BaseOffset: 0.5
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &1303543626678120608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8324570671479764442}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0563fbec3f88cc942aa4d32300bd31fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1321734716633193770
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -87,13 +101,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   teamId: 0
-  health:
-    maxValue: 100
   inventory:
     maxCapacity: 10
     isStorageDepot: 0
-  actionsAvailable:
-  - actionLogic: {fileID: 11400000, guid: bea8d7f0eaa1e8247a3cc025837c50b3, type: 2}
+--- !u!114 &6200729758338642257
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8324570671479764442}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b161219f73372b144b1164325d9c89b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health:
+    maxValue: 100
 --- !u!114 &396005088559902576
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -106,7 +130,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9eaed84eb3bffa047b4f2ffc4c335fa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FocusRange: 1.5
+  focusRange: 1.5
   interactableLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -128,6 +152,9 @@ MonoBehaviour:
   unit: {fileID: 1321734716633193770}
   mover: {fileID: 396005088559902576}
   actorAgent: {fileID: 266756793340255278}
+  actionsAvailable:
+  - actionLogic: {fileID: 11400000, guid: bea8d7f0eaa1e8247a3cc025837c50b3, type: 2}
+  - actionLogic: {fileID: 11400000, guid: bc7bf01fb0d32a34caa151d740db9fa6, type: 2}
 --- !u!114 &8762846894782042498
 MonoBehaviour:
   m_ObjectHideFlags: 0

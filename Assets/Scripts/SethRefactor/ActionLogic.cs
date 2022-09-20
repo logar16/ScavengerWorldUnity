@@ -6,10 +6,12 @@ namespace ScavengerWorld
 {
     public abstract class ActionLogic : ScriptableObject
     {
+        public ActionType actionType;
+
         [TextArea(1,5)]
         public string description;
 
-        public abstract bool RequiresInRange(Unit agent, IInteractable target);
+        public abstract bool RequiresInRange(Unit agent, Interactable target);
 
         /// <summary>
         /// Logic to run before time-dependent logic runs. Good for checking things
@@ -17,14 +19,14 @@ namespace ScavengerWorld
         /// </summary>
         /// <param name="agent"></param>
         /// <param name="target"></param>
-        public abstract void StartAction(Unit agent, IInteractable target);
+        public abstract void StartAction(Unit agent, Interactable target);
 
         /// <summary>
         /// Time-dependent action logic goes here. Ex: gathering over time
         /// </summary>
         /// <param name="agent"></param>
         /// <param name="target"></param>
-        public abstract void UpdateAction(Unit agent, IInteractable target);
+        public abstract void UpdateAction(Unit agent, Interactable target);
 
         /// <summary>
         /// Logic to run after time-dependent logic has run. Good for any cleanup
@@ -32,6 +34,6 @@ namespace ScavengerWorld
         /// </summary>
         /// <param name="agent"></param>
         /// <param name="target"></param>
-        public abstract void StopAction(Unit agent, IInteractable target);
+        public abstract void StopAction(Unit agent, Interactable target);
     }
 }

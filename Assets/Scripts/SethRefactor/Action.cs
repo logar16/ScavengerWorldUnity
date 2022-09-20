@@ -12,11 +12,13 @@ namespace ScavengerWorld
     {
         [SerializeField] protected ActionLogic actionLogic;
 
+        public ActionType ActionType => actionLogic.actionType;
+
         public string Name => actionLogic.name;
 
         public virtual bool IsEmpty => actionLogic is null;        
 
-        public IInteractable Target { get; set; }
+        public Interactable Target { get; set; }
 
         public bool IsRunning { get; set; }
 

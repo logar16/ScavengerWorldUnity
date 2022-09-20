@@ -13,13 +13,13 @@ namespace ScavengerWorld
     public class Mover : MonoBehaviour
     {        
         [Range(.1f, 3f)]
-        [SerializeField] private float FocusRange = 1.5f;
+        [SerializeField] private float focusRange = 1.5f;
         [SerializeField] private LayerMask interactableLayer;
         [SerializeField] private NavMeshAgent navigator;
         [SerializeField] private AI.ActorAgent actorAgent;
         [SerializeField] private Unit unit;
 
-        public IInteractable Target { get; set; }
+        public Interactable Target { get; set; }
 
         private void Awake()
         {
@@ -55,11 +55,11 @@ namespace ScavengerWorld
             navigator.SetDestination(pos);
         }
 
-        public bool HasReachedTarget() => Vector3.Distance(transform.position, Target.Transform.position) <= navigator.stoppingDistance;
+        public bool HasReachedTarget() => Vector3.Distance(transform.position, Target.transform.position) <= navigator.stoppingDistance;
 
         public void MoveToTarget()
         {
-            navigator.SetDestination(Target.Transform.position);
+            navigator.SetDestination(Target.transform.position);
         }
 
         public void StopMoving()
@@ -73,72 +73,70 @@ namespace ScavengerWorld
             // To be implemented if needed
         }
 
-        /// <summary>
-        /// Sends out a Raycast to check for any interactable directly in front of the actor.
-        /// Modify which items are targetable by adjusting the list of DetectableTags
-        /// </summary>
-        /// <returns><see langword="true"/> if a target was found (and added)</returns>
-        public bool CheckForTarget()
+        public bool FoodIsNearby(out Gatherable gatherable)
         {
-            //Debug.DrawRay(transform.position, transform.forward * FocusRange, Color.green);
-            //position + transform.forward * 0.5f (if agent's body gets in the way)
-            var ray = new Ray(transform.position, transform.forward);
-            if (Physics.SphereCast(ray, 0.75f, out RaycastHit hit, FocusRange, interactableLayer))
+            Collider[] colliders = Physics.OverlapSphere(transform.position, focusRange, interactableLayer);
+
+            if (colliders.Length == 0) 
             {
-                var target = hit.collider.gameObject;
-                if (target.TryGetComponent<IInteractable>(out IInteractable interactable))
-                {
-                    Target = interactable;
-                    return true;
-                }
+                gatherable = null;
+                return false;
+            };
+
+            foreach (Collider c in colliders)
+            {
+                gatherable = c.GetComponent<Gatherable>();
+                if (gatherable != null) return true;
             }
-            Target = null;
+            gatherable=null;
             return false;
         }
 
-        public bool FoodIsNearby()
+        public bool EnemyUnitIsNearby(out Unit enemyUnit)
         {
-            var ray = new Ray(transform.position, transform.forward);
-            if (Physics.SphereCast(ray, 0.75f, out RaycastHit hit, FocusRange, interactableLayer))
+            Collider[] colliders = Physics.OverlapSphere(transform.position, focusRange, interactableLayer);
+
+            if (colliders.Length == 0)
             {
-                Food target = hit.collider.gameObject.GetComponent<Food>();
-                if (target != null)
+                enemyUnit = null;
+                return false;
+            }                
+
+            foreach (Collider c in colliders)
+            {
+                enemyUnit = c.GetComponent<Unit>();
+                if (enemyUnit != null
+                    && enemyUnit.TeamId != this.unit.TeamId
+                    && !enemyUnit.IsStorageDepot)
                 {
                     return true;
                 }
             }
+            enemyUnit=null;
             return false;
         }
 
-        public bool EnemyUnitIsNearby()
+        public bool EnemyStorageIsNearby(out Unit enemyStorage)
         {
-            var ray = new Ray(transform.position, transform.forward);
-            if (Physics.SphereCast(ray, 0.75f, out RaycastHit hit, FocusRange, interactableLayer))
-            {
-                Unit target = hit.collider.gameObject.GetComponent<Unit>();
-                if (target != null 
-                    && target.TeamId != unit.TeamId 
-                    && !target.IsStorageDepot)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
+            Collider[] colliders = Physics.OverlapSphere(transform.position, focusRange, interactableLayer);
 
-        public bool EnemyStorageIsNearby()
-        {
-            var ray = new Ray(transform.position, transform.forward);
-            if (Physics.SphereCast(ray, 0.75f, out RaycastHit hit, FocusRange, interactableLayer))
+            if (colliders.Length == 0)
             {
-                Unit target = hit.collider.gameObject.GetComponent<Unit>();
-                if (target != null 
-                    && target.TeamId != unit.TeamId
-                    && target.IsStorageDepot)
+                enemyStorage = null;
+                return false;
+            }
+
+            foreach (Collider c in colliders)
+            {
+                enemyStorage = c.GetComponent<Unit>();
+                if (unit != null
+                    && unit.TeamId != this.unit.TeamId
+                    && unit.IsStorageDepot)
                 {
                     return true;
                 }
             }
+            enemyStorage=null;
             return false;
         }
     }
