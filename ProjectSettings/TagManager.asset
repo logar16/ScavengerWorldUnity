@@ -8,6 +8,7 @@ TagManager:
   - agent
   - food
   - storage
+  - ground
   layers:
   - Default
   - TransparentFX
@@ -15,7 +16,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - Interactable
   - 
   - 
   - 
