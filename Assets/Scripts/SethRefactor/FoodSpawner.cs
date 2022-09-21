@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace ScavengerWorld
@@ -38,6 +39,12 @@ namespace ScavengerWorld
             }
         }
 
+
+        public bool AllFoodGathered()
+        {
+            return gatherables.Where(g => g.gameObject.activeInHierarchy).Count() == 0;
+        }
+
         public void ResetFood()
         {
             if (Distribution == FoodDistribution.PsuedoUniform && Random.value > 0.5)
@@ -46,6 +53,7 @@ namespace ScavengerWorld
             foreach (var food in gatherables)
             {
                 food.transform.position = FoodPosition();
+                food.ResetFood();
                 //food.Reset();  // Need to decide how reset will work
             }
         }

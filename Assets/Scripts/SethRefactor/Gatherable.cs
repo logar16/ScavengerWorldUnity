@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace ScavengerWorld
@@ -5,46 +6,43 @@ namespace ScavengerWorld
     [RequireComponent(typeof(Interactable))]
     public class Gatherable : MonoBehaviour
     {
-        [SerializeField] private int amountAvailable;
+        [SerializeField] private int startingAmount;
 
         private Interactable interactable;
 
-        public int AmountAvailable => amountAvailable;
+        private int currentAmount;
+        public int AmountAvailable => currentAmount;
         public Interactable Interactable => interactable;
 
         private void Awake()
         {
             interactable = GetComponent<Interactable>();
-        }
-
-        // Start is called before the first frame update
-        void Start()
-        {
-
+            currentAmount = startingAmount;
         }
 
         // Update is called once per frame
         void Update()
         {
-            if (amountAvailable <= 0)
+            if (currentAmount <= 0)
             {
-                Destroy(gameObject);
+                //Destroy(gameObject);
+                gameObject.SetActive(false);
             }
         }
 
         public int Take(int amount)
         {
-            int amountLeft = amountAvailable - amount;
+            int amountLeft = currentAmount - amount;
             int amountToGive;
             if (amountLeft >= 0)
             {
                 amountToGive = amount;
-                amountAvailable = amountLeft;
+                currentAmount = amountLeft;
             }
             else
             {
-                amountToGive = amountAvailable;
-                amountAvailable = 0;
+                amountToGive = currentAmount;
+                currentAmount = 0;
             }
 
             return amountToGive;
@@ -52,9 +50,15 @@ namespace ScavengerWorld
 
         public int TakeAll()
         {
-            int amountToGive = amountAvailable;
-            amountAvailable = 0;
+            int amountToGive = currentAmount;
+            currentAmount = 0;
             return amountToGive;
+        }
+
+        internal void ResetFood()
+        {
+            gameObject.SetActive(true);
+            currentAmount = startingAmount;
         }
     }
 }
