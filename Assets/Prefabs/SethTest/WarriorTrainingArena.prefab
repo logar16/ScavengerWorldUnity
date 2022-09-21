@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4418595719692845376}
   m_Layer: 0
-  m_Name: SethTestArena
+  m_Name: WarriorTrainingArena
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
