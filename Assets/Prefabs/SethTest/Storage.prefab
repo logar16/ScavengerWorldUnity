@@ -113,9 +113,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   teamId: 0
+  storageDepot: {fileID: 0}
   inventory:
-    maxCapacity: 200
+    maxCapacity: 1000
     isStorageDepot: 1
+  stats:
+    attackDamage: 0
+    gatherRate: 0
 --- !u!114 &4260500525562960687
 MonoBehaviour:
   m_ObjectHideFlags: 0

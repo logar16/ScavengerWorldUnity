@@ -135,7 +135,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9eaed84eb3bffa047b4f2ffc4c335fa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  focusRange: 1.5
+  focusRange: 50
   interactableLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -177,12 +177,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BrainParameters:
-    VectorObservationSize: 1
+    VectorObservationSize: 5
     NumStackedVectorObservations: 1
     m_ActionSpec:
       m_NumContinuousActions: 0
-      BranchSizes: 01000000
-    VectorActionSize: 01000000
+      BranchSizes: 02000000020000000300000009000000
+    VectorActionSize: 02000000020000000300000009000000
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
@@ -210,6 +210,7 @@ MonoBehaviour:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
   MaxStep: 0
+  MovementScale: 3
   mover: {fileID: 396005088559902576}
   unit: {fileID: 1321734716633193770}
 --- !u!114 &2846865331694795442
