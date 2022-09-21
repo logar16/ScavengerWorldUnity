@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using Unity.MLAgents.Actuators;
 using UnityEngine;
 using UnityEngine.AI;
@@ -17,7 +15,6 @@ namespace ScavengerWorld
         [SerializeField] private LayerMask interactableLayer;
         [SerializeField] private Interactable moveHereIfNoActionMarker;
         [SerializeField] private NavMeshAgent navigator;
-        [SerializeField] private AI.ActorAgent actorAgent;
         
         private Unit unit;
 
@@ -27,30 +24,7 @@ namespace ScavengerWorld
         private void Awake()
         {
             navigator = GetComponent<NavMeshAgent>();
-            actorAgent = GetComponent<AI.ActorAgent>();
             unit = GetComponent<Unit>();
-        }
-
-        // Start is called before the first frame update
-        void Start()
-        {
-            actorAgent.OnReceivedActions += OnReceivedActions;
-        }
-
-        private void OnDestroy()
-        {
-            actorAgent.OnReceivedActions -= OnReceivedActions;
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
-
-        public void OnReceivedActions(ActionSegment<int> discrete)
-        {
-
         }
 
         public void Move(Vector3 pos)

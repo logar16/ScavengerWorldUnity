@@ -14,7 +14,7 @@ namespace ScavengerWorld
 
         public override void StartAction(Unit agent, Interactable target)
         {
-            Debug.Log("Started Gather action!");
+            //Debug.Log("Started Gather action!");
 
         }
 

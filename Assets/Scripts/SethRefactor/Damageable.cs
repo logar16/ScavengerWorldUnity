@@ -13,8 +13,7 @@ namespace ScavengerWorld
 
         public Interactable Interactable => interactable;
         public float CurrentHealth => health.CurrentValue;
-        public float MaxHealth => health.MaxValue;
-        public float HealthRemaining => health.Remaining;
+        public float HealthPercentage => health.Percentage;
 
         private void Awake()
         {
@@ -30,7 +29,7 @@ namespace ScavengerWorld
         // Update is called once per frame
         void Update()
         {
-            if (health.Remaining == 0f)
+            if (health.Percentage == 0f)
             {
                 Destroy(gameObject);
             }

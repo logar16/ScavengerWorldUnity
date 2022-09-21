@@ -12,7 +12,7 @@ namespace ScavengerWorld
 
         public float CurrentValue => currentValue;
         public float MaxValue => maxValue;
-        public float Remaining => currentValue / maxValue;
+        public float Percentage => currentValue / maxValue;
 
         public Attribute(float currentValue, float maxValue)
         {
