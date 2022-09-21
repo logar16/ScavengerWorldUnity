@@ -13,6 +13,8 @@ namespace ScavengerWorld.AI
         [SerializeField] private Mover mover;
         [SerializeField] private Unit unit;
 
+        public Unit Unit => unit;
+
         public UnityAction OnNewEpisode;
         public UnityAction<ActionRequest> OnReceivedActions;
 

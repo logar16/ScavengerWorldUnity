@@ -135,7 +135,7 @@ namespace ScavengerWorld
         private void InitDropoffAction()
         {
             CurrentAction = GetActionOfType(ActionType.dropoff);
-            CurrentAction.Target = unit.StorageDepot;
+            CurrentAction.Target = unit.StorageDepot.Interactable;
             CurrentAction.IsRunning = false;
         }
 
