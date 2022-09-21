@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace ScavengerWorld
@@ -36,8 +34,8 @@ namespace ScavengerWorld
 
         public int Take(int amount)
         {
-            int amountToGive = 0;
             int amountLeft = amountAvailable - amount;
+            int amountToGive;
             if (amountLeft >= 0)
             {
                 amountToGive = amount;
@@ -46,7 +44,7 @@ namespace ScavengerWorld
             else
             {
                 amountToGive = amountAvailable;
-                amountAvailable = 0;                
+                amountAvailable = 0;
             }
 
             return amountToGive;

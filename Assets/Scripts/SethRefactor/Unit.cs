@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using ScavengerWorld.AI;
 using Unity.MLAgents.Actuators;
+using System;
 
 namespace ScavengerWorld
 {
@@ -37,6 +38,8 @@ namespace ScavengerWorld
         public int TeamId => teamId;
         public float HowFullIsInventory => inventory.HowFull();
         public bool IsStorageDepot => inventory.IsStorageDepot;
+
+        public float StepReward { get; private set; }
 
         void Awake()
         {
@@ -122,6 +125,11 @@ namespace ScavengerWorld
                 Position = transform.localPosition
             };
             return Summary;
+        }
+
+        internal void SetReward(float reward)
+        {
+            StepReward = reward;
         }
     }
 }
