@@ -68,7 +68,7 @@ namespace ScavengerWorld
                     break;
             }
 
-            return new Vector3(x, 0.1f, z) + transform.position;
+            return new Vector3(x, 0.1f, z);
         }
     }
 }
