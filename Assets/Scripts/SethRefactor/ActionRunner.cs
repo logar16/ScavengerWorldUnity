@@ -89,6 +89,8 @@ namespace ScavengerWorld
 
         public void SetCurrentAction(ActionType actionType, Vector3 moveHereIfNoAction = default)
         {
+            CancelCurrentAction();
+
             switch (actionType)
             {
                 case ActionType.gather:
@@ -197,12 +199,18 @@ namespace ScavengerWorld
             return null;
         }
 
+        /// <summary>
+        /// Cancel currently running action from outside the ActionLogic
+        /// </summary>
         public void CancelCurrentAction()
         {
-            CurrentAction.StopAction(unit);
+            CurrentAction?.StopAction(unit);
             CurrentAction = null;
         }
         
+        /// <summary>
+        /// Cancel currently running action from inside the ActionLogic
+        /// </summary>
         public void ClearCurrentAction()
         {
             CurrentAction.IsRunning = false;
