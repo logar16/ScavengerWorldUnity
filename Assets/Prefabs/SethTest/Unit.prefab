@@ -142,7 +142,6 @@ MonoBehaviour:
   moveHereIfNoActionMarker: {fileID: 2151049329922032283, guid: af7f91ff41dc25e49a26d39c5d758f44,
     type: 3}
   navigator: {fileID: -8742031068200252343}
-  actorAgent: {fileID: 0}
 --- !u!114 &3945358106994800816
 MonoBehaviour:
   m_ObjectHideFlags: 0

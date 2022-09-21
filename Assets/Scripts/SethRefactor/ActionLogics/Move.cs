@@ -14,9 +14,7 @@ namespace ScavengerWorld
 
         public override void StartAction(Unit unit, Interactable target)
         {
-            Debug.Log("Started Move action!");
-            unit.Mover.MoveToTarget(target);
-            
+            unit.Mover.MoveToTarget(target);            
         }
 
         public override void StopAction(Unit unit, Interactable target)
@@ -29,7 +27,8 @@ namespace ScavengerWorld
 
         public override void UpdateAction(Unit unit, Interactable target)
         {
-            if (Vector3.Distance(unit.transform.position, target.transform.position) <= unit.Mover.StopDistance)
+            float distance = Vector3.Distance(unit.transform.position, target.transform.position);
+            if (distance <= unit.Mover.StopDistance)
             {
                 StopAction(unit, target);
             }

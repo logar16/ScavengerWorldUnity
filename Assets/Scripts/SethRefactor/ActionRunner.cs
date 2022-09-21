@@ -37,6 +37,7 @@ namespace ScavengerWorld
     [RequireComponent(typeof(Mover))]
     public class ActionRunner : MonoBehaviour
     {
+        [SerializeField] private bool gameplayTesting;
         [SerializeField] private Unit unit;
         [SerializeField] private Mover mover;
         [SerializeField] private AI.ActorAgent actorAgent;
@@ -134,7 +135,6 @@ namespace ScavengerWorld
             CurrentAction = GetActionOfType(ActionType.dropoff);
             CurrentAction.Target = unit.StorageDepot;
             CurrentAction.IsRunning = false;
-            Debug.Log($"Dropoff target: {CurrentAction.Target.gameObject.name}");
         }
 
         private void InitAttackEnemyAction()
@@ -180,6 +180,8 @@ namespace ScavengerWorld
 
         private void OnReceivedActions(ActionRequest request)
         {
+            if (gameplayTesting) return;
+
             SetCurrentAction(request.Type, request.NewPosition);
         }
 

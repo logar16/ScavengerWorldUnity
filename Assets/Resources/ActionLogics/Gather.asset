@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e7f9779552cba442bbdfa70624a9d9b, type: 3}
   m_Name: Gather
   m_EditorClassIdentifier: 
+  actionType: 1
   description: Gather food object

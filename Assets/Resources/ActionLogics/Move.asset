@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fbb05478ffee2b43b3afcdac426c641, type: 3}
   m_Name: Move
   m_EditorClassIdentifier: 
-  actionType: 4
+  actionType: 5
   description: 

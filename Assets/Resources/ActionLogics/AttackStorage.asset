@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1df97b8649d288242af95f6f1b78523d, type: 3}
   m_Name: AttackStorage
   m_EditorClassIdentifier: 
-  actionType: 3
+  actionType: 4
   description: 

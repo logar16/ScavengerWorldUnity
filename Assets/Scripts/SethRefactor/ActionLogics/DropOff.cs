@@ -14,7 +14,6 @@ namespace ScavengerWorld
 
         public override void StartAction(Unit unit, Interactable target)
         {
-            Debug.Log("Started Dropoff action!");
             target.Unit.AddItem(unit.RemoveAllItems());
             StopAction(unit, target);
         }
