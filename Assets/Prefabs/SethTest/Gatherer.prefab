@@ -209,7 +209,7 @@ MonoBehaviour:
   agentParameters:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
-  MaxStep: 0
+  MaxStep: 200
   MovementScale: 3
   mover: {fileID: 396005088559902576}
   unit: {fileID: 1321734716633193770}
