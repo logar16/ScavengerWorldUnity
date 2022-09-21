@@ -15,7 +15,7 @@ namespace ScavengerWorld
         private FoodSpawner foodSpawner;
         [SerializeField] private List<TeamGroup> teams;
 
-        [Range(50, 2000)]
+        [Range(50, 10000)]
         [SerializeField]  private int maxStep = 1000;
         private int currentStep;
 
@@ -38,13 +38,14 @@ namespace ScavengerWorld
             currentStep++;
 
             var shouldEnd = currentStep >= maxStep;
-            //TODO: Check if only one still alive
+            var onlyOneLeft = teams.Where(t => t.IsAlive()).Count() == 1;
+            shouldEnd = shouldEnd || onlyOneLeft;
+            shouldEnd = shouldEnd || foodSpawner.AllFoodGathered();
             //TODO: Check if food is all gathered
             if (shouldEnd)
             {
                 EndEpisode();
             }
-            print("Arena Step");
         }
 
         private void EndEpisode()

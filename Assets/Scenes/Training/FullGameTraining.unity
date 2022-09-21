@@ -190,6 +190,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: FullGameArena (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 1230997156225489707, guid: 5dd5f49a4763e9041983b5a3309a842c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5dd5f49a4763e9041983b5a3309a842c, type: 3}
 --- !u!1001 &139389128
@@ -258,6 +263,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: FullGameArena (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1230997156225489707, guid: 5dd5f49a4763e9041983b5a3309a842c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5dd5f49a4763e9041983b5a3309a842c, type: 3}
@@ -430,6 +440,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: FullGameArena (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 1230997156225489707, guid: 5dd5f49a4763e9041983b5a3309a842c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5dd5f49a4763e9041983b5a3309a842c, type: 3}
 --- !u!1001 &1052236714
@@ -498,6 +513,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: FullGameArena (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1230997156225489707, guid: 5dd5f49a4763e9041983b5a3309a842c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5dd5f49a4763e9041983b5a3309a842c, type: 3}
@@ -568,6 +588,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: FullGameArena (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 1230997156225489707, guid: 5dd5f49a4763e9041983b5a3309a842c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5dd5f49a4763e9041983b5a3309a842c, type: 3}
 --- !u!1001 &1948704480
@@ -636,6 +661,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: FullGameArena (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1230997156225489707, guid: 5dd5f49a4763e9041983b5a3309a842c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5dd5f49a4763e9041983b5a3309a842c, type: 3}
@@ -800,6 +830,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: FullGameArena (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 1230997156225489707, guid: 5dd5f49a4763e9041983b5a3309a842c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5dd5f49a4763e9041983b5a3309a842c, type: 3}
 --- !u!1001 &1230997156969866750
@@ -868,6 +903,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: FullGameArena
+      objectReference: {fileID: 0}
+    - target: {fileID: 2673944135424605527, guid: 5dd5f49a4763e9041983b5a3309a842c,
+        type: 3}
+      propertyPath: XRange
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 2673944135424605527, guid: 5dd5f49a4763e9041983b5a3309a842c,
+        type: 3}
+      propertyPath: ZRange
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 2673944135424605527, guid: 5dd5f49a4763e9041983b5a3309a842c,
+        type: 3}
+      propertyPath: NumFood
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 6873756811629949488, guid: 5dd5f49a4763e9041983b5a3309a842c,
+        type: 3}
+      propertyPath: maxStep
+      value: 5757
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5dd5f49a4763e9041983b5a3309a842c, type: 3}

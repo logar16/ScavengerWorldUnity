@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Unity.MLAgents;
 using UnityEngine;
 
@@ -34,13 +35,15 @@ namespace ScavengerWorld.AI
             foreach (var agent in actorAgents)
             {
                 agent.transform.position = storage.transform.position;
+                agent.gameObject.SetActive(true);
             }
+            storage.RemoveAllItems();
         }
 
         public bool IsAlive()
         {
             //TODO: check all agents are not dead
-            return true;
+            return actorAgents.Any(a => a.gameObject.activeInHierarchy);
         }
     }
 

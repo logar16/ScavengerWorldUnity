@@ -22,18 +22,13 @@ namespace ScavengerWorld
             IsAlive = true;
         }
 
-        // Start is called before the first frame update
-        void Start()
-        {
-
-        }
-
         // Update is called once per frame
         void Update()
         {
             if (!IsAlive)
             {
-                Destroy(gameObject);
+                //Destroy(gameObject);
+                gameObject.SetActive(false);
             }
             else if (health.CurrentValue == 0f)
             {
