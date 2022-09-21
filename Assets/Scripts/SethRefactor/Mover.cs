@@ -24,6 +24,8 @@ namespace ScavengerWorld
         public Interactable MoveHereIfNoActionMarker => moveHereIfNoActionMarker;
         public Interactable Target { get; set; }
 
+        public float StopDistance => navigator.stoppingDistance;
+
         private void Awake()
         {
             navigator = GetComponent<NavMeshAgent>();

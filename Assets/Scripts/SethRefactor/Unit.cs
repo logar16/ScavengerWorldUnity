@@ -17,18 +17,22 @@ namespace ScavengerWorld
     {
         [SerializeField] private int teamId;
         [SerializeField] private Interactable storageDepot;
-        [SerializeField] private Inventory inventory;        
+        [SerializeField] private Inventory inventory;
+        [SerializeField] private Stats stats;
 
         private EntitySummary Summary;
         private MeshRenderer meshRenderer;
         private Interactable interactable;
         private Damageable damageable;
         private Mover mover;
+        private ActionRunner actionRunner;
 
+        public Stats Stats => stats;
         public Interactable StorageDepot => storageDepot;
         public Interactable Interactable => interactable;
         public Damageable Damageable => damageable;
         public Mover Mover => mover;
+        public ActionRunner ActionRunner => actionRunner;
 
         public int TeamId => teamId;
         public float HowFullIsInventory => inventory.HowFull();
@@ -38,6 +42,8 @@ namespace ScavengerWorld
         {
             damageable = GetComponent<Damageable>();
             interactable = GetComponent<Interactable>();
+            mover = GetComponent<Mover>();
+            actionRunner = GetComponent<ActionRunner>();
             meshRenderer = GetComponentInChildren<MeshRenderer>();
         }
 
@@ -53,8 +59,33 @@ namespace ScavengerWorld
 
         }
 
+        public void Attack(Damageable enemy)
+        {
+            // play little animation
+            enemy.TakeDamage(stats.attackDamage);
+        }
+        
+        public void AddItem(Gatherable gatherable)
+        {
+            if (inventory.HowFull() == 1f) return;
+
+            if (inventory.WillBeOverfilled(stats.gatherRate)) return;
+
+            if (gatherable.AmountAvailable > stats.gatherRate)
+            {
+                inventory.Add(gatherable.Take(stats.gatherRate));
+                return;
+            }
+
+            inventory.Add(gatherable.TakeAll());
+        }
+
         public void AddItem(int amount)
         {
+            if (inventory.HowFull() == 1f) return;
+
+            if (inventory.WillBeOverfilled(amount)) return;
+
             inventory.Add(amount);
         }
 
@@ -63,9 +94,9 @@ namespace ScavengerWorld
             inventory.Remove(amount);
         }
 
-        public void RemoveAllItems()
+        public int RemoveAllItems()
         {
-            inventory.RemoveAll();
+            return inventory.RemoveAll();
         }
 
         /// <summary>

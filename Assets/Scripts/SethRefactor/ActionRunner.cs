@@ -159,11 +159,10 @@ namespace ScavengerWorld
 
         public void InitMoveAction(Vector3 pos)
         {
-            mover.MoveHereIfNoActionMarker.transform.position = pos;
-            mover.MoveHereIfNoActionMarker.gameObject.SetActive(true);
+            Interactable marker = GameObject.Instantiate(mover.MoveHereIfNoActionMarker, pos, Quaternion.identity);
 
             CurrentAction = GetActionOfType(ActionType.move);
-            CurrentAction.Target = mover.MoveHereIfNoActionMarker;
+            CurrentAction.Target = marker;
             CurrentAction.IsRunning = false;
         }
 
@@ -188,6 +187,12 @@ namespace ScavengerWorld
         {
             CurrentAction.StopAction(unit);
             CurrentAction = null;
-        }        
+        }
+        
+        public void ClearCurrentAction()
+        {
+            CurrentAction.IsRunning = false;
+            CurrentAction = null;
+        }
     }
 }

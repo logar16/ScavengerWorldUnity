@@ -7,24 +7,32 @@ namespace ScavengerWorld
     [CreateAssetMenu(menuName = "Scavenger World/Action Logics/Move")]
     public class Move : ActionLogic
     {
-        public override bool RequiresInRange(Unit agent, Interactable target)
+        public override bool RequiresInRange(Unit unit, Interactable target)
         {
             return false;
         }
 
-        public override void StartAction(Unit agent, Interactable target)
+        public override void StartAction(Unit unit, Interactable target)
         {
             Debug.Log("Started Move action!");
-        }
-
-        public override void StopAction(Unit agent, Interactable target)
-        {
-            // Turn of marker
-        }
-
-        public override void UpdateAction(Unit agent, Interactable target)
-        {
+            unit.Mover.MoveToTarget(target);
             
+        }
+
+        public override void StopAction(Unit unit, Interactable target)
+        {
+            // Turn of marker            
+            unit.Mover.StopMoving();
+            unit.ActionRunner.ClearCurrentAction();
+            Destroy(target.gameObject);
+        }
+
+        public override void UpdateAction(Unit unit, Interactable target)
+        {
+            if (Vector3.Distance(unit.transform.position, target.transform.position) <= unit.Mover.StopDistance)
+            {
+                StopAction(unit, target);
+            }
         }
     }
 }
