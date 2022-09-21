@@ -15,6 +15,10 @@ namespace ScavengerWorld
         public override void StartAction(Unit unit, Interactable target)
         {
             unit.Attack(target.Damageable);
+            if (target.Damageable.CurrentHealth == 0f)
+            {
+                unit.SetReward(0.05f);
+            }
             StopAction(unit, target);
         }
 
