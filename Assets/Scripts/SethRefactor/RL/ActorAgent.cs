@@ -8,6 +8,8 @@ namespace ScavengerWorld.AI
 {
     public class ActorAgent : Agent
     {
+        [Range(1, 10)]
+        public float MovementScale = 3;
         [SerializeField] private Mover mover;
         [SerializeField] private Unit unit;
 
@@ -108,7 +110,7 @@ namespace ScavengerWorld.AI
                     change = Vector3.left + Vector3.forward;
                     break;
             }
-            return position + change;
+            return position + (change * MovementScale);
         }
 
         protected void AddReward(string name, float defaultValue)
@@ -120,6 +122,33 @@ namespace ScavengerWorld.AI
         protected float FindReward(string name, float defaultValue)
         {
             return ResetParams.GetWithDefault(name, defaultValue);
+        }
+
+        public override void Heuristic(in ActionBuffers actionsOut)
+        {
+            var discrete = actionsOut.DiscreteActions;
+            var gather = Input.GetKeyDown(KeyCode.G) ? 1 : 0;
+            var drop = Input.GetKeyDown(KeyCode.D) ? 1 : 0;
+            var attack = Input.GetKeyDown(KeyCode.A) ? 1 : 0;
+            if (attack == 0)
+            {
+                attack = Input.GetKeyDown(KeyCode.S) ? 2 : 0;
+            }
+
+            var move = 0;
+            for (int i = 0; i < 9; i++)
+            {
+                var key = KeyCode.Keypad1 + i;
+                if (key != KeyCode.Keypad5 && Input.GetKeyDown(key))
+                {
+                    move = i;
+                }
+            }
+
+            discrete[0] = gather;  // gather
+            discrete[1] = drop;  // drop
+            discrete[2] = attack;  // attack
+            discrete[3] = move;  // move
         }
     }
 }

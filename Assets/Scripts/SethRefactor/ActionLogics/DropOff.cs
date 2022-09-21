@@ -14,7 +14,9 @@ namespace ScavengerWorld
 
         public override void StartAction(Unit unit, Interactable target)
         {
-            target.Unit.AddItem(unit.RemoveAllItems());
+            var food = unit.RemoveAllItems();
+            target.Unit.AddItem(food);
+            unit.SetReward(food * 0.01f);
             StopAction(unit, target);
         }
 
