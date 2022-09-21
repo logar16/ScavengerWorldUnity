@@ -12,6 +12,8 @@ namespace ScavengerWorld
         [SerializeField] private bool isStorageDepot;
         private int itemCount;
 
+        public int ItemCount => itemCount;
+        public int MaxCapacity => maxCapacity;
         public bool IsStorageDepot => isStorageDepot;
 
         public Inventory(int maxCapacity, bool isStorageDepot)
@@ -28,19 +30,44 @@ namespace ScavengerWorld
 
         public float HowFull() => (float)itemCount / maxCapacity;
 
-        public void Add(int amount)
+        public int Add(int amount)
         {
-            itemCount = Mathf.Clamp(itemCount + amount, 0, maxCapacity);
+            int finalCount = itemCount + amount;
+            if (finalCount > maxCapacity)
+            {
+                itemCount = maxCapacity;
+                return finalCount - maxCapacity;
+            }
+
+            itemCount += amount;
+            return 0;
         }
 
-        public void Remove(int amount)
+        public int Remove(int amount)
         {
-            itemCount = Mathf.Clamp(itemCount - amount, 0, maxCapacity);
-        }
+            int amountToGive = 0;
+            if (amount < itemCount)
+            {
+                amountToGive = amount;
+                itemCount -= amount;
+                return amountToGive;
+            }
 
-        public void RemoveAll()
-        {
+            amountToGive = itemCount;
             itemCount = 0;
+            return amountToGive;
+        }
+
+        public int RemoveAll()
+        {
+            int itemAmountToGive = itemCount;
+            itemCount = 0;
+            return itemAmountToGive;
+        }
+
+        public bool WillBeOverfilled(int amount)
+        {
+            return itemCount + amount > maxCapacity;
         }
     }
 }

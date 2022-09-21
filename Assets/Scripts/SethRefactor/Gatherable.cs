@@ -11,6 +11,7 @@ namespace ScavengerWorld
 
         private Interactable interactable;
 
+        public int AmountAvailable => amountAvailable;
         public Interactable Interactable => interactable;
 
         private void Awake()
@@ -33,9 +34,29 @@ namespace ScavengerWorld
             }
         }
 
-        public void Take(int amount)
+        public int Take(int amount)
         {
-            amountAvailable -= amount;
+            int amountToGive = 0;
+            int amountLeft = amountAvailable - amount;
+            if (amountLeft >= 0)
+            {
+                amountToGive = amount;
+                amountAvailable = amountLeft;
+            }
+            else
+            {
+                amountToGive = amountAvailable;
+                amountAvailable = 0;                
+            }
+
+            return amountToGive;
+        }
+
+        public int TakeAll()
+        {
+            int amountToGive = amountAvailable;
+            amountAvailable = 0;
+            return amountToGive;
         }
     }
 }

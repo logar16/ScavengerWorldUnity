@@ -37,6 +37,7 @@ namespace ScavengerWorld
     [RequireComponent(typeof(Mover))]
     public class ActionRunner : MonoBehaviour
     {
+        [SerializeField] private bool gameplayTesting;
         [SerializeField] private Unit unit;
         [SerializeField] private Mover mover;
         [SerializeField] private AI.ActorAgent actorAgent;
@@ -134,7 +135,6 @@ namespace ScavengerWorld
             CurrentAction = GetActionOfType(ActionType.dropoff);
             CurrentAction.Target = unit.StorageDepot;
             CurrentAction.IsRunning = false;
-            Debug.Log($"Dropoff target: {CurrentAction.Target.gameObject.name}");
         }
 
         private void InitAttackEnemyAction()
@@ -171,16 +171,17 @@ namespace ScavengerWorld
 
         public void InitMoveAction(Vector3 pos)
         {
-            mover.MoveHereIfNoActionMarker.transform.position = pos;
-            mover.MoveHereIfNoActionMarker.gameObject.SetActive(true);
+            Interactable marker = GameObject.Instantiate(mover.MoveHereIfNoActionMarker, pos, Quaternion.identity);
 
             CurrentAction = GetActionOfType(ActionType.move);
-            CurrentAction.Target = mover.MoveHereIfNoActionMarker;
+            CurrentAction.Target = marker;
             CurrentAction.IsRunning = false;
         }
 
         private void OnReceivedActions(ActionRequest request)
         {
+            if (gameplayTesting) return;
+
             SetCurrentAction(request.Type, request.NewPosition);
         }
 
@@ -200,6 +201,12 @@ namespace ScavengerWorld
         {
             CurrentAction.StopAction(unit);
             CurrentAction = null;
-        }        
+        }
+        
+        public void ClearCurrentAction()
+        {
+            CurrentAction.IsRunning = false;
+            CurrentAction = null;
+        }
     }
 }
