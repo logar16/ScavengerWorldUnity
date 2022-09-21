@@ -1,6 +1,3 @@
-using Assets.SharedAssets.Scripts.ScavengerEntity;
-using System.Collections;
-using System.Collections.Generic;
 using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
@@ -15,7 +12,7 @@ namespace ScavengerWorld.AI
         [SerializeField] private Unit unit;
 
         public UnityAction OnNewEpisode;
-        public UnityAction<ActionSegment<int>> OnReceivedActions;
+        public UnityAction<ActionRequest> OnReceivedActions;
 
         private EnvironmentParameters ResetParams;
 
@@ -33,29 +30,85 @@ namespace ScavengerWorld.AI
 
         public override void CollectObservations(VectorSensor sensor)
         {
-            //sensor.AddObservation(mover.CheckForTarget());
-            //sensor.AddObservation(unit.HealthRemaining);
+            var health = unit.Damageable.HealthPercentage;
+            var foodInventory = unit.HowFullIsInventory;
+            var foodNearby = mover.FoodIsNearby(out _);
+            var enemyUnitsNearby = mover.EnemyUnitIsNearby(out _);
+            var enemyStorageNearby = mover.EnemyStorageIsNearby(out _);
 
-            //var summary = unit.Summarize();
-            ////Color helps identify friend/foe
-            //var color = summary.Color;
-            //sensor.AddObservation(color.r);
-            //sensor.AddObservation(color.g);
-            //sensor.AddObservation(color.b);
-            ////Positional data may or may not be useful (e.g. finding home base which is at [0,0,0])
-            //sensor.AddObservation(summary.Position);
-
-            //print("collected observations");
+            sensor.AddObservation(health);
+            sensor.AddObservation(foodInventory);
+            sensor.AddObservation(foodNearby);
+            sensor.AddObservation(enemyUnitsNearby);
+            sensor.AddObservation(enemyStorageNearby);
         }
 
 
         public override void OnActionReceived(ActionBuffers actions)
         {
-            //Discrete Actions: Need to figure out what these will be
-            
-            // Pass this data along to relevant gameplay controllers
             ActionSegment<int> discrete = actions.DiscreteActions;
-            OnReceivedActions?.Invoke(discrete);
+            var gather = discrete[0];
+            var drop = discrete[1];
+            var attack = discrete[2];
+            var move = discrete[3];
+            
+            var request = new ActionRequest(ActionType.none);
+            if (gather > 0)
+            {
+                request = new ActionRequest(ActionType.gather);
+            }
+            else if (drop > 0)
+            {
+                request = new ActionRequest(ActionType.dropoff);
+            }
+            else if (attack == 1)
+            {
+                request = new ActionRequest(ActionType.attackenemy);
+            } 
+            else if (attack == 2)
+            {
+                request = new ActionRequest(ActionType.attackstorage);
+            }
+            else if (move > 0)
+            {
+                var newPosition = FindMoveToPoint(move);
+                request = new ActionRequest(ActionType.move, newPosition);
+            }
+            OnReceivedActions?.Invoke(request);
+        }
+
+        private Vector3 FindMoveToPoint(int move)
+        {
+            Vector3 position = unit.transform.position;
+            Vector3 change = Vector3.zero;
+            switch (move)
+            {
+                case 1: 
+                    change = Vector3.forward;
+                    break;
+                case 2: 
+                    change = Vector3.forward + Vector3.right;
+                    break;
+                case 3: 
+                    change = Vector3.right;
+                    break;
+                case 4:
+                    change = Vector3.right + Vector3.back;
+                    break;
+                case 5: 
+                    change = Vector3.back;
+                    break;
+                case 6: 
+                    change = Vector3.back + Vector3.left;
+                    break;
+                case 7: 
+                    change = Vector3.left;
+                    break;
+                case 8: 
+                    change = Vector3.left + Vector3.forward;
+                    break;
+            }
+            return position + change;
         }
 
         protected void AddReward(string name, float defaultValue)

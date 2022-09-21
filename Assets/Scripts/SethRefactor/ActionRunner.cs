@@ -9,12 +9,24 @@ namespace ScavengerWorld
 {
     public enum ActionType
     {
+        none,
         gather,
         dropoff,
         attackenemy,
         attackstorage,
         move,
-        none
+    }
+
+    public struct ActionRequest
+    {
+        public ActionType Type;
+        public Vector3 NewPosition;
+
+        public ActionRequest(ActionType actionType, Vector3 newPosition = default)
+        {
+            Type = actionType;
+            NewPosition = newPosition;
+        }
     }
 
     /// <summary>
@@ -166,9 +178,9 @@ namespace ScavengerWorld
             CurrentAction.IsRunning = false;
         }
 
-        private void OnReceivedActions(ActionSegment<int> discrete)
+        private void OnReceivedActions(ActionRequest request)
         {
-            // Run action determined by RL model
+            SetCurrentAction(request.Type, request.NewPosition);
         }
 
         private Action GetActionOfType(ActionType actionType)

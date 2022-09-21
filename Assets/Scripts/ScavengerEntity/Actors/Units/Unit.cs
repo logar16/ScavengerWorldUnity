@@ -15,9 +15,10 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
         [Tooltip("The number of food pieces that can be gathered per second")]
         public float GatherRate = 1;
 
-        [Range(0, 10)]
-        [Tooltip("Number of items the unit can carry at one time.")]
-        public int ItemLimit = 1;
+        [HideInInspector]
+        //[Range(0, 10)]
+        //[Tooltip("Number of items the unit can carry at one time.")]
+        public int ItemLimit = 0;
 
         [HideInInspector]
         protected readonly List<Item> Items = new List<Item>();
