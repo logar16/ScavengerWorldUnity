@@ -115,7 +115,7 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
             ArrangeTeams();
             //TODO: How will markers and other items be handled if they are (not) currently owned?
             
-            ResetFood();
+            //ResetFood();
         }
 
         private void CreateFood()
