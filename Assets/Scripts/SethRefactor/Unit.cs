@@ -17,7 +17,6 @@ namespace ScavengerWorld
     public class Unit : MonoBehaviour
     {
         [SerializeField] private int teamId;
-        [SerializeField] private Interactable storageDepot;
         [SerializeField] private Inventory inventory;
         [SerializeField] private Stats stats;
 
@@ -27,9 +26,9 @@ namespace ScavengerWorld
         private Damageable damageable;
         private Mover mover;
         private ActionRunner actionRunner;
-
+        
         public Stats Stats => stats;
-        public Interactable StorageDepot => storageDepot;
+        public Unit StorageDepot { get; set; }
         public Interactable Interactable => interactable;
         public Damageable Damageable => damageable;
         public Mover Mover => mover;
@@ -37,6 +36,7 @@ namespace ScavengerWorld
 
         public int TeamId => teamId;
         public float HowFullIsInventory => inventory.HowFull();
+        public int InventoryItemCount => inventory.ItemCount;
         public bool IsStorageDepot => inventory.IsStorageDepot;
 
         public float StepReward { get; private set; }

@@ -102,7 +102,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   teamId: 0
-  storageDepot: {fileID: 0}
   inventory:
     maxCapacity: 15
     isStorageDepot: 0
@@ -135,7 +134,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9eaed84eb3bffa047b4f2ffc4c335fa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  focusRange: 50
+  focusRange: 20
   interactableLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -209,7 +208,7 @@ MonoBehaviour:
   agentParameters:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
-  MaxStep: 200
+  MaxStep: 20000
   MovementScale: 3
   mover: {fileID: 396005088559902576}
   unit: {fileID: 1321734716633193770}

@@ -135,7 +135,7 @@ namespace ScavengerWorld
         private void InitDropoffAction()
         {
             CurrentAction = GetActionOfType(ActionType.dropoff);
-            CurrentAction.Target = unit.StorageDepot;
+            CurrentAction.Target = unit.StorageDepot.Interactable;
             CurrentAction.IsRunning = false;
         }
 
@@ -173,7 +173,8 @@ namespace ScavengerWorld
 
         public void InitMoveAction(Vector3 pos)
         {
-            Interactable marker = GameObject.Instantiate(mover.MoveHereIfNoActionMarker, pos, Quaternion.identity);
+            pos = pos + transform.position;
+            Interactable marker = Instantiate(mover.MoveHereIfNoActionMarker, pos, Quaternion.identity);
 
             CurrentAction = GetActionOfType(ActionType.move);
             CurrentAction.Target = marker;
