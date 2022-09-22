@@ -20,7 +20,6 @@ namespace ScavengerWorld
         [SerializeField] private Inventory inventory;
         [SerializeField] private Stats stats;
 
-        private EntitySummary Summary;
         private MeshRenderer meshRenderer;
         private Interactable interactable;
         private Damageable damageable;
@@ -64,8 +63,6 @@ namespace ScavengerWorld
         {
             if (behaviorParameters != null) 
                 behaviorParameters.TeamId = TeamId;
-
-            //Debug.Log($"Unit: {this.gameObject.name} | TeamId: {TeamId}");
         }
 
         // Update is called once per frame

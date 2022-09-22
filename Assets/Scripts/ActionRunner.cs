@@ -220,7 +220,6 @@ namespace ScavengerWorld
         public void CancelCurrentAction()
         {
             CurrentAction?.StopAction(unit);
-            CurrentAction = null;
         }
         
         /// <summary>
@@ -230,6 +229,7 @@ namespace ScavengerWorld
         {
             CurrentAction.IsRunning = false;
             CurrentAction = null;
+            mover.StopMoving();
         }
     }
 }

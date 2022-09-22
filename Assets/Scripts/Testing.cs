@@ -8,6 +8,13 @@ namespace ScavengerWorld
     {
         public ActionRunner actionRunner;
 
+        private ArenaManager arenaManager;
+
+        private void Awake()
+        {
+            arenaManager = FindObjectOfType<ArenaManager>();
+        }
+
         // Start is called before the first frame update
         void Start()
         {
@@ -49,6 +56,11 @@ namespace ScavengerWorld
         public void OnIdleButton()
         {
             actionRunner.SetCurrentAction(ActionType.none);
+        }
+
+        public void OnResetArena()
+        {
+            arenaManager.ResetArena();
         }
     }
 }

@@ -14,6 +14,7 @@ namespace ScavengerWorld
         [SerializeField] private Button gatherButton;
         [SerializeField] private Button moveButton;
         [SerializeField] private Button idleButton;
+        [SerializeField] private Button resetArenaButton;
 
         // Start is called before the first frame update
         void Start()
@@ -24,6 +25,7 @@ namespace ScavengerWorld
             gatherButton.onClick.AddListener(player.OnGatherButton);
             moveButton.onClick.AddListener(player.OnMoveButton);
             idleButton.onClick.AddListener(player.OnIdleButton);
+            resetArenaButton.onClick.AddListener(player.OnResetArena);
         }
 
         private void OnDisable()
@@ -34,6 +36,7 @@ namespace ScavengerWorld
             gatherButton.onClick.RemoveAllListeners();
             moveButton.onClick.RemoveAllListeners();
             idleButton.onClick.RemoveAllListeners();
+            resetArenaButton.onClick.RemoveAllListeners();
         }
     }
 }

@@ -34,5 +34,10 @@ namespace ScavengerWorld
         {
             currentValue = Mathf.Clamp(currentValue - amount, 0, maxValue);
         }
+
+        public void Reset()
+        {
+            currentValue = maxValue;
+        }
     }
 }

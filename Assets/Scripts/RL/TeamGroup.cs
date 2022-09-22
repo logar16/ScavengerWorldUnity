@@ -37,12 +37,15 @@ namespace ScavengerWorld.AI
 
             foreach (var agent in actorAgents)
             {
-                agent.transform.position = storage.transform.position;
                 agent.Unit.TeamId = teamId;
+                agent.Unit.Damageable.ResetHealth();
+                agent.Unit.ActionRunner.CancelCurrentAction();
+                agent.transform.position = storage.transform.position;                              
                 agent.gameObject.SetActive(true);
             }
             storage.TeamId = teamId;
             storage.RemoveAllItems();
+            storage.Damageable.ResetHealth();            
         }
 
         public void SetTeamColor(Color c)
