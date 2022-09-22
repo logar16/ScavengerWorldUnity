@@ -49,10 +49,14 @@ namespace ScavengerWorld
             interactable = GetComponent<Interactable>();
             mover = GetComponent<Mover>();
             actionRunner = GetComponent<ActionRunner>();
-            meshRenderer = GetComponentInChildren<MeshRenderer>();
             behaviorParameters = GetComponentInChildren<BehaviorParameters>();
             ArenaManager = GetComponentInParent<TeamGroup>().GetComponentInParent<ArenaManager>();
-            
+
+            meshRenderer = GetComponentInChildren<MeshRenderer>();
+            if (meshRenderer is null)
+            {
+                meshRenderer = GetComponent<MeshRenderer>();
+            }
         }
 
         // Start is called before the first frame update
@@ -110,32 +114,12 @@ namespace ScavengerWorld
             return inventory.RemoveAll();
         }
 
-        /// <summary>
-        /// Summarize the top visual features in a simple to interpret way.
-        /// Convert to a float vector using <see cref="EntitySummary.ToArray"/>
-        /// </summary>
-        /// <returns></returns>
-        public virtual EntitySummary Summarize()
+        public void SetColor(Color color)
         {
-            if (Summary)
-                return Summary;
-
-            var size = meshRenderer.bounds.size;
-            // This function (renderer.material) automatically instantiates the materials and makes them unique to this renderer. 
-            //      It is your responsibility to destroy the materials when the game object is being destroyed.
-            var color = meshRenderer.material.color;
-
-            Summary = new EntitySummary
-            {
-                Size = size,
-                Color = color,
-                Health = damageable.CurrentHealth,
-                Position = transform.localPosition
-            };
-            return Summary;
+            meshRenderer.material.color = color;
         }
 
-        internal void SetReward(float reward)
+        public void SetReward(float reward)
         {
             StepReward = reward;
         }

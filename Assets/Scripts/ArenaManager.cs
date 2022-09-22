@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO.Abstractions;
 using System.Linq;
 using ScavengerWorld.AI;
 using Unity.MLAgents;
@@ -23,6 +24,12 @@ namespace ScavengerWorld
 
         private void Awake()
         {
+            TeamGroup[] teamsInScene = FindObjectsOfType<TeamGroup>();           
+            if (teams is null || teams.Length == 0 || teams.Length != teamsInScene.Length)
+            {
+                teams = teamsInScene;
+            }
+
             foodSpawner = GetComponent<FoodSpawner>();          
             foodSpawner.CreateFood();
             ResetArena();
@@ -31,6 +38,7 @@ namespace ScavengerWorld
         private void Start()
         {
             InitMoveMarkerPool(10);
+            SetTeamColors();
         }
 
         private void OnEnable()
@@ -80,15 +88,14 @@ namespace ScavengerWorld
 
         private void ResetArena()
         {
-            print("Resetting");
             currentStep = 0;
-            for (int i = 0; i < teams.Count; i++)
+            for (int i = 0; i < teams.Length; i++)
             { 
                 teams[i].ResetTeam(i);
             }
             foodSpawner.ResetFood();
         }
-
+        
         private void InitMoveMarkerPool(int poolSize)
         {
             for (int i = 0; i < poolSize; i++)
@@ -118,6 +125,14 @@ namespace ScavengerWorld
         {
             moveMarker.gameObject.SetActive(false);
             moveMarkerPool.Enqueue(moveMarker);
+        }
+        
+        private void SetTeamColors()
+        {
+            foreach (var team in teams)
+            {
+                team.SetTeamColor(UnityEngine.Random.ColorHSV(0f, 1f, 1f, 1f, 0.1f, 1f));
+            }
         }
     }
 }

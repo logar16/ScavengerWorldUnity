@@ -267,11 +267,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: WarriorArena
       objectReference: {fileID: 0}
-    - target: {fileID: 4223548434042297096, guid: 18616c38996edc240900860456af280d,
-        type: 3}
-      propertyPath: teams.Array.size
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4223548434042297098, guid: 18616c38996edc240900860456af280d,
         type: 3}
       propertyPath: m_RootOrder

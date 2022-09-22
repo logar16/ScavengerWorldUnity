@@ -103,7 +103,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c592009e1648f7c428c42cfc4083765e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  teamId: 0
   inventory:
     maxCapacity: 15
     isStorageDepot: 0
@@ -357,7 +356,7 @@ GameObject:
   - component: {fileID: 8348675958161086277}
   - component: {fileID: 3616331198129995069}
   m_Layer: 6
-  m_Name: AgentCapsule
+  m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

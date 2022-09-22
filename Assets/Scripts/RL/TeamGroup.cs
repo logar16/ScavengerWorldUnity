@@ -13,6 +13,7 @@ namespace ScavengerWorld.AI
         public int FoodStored => storage.InventoryItemCount;
         public int TeamId { get; set; }
 
+        private Color teamColor;
         private SimpleMultiAgentGroup group = new();
 
         void Awake()
@@ -33,6 +34,7 @@ namespace ScavengerWorld.AI
         public void ResetTeam(int teamId)
         {
             // TODO: Randomly place units around the center transform
+
             foreach (var agent in actorAgents)
             {
                 agent.transform.position = storage.transform.position;
@@ -41,6 +43,16 @@ namespace ScavengerWorld.AI
             }
             storage.TeamId = teamId;
             storage.RemoveAllItems();
+        }
+
+        public void SetTeamColor(Color c)
+        {
+            teamColor = c;
+            storage.SetColor(teamColor);
+            foreach (var agent in actorAgents)
+            {
+                agent.Unit.SetColor(teamColor);
+            }
         }
 
         public bool IsAlive()
