@@ -374,8 +374,8 @@ MonoBehaviour:
   attackStorageButton: {fileID: 1519650843}
   dropOffButton: {fileID: 1707462164}
   gatherButton: {fileID: 196006600}
-  moveButton: {fileID: 879265321}
-  idleButton: {fileID: 1198459285}
+  moveButton: {fileID: 1198459285}
+  idleButton: {fileID: 879265321}
 --- !u!1 &188360655
 GameObject:
   m_ObjectHideFlags: 1

@@ -42,7 +42,8 @@ namespace ScavengerWorld
 
         public void OnMoveButton()
         {
-            actionRunner.SetCurrentAction(ActionType.move);
+            actionRunner.SetCurrentAction(ActionType.move, 
+                new Vector3(Random.Range(-20f, 20f), 0f, Random.Range(-20f, 20f)));
         }
 
         public void OnIdleButton()

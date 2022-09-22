@@ -21,8 +21,8 @@ namespace ScavengerWorld
         {
             // Turn of marker            
             unit.Mover.StopMoving();
+            unit.ArenaManager.ReturnMoveMarker(target);
             unit.ActionRunner.ClearCurrentAction();
-            Destroy(target.gameObject);
         }
 
         public override void UpdateAction(Unit unit, Interactable target)

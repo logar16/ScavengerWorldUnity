@@ -34,6 +34,7 @@ namespace ScavengerWorld
         public Damageable Damageable => damageable;
         public Mover Mover => mover;
         public ActionRunner ActionRunner => actionRunner;
+        public ArenaManager ArenaManager { get; private set; }
 
         public int TeamId { get; set; }
         public float HowFullIsInventory => inventory.HowFull();
@@ -50,6 +51,8 @@ namespace ScavengerWorld
             actionRunner = GetComponent<ActionRunner>();
             meshRenderer = GetComponentInChildren<MeshRenderer>();
             behaviorParameters = GetComponentInChildren<BehaviorParameters>();
+            ArenaManager = GetComponentInParent<TeamGroup>().GetComponentInParent<ArenaManager>();
+            
         }
 
         // Start is called before the first frame update

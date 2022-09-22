@@ -1,9 +1,11 @@
 using Grpc.Core.Logging;
 using System.Collections;
 using System.Collections.Generic;
+using System.Dynamic;
 using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
 using UnityEngine;
+using UnityEngine.Timeline;
 
 namespace ScavengerWorld
 {
@@ -41,7 +43,7 @@ namespace ScavengerWorld
         [SerializeField] private Unit unit;
         [SerializeField] private Mover mover;
         [SerializeField] private AI.ActorAgent actorAgent;
-        [SerializeField] private List<Action> actionsAvailable;
+        [SerializeField] private List<Action> actionsAvailable;        
 
         public Action CurrentAction { get; private set; }
 
@@ -173,12 +175,24 @@ namespace ScavengerWorld
 
         public void InitMoveAction(Vector3 pos)
         {
+            Interactable marker = null;
             pos = pos + transform.position;
-            Interactable marker = Instantiate(mover.MoveHereIfNoActionMarker, pos, Quaternion.identity);
+
+            if (mover.IsValidPath(pos))
+            {
+                marker = unit.ArenaManager.GetMoveMarker(pos);                
+            }
+            else
+            {
+                pos = mover.GetValidPath(transform.position);
+                marker = unit.ArenaManager.GetMoveMarker(pos);
+            }
 
             CurrentAction = GetActionOfType(ActionType.move);
             CurrentAction.Target = marker;
             CurrentAction.IsRunning = false;
+
+
         }
 
         private void OnReceivedActions(ActionRequest request)
