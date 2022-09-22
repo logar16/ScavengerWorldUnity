@@ -136,5 +136,10 @@ namespace ScavengerWorld
             NavMesh.SamplePosition(randomPos, out NavMeshHit hit, explorationRange, NavMesh.AllAreas);
             return hit.position;
         }
+
+        public void ResetNavigator()
+        {
+            navigator.ResetPath();
+        }
     }
 }
