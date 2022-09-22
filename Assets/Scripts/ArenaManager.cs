@@ -16,7 +16,7 @@ namespace ScavengerWorld
         [Range(50, 10000)]
         [SerializeField]  private int maxStep = 1000;
         [SerializeField] private Interactable moveHereIfNoActionMarker;
-        [SerializeField] private List<TeamGroup> teams;
+        [SerializeField] private TeamGroup[] teams;
 
         private FoodSpawner foodSpawner;
         private int currentStep;
