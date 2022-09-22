@@ -48,6 +48,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e622e6d8a1548ce4693b82fed819a890, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxStep: 1000
+  moveHereIfNoActionMarker: {fileID: 2151049329922032283, guid: af7f91ff41dc25e49a26d39c5d758f44,
+    type: 3}
   teams:
   - {fileID: 1319195729975991409}
   - {fileID: 2541712258293102942}

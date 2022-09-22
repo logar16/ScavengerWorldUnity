@@ -1,6 +1,9 @@
+using System;
+using System.Collections.Generic;
 using Unity.MLAgents.Actuators;
 using UnityEngine;
 using UnityEngine.AI;
+using static UnityEditor.PlayerSettings;
 
 namespace ScavengerWorld
 {
@@ -12,13 +15,14 @@ namespace ScavengerWorld
     {        
         [Range(5f, 100f)]
         [SerializeField] private float focusRange = 100f;
+        [Range(20f, 50f)]
+        [Tooltip("Max range from (0,0,0) to alternatively explore if AI told agent to go off the map")]
+        [SerializeField] private float explorationRange = 40f;
         [SerializeField] private LayerMask interactableLayer;
-        [SerializeField] private Interactable moveHereIfNoActionMarker;
         [SerializeField] private NavMeshAgent navigator;
-        
+                
         private Unit unit;
 
-        public Interactable MoveHereIfNoActionMarker => moveHereIfNoActionMarker;
         public Interactable Target { get; set; }
 
         public float StopDistance => navigator.stoppingDistance;
@@ -117,6 +121,20 @@ namespace ScavengerWorld
             }
             enemyStorage=null;
             return false;
+        }
+
+        public bool IsValidPath(Vector3 pos)
+        {
+            NavMeshPath path = new();
+            navigator.CalculatePath(pos, path);
+            return path.status == NavMeshPathStatus.PathComplete;
+        }
+
+        public Vector3 GetValidPath(Vector3 currentPos)
+        {
+            Vector3 randomPos = UnityEngine.Random.insideUnitSphere * 20f + Vector3.zero;
+            NavMesh.SamplePosition(randomPos, out NavMeshHit hit, explorationRange, NavMesh.AllAreas);
+            return hit.position;
         }
     }
 }

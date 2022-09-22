@@ -34,6 +34,7 @@ namespace ScavengerWorld
         public Damageable Damageable => damageable;
         public Mover Mover => mover;
         public ActionRunner ActionRunner => actionRunner;
+        public ArenaManager ArenaManager { get; private set; }
 
         public int TeamId { get; set; }
         public float HowFullIsInventory => inventory.HowFull();
@@ -49,6 +50,7 @@ namespace ScavengerWorld
             mover = GetComponent<Mover>();
             actionRunner = GetComponent<ActionRunner>();
             behaviorParameters = GetComponentInChildren<BehaviorParameters>();
+            ArenaManager = GetComponentInParent<TeamGroup>().GetComponentInParent<ArenaManager>();
 
             meshRenderer = GetComponentInChildren<MeshRenderer>();
             if (meshRenderer is null)

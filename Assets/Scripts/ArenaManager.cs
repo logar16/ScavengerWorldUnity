@@ -13,12 +13,14 @@ namespace ScavengerWorld
 
     public class ArenaManager : MonoBehaviour
     {
-        private FoodSpawner foodSpawner;
-        [SerializeField] private TeamGroup[] teams;
-
         [Range(50, 10000)]
         [SerializeField]  private int maxStep = 1000;
+        [SerializeField] private Interactable moveHereIfNoActionMarker;
+        [SerializeField] private List<TeamGroup> teams;
+
+        private FoodSpawner foodSpawner;
         private int currentStep;
+        private Queue<Interactable> moveMarkerPool = new();
 
         private void Awake()
         {
@@ -35,6 +37,7 @@ namespace ScavengerWorld
 
         private void Start()
         {
+            InitMoveMarkerPool(10);
             SetTeamColors();
         }
 
@@ -53,6 +56,7 @@ namespace ScavengerWorld
         private void OnApplicationQuit()
         {
             foodSpawner.DestroyGameObjects();
+            moveMarkerPool.Clear();
         }
 
         void AgentStep(int step)
@@ -91,7 +95,38 @@ namespace ScavengerWorld
             }
             foodSpawner.ResetFood();
         }
+        
+        private void InitMoveMarkerPool(int poolSize)
+        {
+            for (int i = 0; i < poolSize; i++)
+            {
+                Interactable marker = Instantiate(moveHereIfNoActionMarker, Vector3.zero, Quaternion.identity);
+                marker.gameObject.SetActive(false);
+                moveMarkerPool.Enqueue(marker);
+            }
+        }
 
+        public Interactable GetMoveMarker(Vector3 pos)
+        {
+            if (moveMarkerPool.Count > 0)
+            {
+                Interactable marker = moveMarkerPool.Dequeue();
+                marker.transform.position = pos;
+                marker.gameObject.SetActive(true);
+                return marker;
+            }
+            else
+            {
+                return Instantiate(moveHereIfNoActionMarker, pos, Quaternion.identity);
+            }
+        }
+
+        public void ReturnMoveMarker(Interactable moveMarker)
+        {
+            moveMarker.gameObject.SetActive(false);
+            moveMarkerPool.Enqueue(moveMarker);
+        }
+        
         private void SetTeamColors()
         {
             foreach (var team in teams)
