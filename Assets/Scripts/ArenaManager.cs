@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO.Abstractions;
 using System.Linq;
 using ScavengerWorld.AI;
 using Unity.MLAgents;
@@ -13,7 +14,7 @@ namespace ScavengerWorld
     public class ArenaManager : MonoBehaviour
     {
         private FoodSpawner foodSpawner;
-        [SerializeField] private List<TeamGroup> teams;
+        [SerializeField] private TeamGroup[] teams;
 
         [Range(50, 10000)]
         [SerializeField]  private int maxStep = 1000;
@@ -21,9 +22,20 @@ namespace ScavengerWorld
 
         private void Awake()
         {
+            TeamGroup[] teamsInScene = FindObjectsOfType<TeamGroup>();           
+            if (teams is null || teams.Length == 0 || teams.Length != teamsInScene.Length)
+            {
+                teams = teamsInScene;
+            }
+
             foodSpawner = GetComponent<FoodSpawner>();          
             foodSpawner.CreateFood();
             ResetArena();
+        }
+
+        private void Start()
+        {
+            SetTeamColors();
         }
 
         private void OnEnable()
@@ -72,13 +84,20 @@ namespace ScavengerWorld
 
         private void ResetArena()
         {
-            print("Resetting");
             currentStep = 0;
-            for (int i = 0; i < teams.Count; i++)
+            for (int i = 0; i < teams.Length; i++)
             { 
                 teams[i].ResetTeam(i);
             }
             foodSpawner.ResetFood();
+        }
+
+        private void SetTeamColors()
+        {
+            foreach (var team in teams)
+            {
+                team.SetTeamColor(UnityEngine.Random.ColorHSV(0f, 1f, 1f, 1f, 0.1f, 1f));
+            }
         }
     }
 }
