@@ -18,8 +18,7 @@ namespace ScavengerWorld
 
         private void Awake()
         {
-            health.SetCurrentValue(health.MaxValue);
-            IsAlive = true;
+            health.Reset();
         }
 
         // Update is called once per frame
@@ -38,6 +37,13 @@ namespace ScavengerWorld
         public void TakeDamage(float amount)
         {
             health.Reduce(amount);
+        }
+
+        public void ResetHealth()
+        {
+            IsAlive = true;
+            gameObject.SetActive(true);
+            health.Reset();
         }
     }
 }

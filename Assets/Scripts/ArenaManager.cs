@@ -16,28 +16,23 @@ namespace ScavengerWorld
         [Range(50, 10000)]
         [SerializeField]  private int maxStep = 1000;
         [SerializeField] private Interactable moveHereIfNoActionMarker;
-        [SerializeField] private TeamGroup[] teams;
 
         private FoodSpawner foodSpawner;
         private int currentStep;
         private Queue<Interactable> moveMarkerPool = new();
+        private TeamGroup[] teams;
 
         private void Awake()
         {
-            TeamGroup[] teamsInScene = FindObjectsOfType<TeamGroup>();           
-            if (teams is null || teams.Length == 0 || teams.Length != teamsInScene.Length)
-            {
-                teams = teamsInScene;
-            }
-
+            teams = GetComponentsInChildren<TeamGroup>();
             foodSpawner = GetComponent<FoodSpawner>();          
-            foodSpawner.CreateFood();
-            ResetArena();
+            foodSpawner.CreateFood();            
         }
 
         private void Start()
         {
             InitMoveMarkerPool(10);
+            ResetArena();
             SetTeamColors();
         }
 
@@ -86,7 +81,7 @@ namespace ScavengerWorld
             ResetArena();
         }
 
-        private void ResetArena()
+        public void ResetArena()
         {
             currentStep = 0;
             for (int i = 0; i < teams.Length; i++)
@@ -129,10 +124,30 @@ namespace ScavengerWorld
         
         private void SetTeamColors()
         {
-            foreach (var team in teams)
+            for (int i = 0; i < teams.Length; i++)
             {
-                team.SetTeamColor(UnityEngine.Random.ColorHSV(0f, 1f, 1f, 1f, 0.1f, 1f));
+                teams[i].SetTeamColor(NextColor(i));
             }
+        }
+
+        private Color NextColor(int count)
+        {
+            var shift = teams.Length / 2;
+            float saturation = 1f;
+            float value = 1f;
+            if (count > (2 * teams.Length / 3))
+            {
+                shift += 1;
+                saturation = 0.3f;
+                value = 0.6f;
+            }
+            else if (count > (teams.Length / 3))
+            {
+                saturation = 0.5f;
+            }
+            count = (count * 5 + shift) % teams.Length;
+            float hue = (float)count / teams.Length;
+            return Color.HSVToRGB(hue, saturation, value);
         }
     }
 }
