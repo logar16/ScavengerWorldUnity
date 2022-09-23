@@ -18,13 +18,11 @@ namespace ScavengerWorld.AI
         public UnityAction OnNewEpisode;
         public UnityAction<ActionRequest> OnReceivedActions;
 
-        private EnvironmentParameters ResetParams;
-
         public override void Initialize()
         {
             mover = GetComponent<Mover>();
             unit = GetComponent<Unit>();
-            ResetParams = Academy.Instance.EnvironmentParameters;
+            unit.OnRewardEarned += AddReward;
         }
 
         public override void OnEpisodeBegin()
@@ -55,7 +53,7 @@ namespace ScavengerWorld.AI
             var drop = discrete[1];
             var attack = discrete[2];
             var move = discrete[3];
-            
+
             var request = new ActionRequest(ActionType.none);
             if (gather > 0)
             {
@@ -83,47 +81,35 @@ namespace ScavengerWorld.AI
 
         private Vector3 FindMoveToPoint(int move)
         {
-            Vector3 position = unit.transform.position;
             Vector3 change = Vector3.zero;
             switch (move)
             {
-                case 1: 
+                case 1:
                     change = Vector3.forward;
                     break;
-                case 2: 
+                case 2:
                     change = Vector3.forward + Vector3.right;
                     break;
-                case 3: 
+                case 3:
                     change = Vector3.right;
                     break;
                 case 4:
                     change = Vector3.right + Vector3.back;
                     break;
-                case 5: 
+                case 5:
                     change = Vector3.back;
                     break;
-                case 6: 
+                case 6:
                     change = Vector3.back + Vector3.left;
                     break;
-                case 7: 
+                case 7:
                     change = Vector3.left;
                     break;
-                case 8: 
+                case 8:
                     change = Vector3.left + Vector3.forward;
                     break;
             }
-            return (change * MovementScale);
-        }
-
-        protected void AddReward(string name, float defaultValue)
-        {
-            var reward = FindReward(name, defaultValue);
-            AddReward(reward);
-        }
-
-        protected float FindReward(string name, float defaultValue)
-        {
-            return ResetParams.GetWithDefault(name, defaultValue);
+            return change * MovementScale;
         }
 
         public override void Heuristic(in ActionBuffers actionsOut)

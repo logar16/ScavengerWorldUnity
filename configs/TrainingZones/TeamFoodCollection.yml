@@ -1,11 +1,11 @@
 behaviors:
   Gatherer:
     framework: pytorch
-    trainer_type: ppo
+    trainer_type: poca
     hyperparameters:
       batch_size: 1024
       buffer_size: 10240
-      learning_rate: 0.0002
+      learning_rate: 0.0005
       beta: 0.005
       epsilon: 0.2
       lambd: 0.95
@@ -27,11 +27,11 @@ behaviors:
     threaded: true
   Warrior:
     framework: pytorch
-    trainer_type: ppo
+    trainer_type: poca
     hyperparameters:
       batch_size: 1024
       buffer_size: 10240
-      learning_rate: 0.0002
+      learning_rate: 0.0005
       beta: 0.005
       epsilon: 0.2
       lambd: 0.95

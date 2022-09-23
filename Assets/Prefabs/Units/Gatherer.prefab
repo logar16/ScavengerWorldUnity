@@ -136,11 +136,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   focusRange: 20
+  explorationRange: 40
   interactableLayer:
     serializedVersion: 2
     m_Bits: 64
-  moveHereIfNoActionMarker: {fileID: 2151049329922032283, guid: af7f91ff41dc25e49a26d39c5d758f44,
-    type: 3}
   navigator: {fileID: -8742031068200252343}
 --- !u!114 &3945358106994800816
 MonoBehaviour:
@@ -210,7 +209,7 @@ MonoBehaviour:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
   MaxStep: 20000
-  MovementScale: 3
+  MovementScale: 4
   mover: {fileID: 396005088559902576}
   unit: {fileID: 1321734716633193770}
 --- !u!114 &2846865331694795442

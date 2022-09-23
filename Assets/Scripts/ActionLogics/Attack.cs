@@ -18,6 +18,7 @@ namespace ScavengerWorld
             if (target.Damageable.CurrentHealth == 0f)
             {
                 unit.SetReward(0.05f);
+                target.Unit?.SetReward(-0.05f);
             }
             StopAction(unit, target);
         }

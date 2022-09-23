@@ -176,7 +176,7 @@ namespace ScavengerWorld
 
         public void InitMoveAction(Vector3 pos)
         {
-            Interactable marker = null;
+            Interactable marker;
             pos = pos + transform.position;
 
             if (mover.IsValidPath(pos))
