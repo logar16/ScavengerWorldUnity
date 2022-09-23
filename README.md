@@ -25,6 +25,7 @@ Recommend to follow the [official installation guide](https://github.com/Unity-T
 1. To start training, run `mlagents-learn.exe configs\TrainingZones\FoodCollectionPoca.yml --run-id=FoodGatherExp1`
 1. Go back to the Unity Editor and hit the `play` button in the middle of the top screen.
 1. To monitor training metrics, on another terminal window and run `tensorboard --logdir results`
+1. Open the address `localhost:6006` in your browser to see the tensorboard dashboard.
 
 
 ## TODOs
