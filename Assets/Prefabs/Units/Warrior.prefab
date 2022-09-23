@@ -381,7 +381,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c592009e1648f7c428c42cfc4083765e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  teamId: 0
   inventory:
     maxCapacity: 5
     isStorageDepot: 0
@@ -415,11 +414,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   focusRange: 50
+  explorationRange: 40
   interactableLayer:
     serializedVersion: 2
     m_Bits: 64
-  moveHereIfNoActionMarker: {fileID: 2151049329922032283, guid: af7f91ff41dc25e49a26d39c5d758f44,
-    type: 3}
   navigator: {fileID: -8742031068200252343}
 --- !u!114 &3945358106994800816
 MonoBehaviour:

@@ -46,7 +46,8 @@ namespace ScavengerWorld.AI
             }
             storage.TeamId = teamId;
             storage.RemoveAllItems();
-            storage.Damageable.ResetHealth();            
+            storage.Damageable.ResetHealth();
+            storage.gameObject.SetActive(true);
         }
 
         public void SetTeamColor(Color c)

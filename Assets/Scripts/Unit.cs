@@ -5,6 +5,7 @@ using ScavengerWorld.AI;
 using Unity.MLAgents.Actuators;
 using System;
 using Unity.MLAgents.Policies;
+using UnityEngine.Events;
 
 namespace ScavengerWorld
 {
@@ -40,7 +41,7 @@ namespace ScavengerWorld
         public int InventoryItemCount => inventory.ItemCount;
         public bool IsStorageDepot => inventory.IsStorageDepot;
 
-        public float StepReward { get; private set; }
+        public event UnityAction<float> OnRewardEarned;
 
         void Awake()
         {
@@ -63,12 +64,6 @@ namespace ScavengerWorld
         {
             if (behaviorParameters != null) 
                 behaviorParameters.TeamId = TeamId;
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
         }
 
         public void Attack(Damageable enemy)
@@ -118,7 +113,7 @@ namespace ScavengerWorld
 
         public void SetReward(float reward)
         {
-            StepReward = reward;
+            OnRewardEarned?.Invoke(reward);
         }
     }
 }
