@@ -13,6 +13,18 @@ See more details in the Docs directory
 * When winter comes, each team will have its stockpile evaluated and calculations will be made to decide how many of its members will survive.  
 * Excesses of resources result in additional offspring for next year.  And then the cycle repeats.
 
+## Training Setup
+
+Recommend to follow the [official installation guide](https://github.com/Unity-Technologies/ml-agents/blob/release_19_docs/docs/Installation.md) to get setup, but here's the TLDR:
+
+1. Open `ScavengerWorldUnity` project in Unity and in the editor select `Assets -> Scenes -> Training -> GathererTraining`
+1. Open up a terminal of your choice (and preferably a python virtual environment)
+1. `pip3 install torch~=1.7.1 -f https://download.pytorch.org/whl/torch_stable.html`
+1. `python -m pip install mlagents==0.28.0`
+1. cd to where you had `ScavengerWorldUnity` stored on disk
+1. To start training, run `mlagents-learn.exe configs\TrainingZones\FoodCollectionPoca.yml --run-id=FoodGatherExp1`
+1. Go back to the Unity Editor and hit the `play` button in the middle of the top screen.
+
 
 ## TODOs
 
