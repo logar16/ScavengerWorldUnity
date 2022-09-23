@@ -68,7 +68,7 @@ namespace ScavengerWorld.AI
             else if (attack == 1)
             {
                 request = new ActionRequest(ActionType.attackenemy);
-            } 
+            }
             else if (attack == 2)
             {
                 request = new ActionRequest(ActionType.attackstorage);
@@ -112,7 +112,7 @@ namespace ScavengerWorld.AI
                     change = Vector3.left + Vector3.forward;
                     break;
             }
-            return position + (change * MovementScale);
+            return (change * MovementScale);
         }
 
         protected void AddReward(string name, float defaultValue)
