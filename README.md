@@ -24,6 +24,7 @@ Recommend to follow the [official installation guide](https://github.com/Unity-T
 1. cd to where you had `ScavengerWorldUnity` stored on disk
 1. To start training, run `mlagents-learn.exe configs\TrainingZones\FoodCollectionPoca.yml --run-id=FoodGatherExp1`
 1. Go back to the Unity Editor and hit the `play` button in the middle of the top screen.
+1. To monitor training metrics, on another terminal window and run `tensorboard --logdir results`
 
 
 ## TODOs
