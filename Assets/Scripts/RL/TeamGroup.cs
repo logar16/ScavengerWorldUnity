@@ -40,6 +40,7 @@ namespace ScavengerWorld.AI
                 agent.Unit.TeamId = teamId;
                 agent.Unit.Damageable.ResetHealth();
                 agent.Unit.ActionRunner.CancelCurrentAction();
+                agent.Unit.Mover.ResetNavigator();
                 agent.transform.position = storage.transform.position;                              
                 agent.gameObject.SetActive(true);
             }

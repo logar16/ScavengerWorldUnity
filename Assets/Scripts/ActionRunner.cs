@@ -112,6 +112,7 @@ namespace ScavengerWorld
                     break;
                 case ActionType.none:
                     CurrentAction = null;
+                    mover.ResetNavigator();
                     break;
                 default:
                     break;
@@ -229,7 +230,6 @@ namespace ScavengerWorld
         {
             CurrentAction.IsRunning = false;
             CurrentAction = null;
-            mover.StopMoving();
         }
     }
 }
