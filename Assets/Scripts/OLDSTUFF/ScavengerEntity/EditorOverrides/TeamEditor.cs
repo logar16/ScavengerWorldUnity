@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿#if UNITY_EDITOR
+using UnityEditor;
 using UnityEngine;
 
 namespace Assets.SharedAssets.Scripts.ScavengerEntity
@@ -78,3 +79,4 @@ namespace Assets.SharedAssets.Scripts.ScavengerEntity
         }
     }
 }
+#endif

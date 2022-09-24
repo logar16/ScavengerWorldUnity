@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using Unity.MLAgents.Actuators;
 using UnityEngine;
 using UnityEngine.AI;
+#if UNITY_EDITOR
 using static UnityEditor.PlayerSettings;
-
+#endif
 namespace ScavengerWorld
 {
     /// <summary>
