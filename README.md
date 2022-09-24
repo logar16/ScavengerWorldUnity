@@ -27,6 +27,20 @@ Recommend to follow the [official installation guide](https://github.com/Unity-T
 1. To monitor training metrics, on another terminal window and run `tensorboard --logdir results`
 1. Open the address `localhost:6006` in your browser to see the tensorboard dashboard.
 
+## Scaled Training Locally
+
+To enhance training speed, we can fit more simulations running concurrently in our local machine with rendering disabled.
+
+1. Build the simulation as a independent game `.exe`
+   1. Open the training scene in the editor
+   1. Click on `File -> Build Setting -> Add Open Scenes -> Select Windows, Mac, Linux as the Platform -> Build`
+   1. Select the location to stored the game .exe
+1. Bring up a terminal and enable the virtual environment where you have `mlagent-learn` installed
+   1. Run `mlagents-learn.exe configs\TrainingZones\FoodCollectionPoca.yml --run-id=FoodGatherExpPoca --no-graphics --env=<GAME_EXE_PATH> --num-envs=<n>`
+      - `--no-graphics`: turns off graphic rendering
+      - `--env`: is the location where you saved the game .exe in the previous step
+      - `--num-envs`: is the number of concurrent game simulation to run simultaneously
+
 
 ## TODOs
 
