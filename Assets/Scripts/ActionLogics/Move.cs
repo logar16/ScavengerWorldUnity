@@ -14,8 +14,8 @@ namespace ScavengerWorld
 
         public override void StartAction(Unit unit, Interactable target)
         {
-            //unit.Mover.MoveToTarget(target);                      // Use this for regular game
-            unit.transform.position = target.transform.position;    // Use this for training
+            unit.Mover.MoveToTarget(target);                      // Use this for regular game
+            //unit.transform.position = target.transform.position;    // Use this for training
         }
 
         public override void StopAction(Unit unit, Interactable target)
